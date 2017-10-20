@@ -23,7 +23,6 @@ import java.util.List;
 
 public class AntiSpamFilterAutomaticConfiguration {
   private static final int INDEPENDENT_RUNS = 5 ;
-  int a = 1;
 
   public static void main(String[] args) throws IOException {
     String experimentBaseDirectory = "experimentBaseDirectory";
