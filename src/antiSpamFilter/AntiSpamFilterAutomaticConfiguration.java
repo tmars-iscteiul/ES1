@@ -28,7 +28,7 @@ public class AntiSpamFilterAutomaticConfiguration {
     String experimentBaseDirectory = "experimentBaseDirectory";
     
     new AntiSpamFilterGUI();
-
+/*
     List<ExperimentProblem<DoubleSolution>> problemList = new ArrayList<>();
     problemList.add(new ExperimentProblem<>(new AntiSpamFilterProblem()));
 
@@ -71,7 +71,7 @@ public class AntiSpamFilterAutomaticConfiguration {
       algorithms.add(new ExperimentAlgorithm<>(algorithm, "NSGAII", problemList.get(i).getTag()));
     }
    
-    return algorithms;
+    return algorithms; */
   }
 
 }
