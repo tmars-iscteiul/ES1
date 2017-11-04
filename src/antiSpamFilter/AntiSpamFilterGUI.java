@@ -1,22 +1,37 @@
 package antiSpamFilter;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
 
-import javax.swing.DefaultListModel;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.JPanel;
+import antiSpamFilter.AntiSpamFilterStyles.*;
+
 
 public class AntiSpamFilterGUI extends JComponent {
+	
+	/**
+	 * <h2>AntiSpamFilterGUI - the visual class</h2>
+	 * <p>
+	 * Creates the Graphics User Interface for the AntiSpamFilter app. 
+	 * The default window has a 500x600 size and a modern design.
+	 * The class also includes the styles used to define the design of 
+	 * the JComponents. The style classes are:</p>
+	 * <li>
+	 * 	<ul>AntiSpamFilterPanel extends JPanel;</ul>
+	 * 	<ul>AntiSpamFilterLabel extends JLabel;</ul>
+	 * 	<ul>AntiSpamFilterComboBox extends JComboBox;</ul>
+	 * 	<ul>AntiSpamFilterButton extends JButton;</ul>
+	 *	<ul>AntiSpamFilterList extends JList;</ul>
+	 * </li>
+	 *
+	 * @param  url  an absolute URL giving the base location of the image
+	 * @param  name the location of the image, relative to the url argument
+	 * @return      the image at the specified URL
+	 * @see         Image
+	 */
 
 	private static final long serialVersionUID = 1L;
 	private JFrame antiSpamFilterFrame = new JFrame("AntiSpamFilter Optimizer v1.0");
@@ -26,73 +41,6 @@ public class AntiSpamFilterGUI extends JComponent {
 	private final int COMPONENT_GAP = 20;
 	private final int COMPONENT_MAX_WIDTH = WINDOW_HSIZE-(2*COMPONENT_GAP);
 	
-	private final int BTN_DEFAULT = 1;
-	private final int BTN_SUCCESS = 2;
-	private final int BTN_DANGER = 3;
-	
-	private final Color TEXTCOLOR = new Color(100,100,100);
-	private final Color DEFAULT = new Color(102,153,255);
-	private final Color DANGER = new Color(255,102,102);
-	private final Color SUCCESS = new Color(153,204,51);
-
-	//Definição dos estilos para os objetos das janelas:
-	//Panel	-> utilizar AntiSpamFilterPanel	
-	class AntiSpamFilterPanel extends JPanel {
-		public AntiSpamFilterPanel() {
-			super();
-			super.setBackground(Color.WHITE);
-		}
-	}	
-
-	//Label	-> utilizar AntiSpamFilterLabel		
-	class AntiSpamFilterLabel extends JLabel {
-		public AntiSpamFilterLabel(String string) {
-			super(string);
-			super.setFont(new Font("Arial", Font.PLAIN, 18));
-			super.setForeground(TEXTCOLOR);
-		}
-	}
-
-	//Listbox -> utilizar AntiSpamFilterComboBox		
-	class AntiSpamFilterComboBox extends JComboBox {
-		public AntiSpamFilterComboBox(String[] string) {
-			super(string);
-			super.setFont(new Font("Arial", Font.PLAIN, 14));
-			super.setForeground(TEXTCOLOR);
-			super.setBackground(Color.WHITE);
-		}
-	}
-
-	//Button -> utilizar AntiSpamFilterButton			
-	class AntiSpamFilterButton extends JButton {
-		public AntiSpamFilterButton(String string, int tipo) {
-			super(string);
-			super.setFont(new Font("Arial", Font.PLAIN, 16));
-			super.setForeground(TEXTCOLOR);
-			if (tipo == BTN_DANGER) {
-				super.setBackground(DANGER);
-				super.setForeground(Color.WHITE);
-			}
-			else if (tipo == BTN_SUCCESS) {
-				super.setBackground(SUCCESS);
-				super.setForeground(Color.WHITE);
-			} 
-			else if (tipo == BTN_DEFAULT) {
-				super.setBackground(DEFAULT);
-				super.setForeground(Color.WHITE);
-			}
-		}
-	}
-
-	//List -> utilizar AntiSpamFilterList		
-	class AntiSpamFilterList extends JList {
-		public AntiSpamFilterList(DefaultListModel list) {
-			super(list);
-			super.setFont(new Font("Arial", Font.PLAIN, 16));
-			super.setForeground(TEXTCOLOR);
-
-		}
-	}
 	
 	//Inicializacão dos painéis
 	AntiSpamFilterPanel carregamentoPanel, iniciacaoPanel, resultadosPanel, conclusaoPanel,
@@ -103,32 +51,34 @@ public class AntiSpamFilterGUI extends JComponent {
 		antiSpamFilterFrame.setSize(WINDOW_HSIZE, WINDOW_VSIZE);
 		antiSpamFilterFrame.setLocationRelativeTo(null);
 
-		carregamentoPanel = new AntiSpamFilterPanel();
+		carregamentoPanel = new AntiSpamFilterStyles().new AntiSpamFilterPanel();
 		carregamentoPanel.setPreferredSize(new Dimension(COMPONENT_MAX_WIDTH,250));
 		//Sprint Item
 		//Implementação da janela de carregamento
-		AntiSpamFilterLabel spamlabel = new AntiSpamFilterLabel("Janela de Carregamento");
+		AntiSpamFilterLabel spamlabel = 
+				new AntiSpamFilterStyles().new AntiSpamFilterLabel("Janela de Carregamento");
 		carregamentoPanel.add(spamlabel);
 		// TODO Auto-generated method stub
 
 
-		iniciacaoPanel = new AntiSpamFilterPanel();
+		iniciacaoPanel = new AntiSpamFilterStyles().new AntiSpamFilterPanel();
 		iniciacaoPanel.setPreferredSize(new Dimension(COMPONENT_MAX_WIDTH,50));
 		//Sprint Item
 		//Implementação da janela de iniciacao
 		setIniciacaoPanel();		
 		
 		
-		resultadosPanel = new AntiSpamFilterPanel();
+		resultadosPanel = new AntiSpamFilterStyles().new AntiSpamFilterPanel();
 		resultadosPanel.setPreferredSize(new Dimension(COMPONENT_MAX_WIDTH,200));
 		//Sprint Item
 		//Implementação da janela de resultados
-		AntiSpamFilterLabel resultadoslabel = new AntiSpamFilterLabel("Janela de Resultados");
+		AntiSpamFilterLabel resultadoslabel = 
+				new AntiSpamFilterStyles().new AntiSpamFilterLabel("Janela de Resultados");
 		resultadosPanel.add(resultadoslabel);
 		// TODO Auto-generated method stub
 
 
-		conclusaoPanel = new AntiSpamFilterPanel();
+		conclusaoPanel = new AntiSpamFilterStyles().new AntiSpamFilterPanel();
 		conclusaoPanel.setPreferredSize(new Dimension(COMPONENT_MAX_WIDTH,60));
 		//Sprint Item
 		//Implementação da janela de resultados
@@ -137,7 +87,7 @@ public class AntiSpamFilterGUI extends JComponent {
 		
 		//Sprint Item
 		//Implementação do ambiente
-		resultadosEConclusaoPanel = new AntiSpamFilterPanel();
+		resultadosEConclusaoPanel = new AntiSpamFilterStyles().new AntiSpamFilterPanel();
 		
 		resultadosEConclusaoPanel.setLayout(new BorderLayout());
 		resultadosEConclusaoPanel.add(resultadosPanel,BorderLayout.CENTER);
@@ -160,8 +110,10 @@ public class AntiSpamFilterGUI extends JComponent {
 		AntiSpamFilterPanel buttonPanel = setButtonPanel(2);
 
 		//Criação dos dois botões
-		AntiSpamFilterButton clearButton = new AntiSpamFilterButton("Clear paths", BTN_DEFAULT);
-		AntiSpamFilterButton startButton = new AntiSpamFilterButton("Start optimization", BTN_DEFAULT);
+		AntiSpamFilterButton clearButton = 
+				new AntiSpamFilterStyles().new AntiSpamFilterButton("Configure rules", AntiSpamFilterStyles.BTN_DEFAULT);
+		AntiSpamFilterButton startButton = 
+				new AntiSpamFilterStyles().new AntiSpamFilterButton("Start optimization", AntiSpamFilterStyles.BTN_SUCCESS);
 
 		buttonPanel.add(clearButton);
 		buttonPanel.add(startButton);
@@ -173,8 +125,10 @@ public class AntiSpamFilterGUI extends JComponent {
 		AntiSpamFilterPanel buttonPanel = setButtonPanel(2);
 
 		//Criação dos dois botões
-		AntiSpamFilterButton clearButton = new AntiSpamFilterButton("Exit without saving", BTN_DEFAULT);
-		AntiSpamFilterButton startButton = new AntiSpamFilterButton("Save and quit", BTN_DEFAULT);
+		AntiSpamFilterButton clearButton = 
+				new AntiSpamFilterStyles().new AntiSpamFilterButton("Exit without saving", AntiSpamFilterStyles.BTN_DEFAULT);
+		AntiSpamFilterButton startButton = 
+				new AntiSpamFilterStyles().new AntiSpamFilterButton("Save and quit", AntiSpamFilterStyles.BTN_DEFAULT);
 
 		buttonPanel.add(clearButton);
 		buttonPanel.add(startButton);
@@ -183,7 +137,8 @@ public class AntiSpamFilterGUI extends JComponent {
 	
 	private AntiSpamFilterPanel setButtonPanel(int n) {
 		//Criação de paineis para os botões
-		AntiSpamFilterPanel buttonPanel = new AntiSpamFilterPanel();
+		AntiSpamFilterPanel buttonPanel = 
+				new AntiSpamFilterStyles().new AntiSpamFilterPanel();
 		buttonPanel.setPreferredSize(new Dimension(COMPONENT_MAX_WIDTH,40));
 		GridLayout grid = new GridLayout(1,n);
 		grid.setHgap(COMPONENT_GAP);
