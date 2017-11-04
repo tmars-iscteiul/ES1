@@ -43,7 +43,7 @@ public class AntiSpamFilterGUI extends JComponent {
 	
 	
 	//Inicializacão dos painéis
-	AntiSpamFilterPanel carregamentoPanel, iniciacaoPanel, resultadosPanel, conclusaoPanel,
+	APanel carregamentoPanel, iniciacaoPanel, resultadosPanel, conclusaoPanel,
 		resultadosEConclusaoPanel;
 
 	public AntiSpamFilterGUI() {
@@ -51,34 +51,33 @@ public class AntiSpamFilterGUI extends JComponent {
 		antiSpamFilterFrame.setSize(WINDOW_HSIZE, WINDOW_VSIZE);
 		antiSpamFilterFrame.setLocationRelativeTo(null);
 
-		carregamentoPanel = new AntiSpamFilterStyles().new AntiSpamFilterPanel();
+		carregamentoPanel = new AntiSpamFilterStyles().new APanel();
 		carregamentoPanel.setPreferredSize(new Dimension(COMPONENT_MAX_WIDTH,250));
 		//Sprint Item
 		//Implementação da janela de carregamento
-		AntiSpamFilterLabel spamlabel = 
-				new AntiSpamFilterStyles().new AntiSpamFilterLabel("Janela de Carregamento");
+		ALabel spamlabel = 
+				new AntiSpamFilterStyles().new ALabel("Janela de Carregamento");
 		carregamentoPanel.add(spamlabel);
 		// TODO Auto-generated method stub
 
 
-		iniciacaoPanel = new AntiSpamFilterStyles().new AntiSpamFilterPanel();
+		iniciacaoPanel = new AntiSpamFilterStyles().new APanel();
 		iniciacaoPanel.setPreferredSize(new Dimension(COMPONENT_MAX_WIDTH,50));
 		//Sprint Item
 		//Implementação da janela de iniciacao
 		setIniciacaoPanel();		
 		
 		
-		resultadosPanel = new AntiSpamFilterStyles().new AntiSpamFilterPanel();
+		resultadosPanel = new AntiSpamFilterStyles().new APanel();
 		resultadosPanel.setPreferredSize(new Dimension(COMPONENT_MAX_WIDTH,200));
 		//Sprint Item
 		//Implementação da janela de resultados
-		AntiSpamFilterLabel resultadoslabel = 
-				new AntiSpamFilterStyles().new AntiSpamFilterLabel("Janela de Resultados");
+		ALabel resultadoslabel = new AntiSpamFilterStyles().new ALabel("Janela de Resultados");
 		resultadosPanel.add(resultadoslabel);
 		// TODO Auto-generated method stub
 
 
-		conclusaoPanel = new AntiSpamFilterStyles().new AntiSpamFilterPanel();
+		conclusaoPanel = new AntiSpamFilterStyles().new APanel();
 		conclusaoPanel.setPreferredSize(new Dimension(COMPONENT_MAX_WIDTH,60));
 		//Sprint Item
 		//Implementação da janela de resultados
@@ -87,7 +86,7 @@ public class AntiSpamFilterGUI extends JComponent {
 		
 		//Sprint Item
 		//Implementação do ambiente
-		resultadosEConclusaoPanel = new AntiSpamFilterStyles().new AntiSpamFilterPanel();
+		resultadosEConclusaoPanel = new AntiSpamFilterStyles().new APanel();
 		
 		resultadosEConclusaoPanel.setLayout(new BorderLayout());
 		resultadosEConclusaoPanel.add(resultadosPanel,BorderLayout.CENTER);
@@ -107,13 +106,15 @@ public class AntiSpamFilterGUI extends JComponent {
 
 	private void setIniciacaoPanel() {
 		//Criação do painel de botões Clear e Start
-		AntiSpamFilterPanel buttonPanel = setButtonPanel(2);
+		APanel buttonPanel = setButtonPanel(2);
 
 		//Criação dos dois botões
-		AntiSpamFilterButton clearButton = 
-				new AntiSpamFilterStyles().new AntiSpamFilterButton("Configure rules", AntiSpamFilterStyles.BTN_DEFAULT);
-		AntiSpamFilterButton startButton = 
-				new AntiSpamFilterStyles().new AntiSpamFilterButton("Start optimization", AntiSpamFilterStyles.BTN_SUCCESS);
+		AButton clearButton = 
+				new AntiSpamFilterStyles().
+				new AButton("Configure rules", AntiSpamFilterStyles.BTN_DEFAULT);
+		AButton startButton = 
+				new AntiSpamFilterStyles().
+				new AButton("Start optimization", AntiSpamFilterStyles.BTN_SUCCESS);
 
 		buttonPanel.add(clearButton);
 		buttonPanel.add(startButton);
@@ -122,23 +123,24 @@ public class AntiSpamFilterGUI extends JComponent {
 	
 	private void setConclusaoPanel() {
 		//Criação do painel de botões ExitWithout e SaveExit
-		AntiSpamFilterPanel buttonPanel = setButtonPanel(2);
+		APanel buttonPanel = setButtonPanel(2);
 
 		//Criação dos dois botões
-		AntiSpamFilterButton clearButton = 
-				new AntiSpamFilterStyles().new AntiSpamFilterButton("Exit without saving", AntiSpamFilterStyles.BTN_DEFAULT);
-		AntiSpamFilterButton startButton = 
-				new AntiSpamFilterStyles().new AntiSpamFilterButton("Save and quit", AntiSpamFilterStyles.BTN_DEFAULT);
+		AButton withoutSaveButton = 
+				new AntiSpamFilterStyles().
+				new AButton("Exit without saving", AntiSpamFilterStyles.BTN_DEFAULT);
+		AButton saveButton = 
+				new AntiSpamFilterStyles().
+				new AButton("Save optimization", AntiSpamFilterStyles.BTN_DEFAULT);
 
-		buttonPanel.add(clearButton);
-		buttonPanel.add(startButton);
+		buttonPanel.add(withoutSaveButton);
+		buttonPanel.add(saveButton);
 		conclusaoPanel.add(buttonPanel);
 	}
 	
-	private AntiSpamFilterPanel setButtonPanel(int n) {
+	private APanel setButtonPanel(int n) {
 		//Criação de paineis para os botões
-		AntiSpamFilterPanel buttonPanel = 
-				new AntiSpamFilterStyles().new AntiSpamFilterPanel();
+		APanel buttonPanel = new AntiSpamFilterStyles().new APanel();
 		buttonPanel.setPreferredSize(new Dimension(COMPONENT_MAX_WIDTH,40));
 		GridLayout grid = new GridLayout(1,n);
 		grid.setHgap(COMPONENT_GAP);
