@@ -9,6 +9,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.io.File;
+import java.io.FilenameFilter;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -115,10 +116,13 @@ public class AntiSpamFilterStyles {
 	//FileDialog -> use ADialog
 	class ADialog extends FileDialog{
 		private String file;
+		private String directory;
 		public ADialog(String s) {
 			super((Frame)null, s);
 			this.setMode(FileDialog.LOAD);
+			this.setFile("*.log;*.cf");
 			this.setVisible(true);
+			directory = this.getDirectory();
 			file = this.getFile();
 		}
 		public void sendToTextArea (ATextField a) {

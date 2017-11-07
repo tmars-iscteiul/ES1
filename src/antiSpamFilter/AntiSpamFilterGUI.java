@@ -62,6 +62,7 @@ public class AntiSpamFilterGUI extends JComponent {
 		//Implementação da janela de carregamento
 		//Labels
 		ALabel janelalabel = new AntiSpamFilterStyles().new ALabel("LOADING WINDOW");
+		janelalabel.setHorizontalAlignment(ALabel.CENTER);
 		ALabel spamlabel = new AntiSpamFilterStyles().new ALabel("SPAM Log  ");
 		ALabel hamlabel = new AntiSpamFilterStyles().new ALabel("HAM Log    ");
 		ALabel ruleslabel = new AntiSpamFilterStyles().new ALabel("RULES File");
