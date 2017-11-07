@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JComponent;
 import javax.swing.JFrame;
@@ -53,11 +55,81 @@ public class AntiSpamFilterGUI extends JComponent {
 
 		carregamentoPanel = new AntiSpamFilterStyles().new APanel();
 		carregamentoPanel.setPreferredSize(new Dimension(COMPONENT_MAX_WIDTH,250));
+		carregamentoPanel.setLayout(new GridLayout(4,1));
+		
+		
 		//Sprint Item
 		//Implementação da janela de carregamento
-		ALabel spamlabel = 
-				new AntiSpamFilterStyles().new ALabel("Janela de Carregamento");
-		carregamentoPanel.add(spamlabel);
+		//Labels
+		ALabel janelalabel = new AntiSpamFilterStyles().new ALabel("LOADING WINDOW");
+		ALabel spamlabel = new AntiSpamFilterStyles().new ALabel("SPAM Log  ");
+		ALabel hamlabel = new AntiSpamFilterStyles().new ALabel("HAM Log    ");
+		ALabel ruleslabel = new AntiSpamFilterStyles().new ALabel("RULES File");
+		
+		//JTextAreas
+		ATextField spamarea = new AntiSpamFilterStyles().new ATextField("");
+		spamarea.setEditable(false);
+		
+		ATextField hamarea = new AntiSpamFilterStyles().new ATextField("");
+		hamarea.setEditable(false);
+		
+		ATextField rulesarea = new AntiSpamFilterStyles().new ATextField("");
+		rulesarea.setEditable(false);
+		
+		//Butoes
+		AButton spambutton = new AntiSpamFilterStyles().new AButton("Browse...", AntiSpamFilterStyles.BTN_DEFAULT);
+		spambutton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				ADialog spamfile = new AntiSpamFilterStyles().new ADialog("SPAM log");
+				spamfile.sendToTextArea(spamarea);
+			}
+		});
+		
+		AButton hambutton = new AntiSpamFilterStyles().new AButton("Browse...", AntiSpamFilterStyles.BTN_DEFAULT);
+		hambutton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				ADialog hamfile = new AntiSpamFilterStyles().new ADialog("HAM log");
+				hamfile.sendToTextArea(hamarea);
+			}
+		});
+		
+		AButton rulesbutton = new AntiSpamFilterStyles().new AButton("Browse...", AntiSpamFilterStyles.BTN_DEFAULT);
+		rulesbutton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				ADialog rulesfile = new AntiSpamFilterStyles().new ADialog("RULES File");
+				rulesfile.sendToTextArea(rulesarea);
+			}
+		});
+		
+		
+		//Panels
+		APanel spampanel = new AntiSpamFilterStyles().new APanel();
+		spampanel.setLayout(new BorderLayout());
+		spampanel.add(spamlabel, BorderLayout.WEST);
+		spampanel.add(spamarea, BorderLayout.CENTER);
+		spampanel.add(spambutton, BorderLayout.EAST);
+		
+		APanel hampanel = new AntiSpamFilterStyles().new APanel();
+		hampanel.setLayout(new BorderLayout());
+		hampanel.add(hamlabel, BorderLayout.WEST);
+		hampanel.add(hamarea, BorderLayout.CENTER);
+		hampanel.add(hambutton, BorderLayout.EAST);
+		
+		APanel rulespanel = new AntiSpamFilterStyles().new APanel();
+		rulespanel.setLayout(new BorderLayout());
+		rulespanel.add(ruleslabel, BorderLayout.WEST);
+		rulespanel.add(rulesarea, BorderLayout.CENTER);
+		rulespanel.add(rulesbutton, BorderLayout.EAST);
+		
+		carregamentoPanel.add(janelalabel);
+		carregamentoPanel.add(spampanel);
+		carregamentoPanel.add(hampanel);
+		carregamentoPanel.add(rulespanel);		
+		
+		
 		// TODO Auto-generated method stub
 
 

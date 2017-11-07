@@ -6,11 +6,13 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.io.File;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
@@ -105,6 +107,18 @@ public class AntiSpamFilterStyles {
 				super.setBackground(DEFAULT);
 				super.setForeground(Color.WHITE);
 			}
+		}
+	}
+	
+	//JDialog -> use ADialog
+	class ADialog extends JDialog{
+		private File file;
+		public ADialog(String s) {
+			super();
+			this.setTitle(s);
+		}
+		public void sendToTextArea (ATextField a) {
+			a.setText(this.getName());
 		}
 	}
 
