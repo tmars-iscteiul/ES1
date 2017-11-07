@@ -118,6 +118,7 @@ public class AntiSpamFilterStyles {
 	}
 	
 	//FileDialog -> use ADialog
+	//comentario a toa
 	class ADialog extends FileDialog{
 		private String file;
 		private String directory;
