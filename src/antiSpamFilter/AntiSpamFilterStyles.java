@@ -2,7 +2,9 @@ package antiSpamFilter;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FileDialog;
 import java.awt.Font;
+import java.awt.Frame;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
@@ -110,15 +112,17 @@ public class AntiSpamFilterStyles {
 		}
 	}
 	
-	//JDialog -> use ADialog
-	class ADialog extends JDialog{
-		private File file;
+	//FileDialog -> use ADialog
+	class ADialog extends FileDialog{
+		private String file;
 		public ADialog(String s) {
-			super();
-			this.setTitle(s);
+			super((Frame)null, s);
+			this.setMode(FileDialog.LOAD);
+			this.setVisible(true);
+			file = this.getFile();
 		}
 		public void sendToTextArea (ATextField a) {
-			a.setText(this.getName());
+			a.setText(file);
 		}
 	}
 
