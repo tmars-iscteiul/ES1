@@ -150,7 +150,7 @@ public class AntiSpamFilterStyles {
 		 * 
 		 */
 		private static final long serialVersionUID = 1L;
-		private String placeholder;
+		private String placeholder = "";
 
 		public ATextField (String string) {
 			super(string);
