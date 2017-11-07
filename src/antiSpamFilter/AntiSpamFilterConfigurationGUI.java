@@ -1,14 +1,20 @@
 package antiSpamFilter;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Toolkit;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 import antiSpamFilter.AntiSpamFilterStyles.*;
 
@@ -187,6 +193,46 @@ public class AntiSpamFilterConfigurationGUI {
 		buttonPanel.add(backButton, BorderLayout.LINE_START);
 		buttonPanel.add(saveButton, BorderLayout.CENTER);
 		conclusionPanel.add(buttonPanel);
+		
+		backButton.addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				
+				AOptionPane confirm = new AntiSpamFilterStyles().new AOptionPane();
+				int result = AOptionPane.showConfirmDialog(backButton, 
+						"Are you sure? All the changes will be lost");
+				
+				if (result == AOptionPane.OK_OPTION) {
+					// TODO Close the files and discard the changes 
+					antiSpamFilterFrame.setVisible(false);
+				}
+			}
+		});
 	}
 	
 	private APanel setButtonPanel() {

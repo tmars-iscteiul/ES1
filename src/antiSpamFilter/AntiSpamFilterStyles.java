@@ -17,9 +17,13 @@ import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SpinnerModel;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.plaf.FontUIResource;
 import javax.swing.JSpinner;
 
 public class AntiSpamFilterStyles {
@@ -201,6 +205,24 @@ public class AntiSpamFilterStyles {
 			JComponent editor = this.getEditor();
 			JSpinner.DefaultEditor spinnerEditor = (JSpinner.DefaultEditor) editor;
 			spinnerEditor.getTextField().setHorizontalAlignment(JTextField.CENTER);
+		}
+	}
+	
+	class AOptionPane extends JOptionPane {
+		
+		public AOptionPane() {
+			super();
+			try {
+				UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+			} catch (ClassNotFoundException | InstantiationException | IllegalAccessException
+					| UnsupportedLookAndFeelException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			UIManager.put("OptionPane.background", Color.WHITE);
+			UIManager.put("Panel.background", Color.WHITE);
+			UIManager.put("OptionPane.messageFont", new FontUIResource(new Font(  
+			          "Arial", Font.PLAIN, 14)));
 		}
 	}
 }
