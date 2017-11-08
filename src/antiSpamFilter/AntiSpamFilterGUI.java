@@ -169,30 +169,7 @@ public class AntiSpamFilterGUI extends JComponent {
 		caixatexto.append(fn + "\n");
 		caixatexto.append(efficiency + "\n");
 		
-		//caixatexto.setSelectedTextColor(Color.GRAY);// ver pq não esta a funcionar 
-		
-		/*
-		resultadoslabel.setHorizontalAlignment(ALabel.CENTER);
-		
-		JTextArea caixatexto= new JTextArea();
-		JScrollPane scrollArea = new JScrollPane(caixatexto);
-			
-		//caixatexto.setSelectedTextColor(Color.GRAY);// ver pq não esta a funcionar 
-		
-		String title= new String("Optimizing Process Result:");
-		String fp= new String(" Final count of FP: X");
-		String fn= new String(" Final count of FN: Y");
-		String efficiency= new String(" Optimizing efficiency: W");
-		caixatexto.append(title + "\n");
-		caixatexto.append(fp + "\n" );
-		caixatexto.append(fn + "\n");
-		caixatexto.append(efficiency + "\n");
-
-		
-		resultadosPanel.add(resultadoslabel, BorderLayout.NORTH);
-		resultadosPanel.add(caixatexto, BorderLayout.CENTER);
-		resultadosPanel.add(scrollArea);
-		*/
+	
 		conclusaoPanel = new AntiSpamFilterStyles().new APanel();
 		conclusaoPanel.setPreferredSize(new Dimension(COMPONENT_MAX_WIDTH,60));
 		//Sprint Item
