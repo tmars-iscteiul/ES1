@@ -1,6 +1,7 @@
 package antiSpamFilter;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
@@ -9,6 +10,9 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JComponent;
 import javax.swing.JFrame;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+
 import antiSpamFilter.AntiSpamFilterStyles.*;
 
 
@@ -143,13 +147,52 @@ public class AntiSpamFilterGUI extends JComponent {
 		
 		resultadosPanel = new AntiSpamFilterStyles().new APanel();
 		resultadosPanel.setPreferredSize(new Dimension(COMPONENT_MAX_WIDTH,200));
+		resultadosPanel.setLayout(new BorderLayout());
 		//Sprint Item
 		//Implementação da janela de resultados
-		ALabel resultadoslabel = new AntiSpamFilterStyles().new ALabel("Janela de Resultados");
-		resultadosPanel.add(resultadoslabel);
-		// TODO Auto-generated method stub
+		ALabel resultadoslabel = new AntiSpamFilterStyles().new ALabel("RESULTS WINDOW");
+		resultadoslabel.setHorizontalAlignment(ALabel.CENTER);		
+		JTextArea caixatexto= new JTextArea();
+		
+		resultadosPanel.add(resultadoslabel, BorderLayout.NORTH);
+		resultadosPanel.add(caixatexto, BorderLayout.CENTER);
+			
+		JScrollPane scrollArea = new JScrollPane(caixatexto);
+		resultadosPanel.add(scrollArea);
+		
+		String title= new String("Optimizing Process Result:");
+		String fp= new String(" Final count of FP: X");
+		String fn= new String(" Final count of FN: Y");
+		String efficiency= new String(" Optimizing efficiency: W");
+		caixatexto.append(title + "\n");
+		caixatexto.append(fp + "\n" );
+		caixatexto.append(fn + "\n");
+		caixatexto.append(efficiency + "\n");
+		
+		//caixatexto.setSelectedTextColor(Color.GRAY);// ver pq não esta a funcionar 
+		
+		/*
+		resultadoslabel.setHorizontalAlignment(ALabel.CENTER);
+		
+		JTextArea caixatexto= new JTextArea();
+		JScrollPane scrollArea = new JScrollPane(caixatexto);
+			
+		//caixatexto.setSelectedTextColor(Color.GRAY);// ver pq não esta a funcionar 
+		
+		String title= new String("Optimizing Process Result:");
+		String fp= new String(" Final count of FP: X");
+		String fn= new String(" Final count of FN: Y");
+		String efficiency= new String(" Optimizing efficiency: W");
+		caixatexto.append(title + "\n");
+		caixatexto.append(fp + "\n" );
+		caixatexto.append(fn + "\n");
+		caixatexto.append(efficiency + "\n");
 
-
+		
+		resultadosPanel.add(resultadoslabel, BorderLayout.NORTH);
+		resultadosPanel.add(caixatexto, BorderLayout.CENTER);
+		resultadosPanel.add(scrollArea);
+		*/
 		conclusaoPanel = new AntiSpamFilterStyles().new APanel();
 		conclusaoPanel.setPreferredSize(new Dimension(COMPONENT_MAX_WIDTH,60));
 		//Sprint Item
