@@ -118,20 +118,21 @@ public class AntiSpamFilterStyles {
 	}
 	
 	//FileDialog -> use ADialog
-	//comentario a toa
 	class ADialog extends FileDialog{
-		private String file;
+		private String filename;
 		private String directory;
+		private File file;
 		public ADialog(String s) {
 			super((Frame)null, s);
 			this.setMode(FileDialog.LOAD);
 			this.setFile("*.log;*.cf");
 			this.setVisible(true);
 			directory = this.getDirectory();
-			file = this.getFile();
+			filename = this.getFile();
+			file = new File(directory);
 		}
 		public void sendToTextArea (ATextField a) {
-			a.setText(file);
+			a.setText(filename);
 		}
 	}
 
