@@ -5,6 +5,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
@@ -186,9 +188,16 @@ public class AntiSpamFilterConfigurationGUI {
 				new AntiSpamFilterStyles().
 				new AButton("Back", AntiSpamFilterStyles.BTN_DEFAULT);
 		
+		
 		AButton saveButton = 
 				new AntiSpamFilterStyles().
 				new AButton("Save configuration", AntiSpamFilterStyles.BTN_DEFAULT);
+		saveButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				System.out.println("Test save Button ");
+			}
+		});
 		
 		buttonPanel.add(backButton, BorderLayout.LINE_START);
 		buttonPanel.add(saveButton, BorderLayout.CENTER);

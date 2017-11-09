@@ -205,9 +205,24 @@ public class AntiSpamFilterGUI extends JComponent {
 		AButton clearButton = 
 				new AntiSpamFilterStyles().
 				new AButton("Configure rules", AntiSpamFilterStyles.BTN_DEFAULT);
+		clearButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				System.out.println("Test Configure rules Button");
+				AntiSpamFilterConfigurationGUI antiSpamFilterFrame = new AntiSpamFilterConfigurationGUI();
+			}
+		});
+		
 		AButton startButton = 
 				new AntiSpamFilterStyles().
 				new AButton("Start optimization", AntiSpamFilterStyles.BTN_SUCCESS);
+		startButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				System.out.println("Test Start optimization Button ");
+			}
+		});
+		
 
 		buttonPanel.add(clearButton);
 		buttonPanel.add(startButton);
@@ -222,9 +237,24 @@ public class AntiSpamFilterGUI extends JComponent {
 		AButton withoutSaveButton = 
 				new AntiSpamFilterStyles().
 				new AButton("Exit without saving", AntiSpamFilterStyles.BTN_DEFAULT);
+		withoutSaveButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				System.out.println("close ");
+				System.exit(0);
+				
+			}
+		});
+		
 		AButton saveButton = 
 				new AntiSpamFilterStyles().
 				new AButton("Save optimization", AntiSpamFilterStyles.BTN_DEFAULT);
+		saveButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				System.out.println("Test Start optimization Button ");
+			}
+		});
 
 		buttonPanel.add(withoutSaveButton);
 		buttonPanel.add(saveButton);
