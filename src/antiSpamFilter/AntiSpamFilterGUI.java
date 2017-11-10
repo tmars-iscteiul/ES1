@@ -28,6 +28,7 @@ import antiSpamFilter.AntiSpamFilterStyles.*;
 
 public class AntiSpamFilterGUI extends JComponent {
 	
+	
 	private static final long serialVersionUID = 1L;
 	private JFrame antiSpamFilterFrame = new JFrame("AntiSpamFilter Optimizer v1.0");
 	
@@ -381,4 +382,65 @@ public class AntiSpamFilterGUI extends JComponent {
 			System.exit(0);
 		}
 	}
+	
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+	
+	public int getWINDOW_HSIZE() {
+		return WINDOW_HSIZE;
+	}
+
+	public int getWINDOW_VSIZE() {
+		return WINDOW_VSIZE;
+	}
+
+	public int getCOMPONENT_GAP() {
+		return COMPONENT_GAP;
+	}
+
+	public int getCOMPONENT_MAX_WIDTH() {
+		return COMPONENT_MAX_WIDTH;
+	}
+
+	public String getSPAM_FILENAME() {
+		return SPAM_FILENAME;
+	}
+
+	public String getSPAM_DIRECTORY() {
+		return SPAM_DIRECTORY;
+	}
+
+	public File getSPAM_FILE() {
+		return SPAM_FILE;
+	}
+
+	public String getHAM_FILENAME() {
+		return HAM_FILENAME;
+	}
+
+	public String getHAM_DIRECTORY() {
+		return HAM_DIRECTORY;
+	}
+
+	public File getHAM_FILE() {
+		return HAM_FILE;
+	}
+
+	public String getRULES_FILENAME() {
+		return RULES_FILENAME;
+	}
+
+	public String getRULES_DIRECTORY() {
+		return RULES_DIRECTORY;
+	}
+
+	public File getRULES_FILE() {
+		return RULES_FILE;
+	}
+	
+	public int te () {
+		return 1;
+	}
+
 }
