@@ -71,7 +71,7 @@ public class AntiSpamFilterGUI extends JComponent {
 		//Sprint Item
 		//Implementation of the loading panel
 		//Labels
-		ALabel windowLabel = new AntiSpamFilterStyles().new ALabel("Loading Window");
+		ALabel windowLabel = new AntiSpamFilterStyles().new ALabel("File Loading Window");
 		windowLabel.setHorizontalAlignment(ALabel.CENTER);
 		ALabel spamLabel = new AntiSpamFilterStyles().new ALabel("SPAM Log");
 		spamLabel.setHorizontalAlignment(ALabel.CENTER);
@@ -245,7 +245,7 @@ public class AntiSpamFilterGUI extends JComponent {
 		
 		AButton startButton = 
 				new AntiSpamFilterStyles().
-				new AButton("Start optimization", AntiSpamFilterStyles.BTN_SUCCESS);
+				new AButton("Start optimization", AntiSpamFilterStyles.BTN_DEFAULT);
 		startButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
