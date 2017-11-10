@@ -9,14 +9,12 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.io.File;
-import java.io.FilenameFilter;
 
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
-import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
@@ -122,6 +120,10 @@ public class AntiSpamFilterStyles {
 	
 	//FileDialog -> use ADialog
 	class ADialog extends FileDialog{
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
 		private String filename;
 		private String directory;
 		private File file;
@@ -231,7 +233,6 @@ public class AntiSpamFilterStyles {
 				UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 			} catch (ClassNotFoundException | InstantiationException | IllegalAccessException
 					| UnsupportedLookAndFeelException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			UIManager.put("OptionPane.background", Color.WHITE);

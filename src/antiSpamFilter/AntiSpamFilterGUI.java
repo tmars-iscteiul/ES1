@@ -1,19 +1,15 @@
 package antiSpamFilter;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.naming.ConfigurationException;
 import javax.swing.BorderFactory;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
 
 import antiSpamFilter.AntiSpamFilterStyles.*;
 
@@ -61,7 +57,7 @@ public class AntiSpamFilterGUI extends JComponent {
 		antiSpamFilterFrame.setSize(WINDOW_HSIZE, WINDOW_VSIZE);
 		antiSpamFilterFrame.setLocationRelativeTo(null);
 		
-		configureGUI = new AntiSpamFilterConfigurationGUI(false);
+		configureGUI = new AntiSpamFilterConfigurationGUI(this,false);
 
 		loadingPanel = new AntiSpamFilterStyles().new APanel();
 		loadingPanel.setPreferredSize(new Dimension(COMPONENT_MAX_WIDTH,250));
@@ -240,22 +236,25 @@ public class AntiSpamFilterGUI extends JComponent {
 	}
 
 	private void setIniciacaoPanel() {
-		//Criação do painel de botões Clear e Start
+		//Implementation of the button panel Clear e Start
 		APanel buttonPanel = setButtonPanel(2);
 
-		AButton clearButton = 
+		AButton configurationButton = 
 				new AntiSpamFilterStyles().
 				new AButton("Configure rules", AntiSpamFilterStyles.BTN_DEFAULT);
-		clearButton.addActionListener(new ActionListener() {
+		
+		configurationButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				configureGUI.setVisible(true);
+				antiSpamFilterFrame.setEnabled(false);
 			}
 		});
 		
 		AButton startButton = 
 				new AntiSpamFilterStyles().
 				new AButton("Start optimization", AntiSpamFilterStyles.BTN_DEFAULT);
+		
 		startButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -264,35 +263,40 @@ public class AntiSpamFilterGUI extends JComponent {
 		});
 		
 
-		buttonPanel.add(clearButton);
+		buttonPanel.add(configurationButton);
 		buttonPanel.add(startButton);
 		initiationPanel.add(buttonPanel);
 	}
 	
 	private void setConclusaoPanel() {
-		//Criação do painel de botões ExitWithout e SaveExit
+		//Implementation of the button panel ExitWithout e SaveExit
 		APanel buttonPanel = setButtonPanel(2);
 
-		//Criação dos dois botões
 		AButton withoutSaveButton = 
 				new AntiSpamFilterStyles().
 				new AButton("Exit without saving", AntiSpamFilterStyles.BTN_DEFAULT);
+		
 		withoutSaveButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				System.out.println("close ");
-				System.exit(0);
+				new AntiSpamFilterStyles().new AOptionPane();
+				int result = AOptionPane.showConfirmDialog(withoutSaveButton, 
+						"Are you sure? All the changes will be lost");
 				
+				if (result == AOptionPane.OK_OPTION) {
+					System.exit(0);
+				}
 			}
 		});
 		
 		AButton saveButton = 
 				new AntiSpamFilterStyles().
 				new AButton("Save optimization", AntiSpamFilterStyles.BTN_DEFAULT);
+		
 		saveButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				System.out.println("Test Start optimization Button ");
+				System.out.println("Test Save optimization Button ");
 			}
 		});
 
@@ -302,13 +306,17 @@ public class AntiSpamFilterGUI extends JComponent {
 	}
 	
 	private APanel setButtonPanel(int n) {
-		//Criação de paineis para os botões
 		APanel buttonPanel = new AntiSpamFilterStyles().new APanel();
 		buttonPanel.setPreferredSize(new Dimension(COMPONENT_MAX_WIDTH,40));
 		GridLayout grid = new GridLayout(1,n);
 		grid.setHgap(COMPONENT_GAP);
 		buttonPanel.setLayout(grid);
 		return buttonPanel;
+	}
+
+	public void setEnable(boolean b) {
+		antiSpamFilterFrame.setEnabled(b);
+		antiSpamFilterFrame.setVisible(b);
 	}
 	
 	

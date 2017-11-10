@@ -1,27 +1,22 @@
 package antiSpamFilter;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 
 import antiSpamFilter.AntiSpamFilterStyles.*;
 
 public class AntiSpamFilterConfigurationGUI {
 	private JFrame antiSpamFilterFrame = new JFrame("AntiSpamFilter Configuration v1.0");
+	private AntiSpamFilterGUI gui;
 	
 	private final int WINDOW_HSIZE = 500;
 	private final int WINDOW_VSIZE = 500;
@@ -38,7 +33,7 @@ public class AntiSpamFilterConfigurationGUI {
 	APanel ruleslistPanel, principalPanel, searchPanel, configurationPanel, inputPanel, applyPanel,
 		testsPanel, conclusionPanel;
 
-	public AntiSpamFilterConfigurationGUI(Boolean visible) {
+	public AntiSpamFilterConfigurationGUI(AntiSpamFilterGUI gui, Boolean visible) {
 		//Dimension and position of the window
 		antiSpamFilterFrame.setSize(WINDOW_HSIZE, WINDOW_VSIZE);
 		antiSpamFilterFrame.setLocationRelativeTo(null);
@@ -47,6 +42,7 @@ public class AntiSpamFilterConfigurationGUI {
 				(int)antiSpamFilterFrame.getLocation().getY()+20);
 		
 		antiSpamFilterFrame.setVisible(visible);
+		this.gui = gui;
 		
 		setRulesListPanel();
 		setMainConfigurationPanel();		
@@ -204,42 +200,18 @@ public class AntiSpamFilterConfigurationGUI {
 		buttonPanel.add(saveButton, BorderLayout.CENTER);
 		conclusionPanel.add(buttonPanel);
 		
-		backButton.addMouseListener(new MouseListener() {
+		backButton.addActionListener(new ActionListener() {
 			
 			@Override
-			public void mouseReleased(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mousePressed(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mouseExited(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				
-				AOptionPane confirm = new AntiSpamFilterStyles().new AOptionPane();
+			public void actionPerformed(ActionEvent arg0) {				
+				new AntiSpamFilterStyles().new AOptionPane();
 				int result = AOptionPane.showConfirmDialog(backButton, 
 						"Are you sure? All the changes will be lost");
 				
 				if (result == AOptionPane.OK_OPTION) {
 					// TODO Close the files and discard the changes 
 					antiSpamFilterFrame.setVisible(false);
+					gui.setEnable(true);
 				}
 			}
 		});
