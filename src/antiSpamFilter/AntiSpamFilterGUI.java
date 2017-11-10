@@ -148,18 +148,19 @@ public class AntiSpamFilterGUI extends JComponent {
 		resultadosPanel = new AntiSpamFilterStyles().new APanel();
 		resultadosPanel.setPreferredSize(new Dimension(COMPONENT_MAX_WIDTH,200));
 		resultadosPanel.setLayout(new BorderLayout());
-		//Sprint Item
 		//Implementação da janela de resultados
 		ALabel resultadoslabel = new AntiSpamFilterStyles().new ALabel("RESULTS WINDOW");
 		resultadoslabel.setHorizontalAlignment(ALabel.CENTER);		
-		JTextArea caixatexto= new JTextArea();
 		
+		//Criação da área de texto para os resultados
+		JTextArea caixatexto= new JTextArea();		
 		resultadosPanel.add(resultadoslabel, BorderLayout.NORTH);
-		resultadosPanel.add(caixatexto, BorderLayout.CENTER);
-			
+		resultadosPanel.add(caixatexto, BorderLayout.CENTER);	
 		JScrollPane scrollArea = new JScrollPane(caixatexto);
 		resultadosPanel.add(scrollArea);
+		caixatexto.setEditable(false);
 		
+		//futuramente iremos colocar os FP, FN e efficiency que vêm da configuração como variaveis
 		String title= new String("Optimizing Process Result:");
 		String fp= new String(" Final count of FP: X");
 		String fn= new String(" Final count of FN: Y");
@@ -168,6 +169,7 @@ public class AntiSpamFilterGUI extends JComponent {
 		caixatexto.append(fp + "\n" );
 		caixatexto.append(fn + "\n");
 		caixatexto.append(efficiency + "\n");
+		
 		
 	
 		conclusaoPanel = new AntiSpamFilterStyles().new APanel();
