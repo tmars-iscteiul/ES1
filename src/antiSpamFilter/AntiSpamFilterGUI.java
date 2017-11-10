@@ -6,13 +6,14 @@ import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 
 import antiSpamFilter.AntiSpamFilterStyles.*;
-
 
 public class AntiSpamFilterGUI extends JComponent {
 	
@@ -230,9 +231,35 @@ public class AntiSpamFilterGUI extends JComponent {
 		antiSpamFilterFrame.getContentPane().add(resultsAndConclusionPanel,BorderLayout.PAGE_END);
 
 		antiSpamFilterFrame.setIconImage(Toolkit.getDefaultToolkit().getImage("Icon.png"));
-		antiSpamFilterFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		antiSpamFilterFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		antiSpamFilterFrame.setResizable(false);
 		antiSpamFilterFrame.setVisible(true);
+
+		antiSpamFilterFrame.addWindowListener(new WindowListener() {
+
+			@Override
+			public void windowOpened(WindowEvent e) {}
+
+			@Override
+			public void windowIconified(WindowEvent e) {}
+
+			@Override
+			public void windowDeiconified(WindowEvent e) {}
+
+			@Override
+			public void windowDeactivated(WindowEvent e) {}
+
+			@Override
+			public void windowClosing(WindowEvent e) {
+				confirmCloseWindow();
+			}
+
+			@Override
+			public void windowClosed(WindowEvent e) {}
+
+			@Override
+			public void windowActivated(WindowEvent e) {}
+		});
 	}
 
 	private void setIniciacaoPanel() {
@@ -280,8 +307,9 @@ public class AntiSpamFilterGUI extends JComponent {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				new AntiSpamFilterStyles().new AOptionPane();
-				int result = AOptionPane.showConfirmDialog(withoutSaveButton, 
-						"Are you sure? All the changes will be lost");
+				int result = AOptionPane.showConfirmDialog(null, 
+						"Are you sure? All the changes will be lost",
+						null, AOptionPane.YES_NO_OPTION);
 				
 				if (result == AOptionPane.OK_OPTION) {
 					System.exit(0);
@@ -319,5 +347,14 @@ public class AntiSpamFilterGUI extends JComponent {
 		antiSpamFilterFrame.setVisible(b);
 	}
 	
-	
+	private void confirmCloseWindow() {
+		new AntiSpamFilterStyles().new AOptionPane();
+		int result = AOptionPane.showConfirmDialog(null, 
+				"Are you sure? All the changes will be lost",
+				null, AOptionPane.YES_NO_OPTION);
+		
+		if (result == AOptionPane.OK_OPTION) {
+			System.exit(0);
+		}
+	}
 }

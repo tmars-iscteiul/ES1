@@ -6,6 +6,8 @@ import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
@@ -80,6 +82,33 @@ public class AntiSpamFilterConfigurationGUI {
 
 		antiSpamFilterFrame.setIconImage(Toolkit.getDefaultToolkit().getImage("Icon.png"));
 		antiSpamFilterFrame.setResizable(false);
+		antiSpamFilterFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		
+		antiSpamFilterFrame.addWindowListener(new WindowListener() {
+			
+			@Override
+			public void windowOpened(WindowEvent e) {}
+			
+			@Override
+			public void windowIconified(WindowEvent e) {}
+			
+			@Override
+			public void windowDeiconified(WindowEvent e) {}
+			
+			@Override
+			public void windowDeactivated(WindowEvent e) {}
+			
+			@Override
+			public void windowClosing(WindowEvent e) {
+				confirmCloseWindow();
+			}
+			
+			@Override
+			public void windowClosed(WindowEvent e) {}
+			
+			@Override
+			public void windowActivated(WindowEvent e) {}
+		});
 	}
 
 	private void setTestResultsPanel() {
@@ -176,6 +205,22 @@ public class AntiSpamFilterConfigurationGUI {
 		buttonPanel.add(applyButton, BorderLayout.LINE_START);
 		buttonPanel.add(testButton, BorderLayout.CENTER);
 		applyPanel.add(buttonPanel);
+		
+		testButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {				
+				System.out.println("Test button test");
+			}
+		});
+		
+		applyButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {				
+				System.out.println("Apply button test");
+			}
+		});
 	}
 	
 	private void setConclusaoPanel() {
@@ -189,29 +234,30 @@ public class AntiSpamFilterConfigurationGUI {
 		AButton saveButton = 
 				new AntiSpamFilterStyles().
 				new AButton("Save configuration", AntiSpamFilterStyles.BTN_DEFAULT);
-		saveButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				System.out.println("Test save Button ");
-			}
-		});
 		
 		buttonPanel.add(backButton, BorderLayout.LINE_START);
 		buttonPanel.add(saveButton, BorderLayout.CENTER);
 		conclusionPanel.add(buttonPanel);
 		
 		backButton.addActionListener(new ActionListener() {
-			
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {				
+				confirmCloseWindow();
+			}
+		});
+
+		saveButton.addActionListener(new ActionListener() {
+
 			@Override
 			public void actionPerformed(ActionEvent arg0) {				
 				new AntiSpamFilterStyles().new AOptionPane();
-				int result = AOptionPane.showConfirmDialog(backButton, 
-						"Are you sure? All the changes will be lost");
+				int result = AOptionPane.showConfirmDialog(null, 
+						"Are you sure? The manual changes will be permanent",
+						null, AOptionPane.YES_NO_OPTION);
 				
 				if (result == AOptionPane.OK_OPTION) {
-					// TODO Close the files and discard the changes 
-					antiSpamFilterFrame.setVisible(false);
-					gui.setEnable(true);
+					System.out.println("Save button test");
 				}
 			}
 		});
@@ -229,6 +275,16 @@ public class AntiSpamFilterConfigurationGUI {
 		antiSpamFilterFrame.setVisible(visible);
 	}
 	
-	
+	private void confirmCloseWindow() {
+		new AntiSpamFilterStyles().new AOptionPane();
+		int result = AOptionPane.showConfirmDialog(null, 
+				"Are you sure? All the changes will be lost",
+				null, AOptionPane.YES_NO_OPTION);
+
+		if (result == AOptionPane.OK_OPTION) {
+			antiSpamFilterFrame.setVisible(false);
+			gui.setEnable(true);
+		}
+	}
 
 }
