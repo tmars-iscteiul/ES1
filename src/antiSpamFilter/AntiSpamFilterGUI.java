@@ -8,6 +8,8 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.naming.ConfigurationException;
+import javax.swing.BorderFactory;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
@@ -48,148 +50,178 @@ public class AntiSpamFilterGUI extends JComponent {
 	private final int COMPONENT_MAX_WIDTH = WINDOW_HSIZE-(2*COMPONENT_GAP);
 	
 	
-	//Inicializacão dos painéis
-	APanel carregamentoPanel, iniciacaoPanel, resultadosPanel, conclusaoPanel,
-		resultadosEConclusaoPanel;
+	//Panels initiation
+	APanel loadingPanel, initiationPanel, resultsPanel, conclusionPanel,
+		resultsAndConclusionPanel;
+	
+	AntiSpamFilterConfigurationGUI configureGUI;
 
 	public AntiSpamFilterGUI() {
-		//Dimensionamento da janela
+		//Window dimension
 		antiSpamFilterFrame.setSize(WINDOW_HSIZE, WINDOW_VSIZE);
 		antiSpamFilterFrame.setLocationRelativeTo(null);
+		
+		configureGUI = new AntiSpamFilterConfigurationGUI(false);
 
-		carregamentoPanel = new AntiSpamFilterStyles().new APanel();
-		carregamentoPanel.setPreferredSize(new Dimension(COMPONENT_MAX_WIDTH,250));
-		carregamentoPanel.setLayout(new GridLayout(4,1));
+		loadingPanel = new AntiSpamFilterStyles().new APanel();
+		loadingPanel.setPreferredSize(new Dimension(COMPONENT_MAX_WIDTH,250));
+		loadingPanel.setLayout(new GridLayout(4,1));
 		
 		
 		//Sprint Item
-		//Implementação da janela de carregamento
+		//Implementation of the loading panel
 		//Labels
-		ALabel janelalabel = new AntiSpamFilterStyles().new ALabel("LOADING WINDOW");
-		janelalabel.setHorizontalAlignment(ALabel.CENTER);
-		ALabel spamlabel = new AntiSpamFilterStyles().new ALabel("SPAM Log  ");
-		ALabel hamlabel = new AntiSpamFilterStyles().new ALabel("HAM Log    ");
-		ALabel ruleslabel = new AntiSpamFilterStyles().new ALabel("RULES File");
+		ALabel windowLabel = new AntiSpamFilterStyles().new ALabel("Loading Window");
+		windowLabel.setHorizontalAlignment(ALabel.CENTER);
+		ALabel spamLabel = new AntiSpamFilterStyles().new ALabel("SPAM Log");
+		spamLabel.setHorizontalAlignment(ALabel.CENTER);
+		spamLabel.setPreferredSize(new Dimension(100, 30));
+		ALabel hamLabel = new AntiSpamFilterStyles().new ALabel("HAM Log");
+		hamLabel.setHorizontalAlignment(ALabel.CENTER);
+		hamLabel.setPreferredSize(new Dimension(100, 30));
+		ALabel rulesLabel = new AntiSpamFilterStyles().new ALabel("RULES File");
+		rulesLabel.setHorizontalAlignment(ALabel.CENTER);
+		rulesLabel.setPreferredSize(new Dimension(100, 30));
 		
 		//JTextAreas
-		ATextField spamarea = new AntiSpamFilterStyles().new ATextField("");
-		spamarea.setEditable(false);
+		ATextField spamArea = new AntiSpamFilterStyles().new ATextField("");
+		spamArea.setPreferredSize(new Dimension(300,30));
+		spamArea.setEditable(false);
 		
-		ATextField hamarea = new AntiSpamFilterStyles().new ATextField("");
-		hamarea.setEditable(false);
+		ATextField hamArea = new AntiSpamFilterStyles().new ATextField("");
+		hamArea.setEditable(false);
 		
-		ATextField rulesarea = new AntiSpamFilterStyles().new ATextField("");
-		rulesarea.setEditable(false);
+		ATextField rulesArea = new AntiSpamFilterStyles().new ATextField("");
+		rulesArea.setEditable(false);
 		
-		//Butoes
-		AButton spambutton = new AntiSpamFilterStyles().new AButton("Browse...", AntiSpamFilterStyles.BTN_DEFAULT);
-		spambutton.addActionListener(new ActionListener() {
+		//Buttons
+		AButton spamButton = new AntiSpamFilterStyles().new AButton("Select path", AntiSpamFilterStyles.BTN_DEFAULT);
+		spamButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				ADialog spamfile = new AntiSpamFilterStyles().new ADialog("SPAM log");
-				spamfile.sendToTextArea(spamarea);
+				ADialog spamFile = new AntiSpamFilterStyles().new ADialog("SPAM log");
+				spamFile.sendToTextArea(spamArea);
 			}
 		});
 		
-		AButton hambutton = new AntiSpamFilterStyles().new AButton("Browse...", AntiSpamFilterStyles.BTN_DEFAULT);
-		hambutton.addActionListener(new ActionListener() {
+		AButton hamButton = new AntiSpamFilterStyles().new AButton("Select path", AntiSpamFilterStyles.BTN_DEFAULT);
+		hamButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				ADialog hamfile = new AntiSpamFilterStyles().new ADialog("HAM log");
-				hamfile.sendToTextArea(hamarea);
+				ADialog hamFile = new AntiSpamFilterStyles().new ADialog("HAM log");
+				hamFile.sendToTextArea(hamArea);
 			}
 		});
 		
-		AButton rulesbutton = new AntiSpamFilterStyles().new AButton("Browse...", AntiSpamFilterStyles.BTN_DEFAULT);
-		rulesbutton.addActionListener(new ActionListener() {
+		AButton rulesButton = new AntiSpamFilterStyles().new AButton("Select path", AntiSpamFilterStyles.BTN_DEFAULT);
+		rulesButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				ADialog rulesfile = new AntiSpamFilterStyles().new ADialog("RULES File");
-				rulesfile.sendToTextArea(rulesarea);
+				ADialog rulesFile = new AntiSpamFilterStyles().new ADialog("RULES File");
+				rulesFile.sendToTextArea(rulesArea);
 			}
 		});
 		
 		
 		//Panels
-		APanel spampanel = new AntiSpamFilterStyles().new APanel();
-		spampanel.setLayout(new BorderLayout());
-		spampanel.add(spamlabel, BorderLayout.WEST);
-		spampanel.add(spamarea, BorderLayout.CENTER);
-		spampanel.add(spambutton, BorderLayout.EAST);
+		APanel spamPanel = new AntiSpamFilterStyles().new APanel();
+		APanel spamPanelIn = new AntiSpamFilterStyles().new APanel();
+		spamPanelIn.setLayout(new BorderLayout());
+		spamPanelIn.add(spamArea, BorderLayout.CENTER);
+		spamPanelIn.add(spamButton, BorderLayout.LINE_END);
+		spamPanel.setLayout(new BorderLayout(10,0));
+		spamPanel.add(spamLabel, BorderLayout.LINE_START);
+		spamPanel.add(spamPanelIn, BorderLayout.CENTER);
 		
-		APanel hampanel = new AntiSpamFilterStyles().new APanel();
-		hampanel.setLayout(new BorderLayout());
-		hampanel.add(hamlabel, BorderLayout.WEST);
-		hampanel.add(hamarea, BorderLayout.CENTER);
-		hampanel.add(hambutton, BorderLayout.EAST);
+		APanel hamPanel = new AntiSpamFilterStyles().new APanel();
+		APanel hamPanelIn = new AntiSpamFilterStyles().new APanel();
+		hamPanelIn.setLayout(new BorderLayout());
+		hamPanelIn.add(hamArea, BorderLayout.CENTER);
+		hamPanelIn.add(hamButton, BorderLayout.LINE_END);
+		hamPanel.setLayout(new BorderLayout(10,0));
+		hamPanel.add(hamLabel, BorderLayout.LINE_START);
+		hamPanel.add(hamPanelIn, BorderLayout.CENTER);
 		
-		APanel rulespanel = new AntiSpamFilterStyles().new APanel();
-		rulespanel.setLayout(new BorderLayout());
-		rulespanel.add(ruleslabel, BorderLayout.WEST);
-		rulespanel.add(rulesarea, BorderLayout.CENTER);
-		rulespanel.add(rulesbutton, BorderLayout.EAST);
+		APanel rulesPanel = new AntiSpamFilterStyles().new APanel();
+		APanel rulesPanelIn = new AntiSpamFilterStyles().new APanel();
+		rulesPanelIn.setLayout(new BorderLayout());
+		rulesPanelIn.add(rulesArea, BorderLayout.CENTER);
+		rulesPanelIn.add(rulesButton, BorderLayout.LINE_END);
+		rulesPanel.setLayout(new BorderLayout(10,0));
+		rulesPanel.add(rulesLabel, BorderLayout.LINE_START);
+		rulesPanel.add(rulesPanelIn, BorderLayout.CENTER);
 		
-		carregamentoPanel.add(janelalabel);
-		carregamentoPanel.add(spampanel);
-		carregamentoPanel.add(hampanel);
-		carregamentoPanel.add(rulespanel);		
-		
-		
-		// TODO Auto-generated method stub
+		GridLayout border = new GridLayout(4, 1);
+		border.setHgap(COMPONENT_GAP);
+		border.setVgap(COMPONENT_GAP);
+		loadingPanel.setLayout(border);
+		loadingPanel.setBorder(
+				BorderFactory.createEmptyBorder(0,COMPONENT_GAP,COMPONENT_GAP,COMPONENT_GAP));
+		loadingPanel.add(windowLabel);
+		loadingPanel.add(spamPanel);
+		loadingPanel.add(hamPanel);
+		loadingPanel.add(rulesPanel);		
 
 
-		iniciacaoPanel = new AntiSpamFilterStyles().new APanel();
-		iniciacaoPanel.setPreferredSize(new Dimension(COMPONENT_MAX_WIDTH,50));
+		initiationPanel = new AntiSpamFilterStyles().new APanel();
+		initiationPanel.setPreferredSize(new Dimension(COMPONENT_MAX_WIDTH,50));
+		
 		//Sprint Item
-		//Implementação da janela de iniciacao
+		//Implementation of initiating panel
 		setIniciacaoPanel();		
 		
 		
-		resultadosPanel = new AntiSpamFilterStyles().new APanel();
-		resultadosPanel.setPreferredSize(new Dimension(COMPONENT_MAX_WIDTH,200));
-		resultadosPanel.setLayout(new BorderLayout());
-		//Sprint Item
-		//Implementação da janela de resultados
-		ALabel resultadoslabel = new AntiSpamFilterStyles().new ALabel("RESULTS WINDOW");
-		resultadoslabel.setHorizontalAlignment(ALabel.CENTER);		
-		JTextArea caixatexto= new JTextArea();
+		resultsPanel = new AntiSpamFilterStyles().new APanel();
+		resultsPanel.setPreferredSize(new Dimension(COMPONENT_MAX_WIDTH,200));
+		resultsPanel.setLayout(new BorderLayout());
 		
-		resultadosPanel.add(resultadoslabel, BorderLayout.NORTH);
-		resultadosPanel.add(caixatexto, BorderLayout.CENTER);
+		//Sprint Item
+		//Implementation of results panel
+		ALabel resultsLabel = new AntiSpamFilterStyles().new ALabel("Results Window");
+		resultsLabel.setHorizontalAlignment(ALabel.CENTER);
+		resultsLabel.setPreferredSize(new Dimension(500, 30));
+		ATextArea textBox= new AntiSpamFilterStyles().new ATextArea();
+		textBox.setEditable(false);
+		
+		resultsPanel.add(resultsLabel, BorderLayout.NORTH);
+		resultsPanel.add(textBox, BorderLayout.CENTER);
+		resultsPanel.setBorder(
+				BorderFactory.createEmptyBorder(0,COMPONENT_GAP,COMPONENT_GAP,COMPONENT_GAP));
 			
-		JScrollPane scrollArea = new JScrollPane(caixatexto);
-		resultadosPanel.add(scrollArea);
+		AScrollPane scrollArea = new AntiSpamFilterStyles().new AScrollPane(textBox);
+		resultsPanel.add(scrollArea);
 		
 		String title= new String("Optimizing Process Result:");
 		String fp= new String(" Final count of FP: X");
 		String fn= new String(" Final count of FN: Y");
 		String efficiency= new String(" Optimizing efficiency: W");
-		caixatexto.append(title + "\n");
-		caixatexto.append(fp + "\n" );
-		caixatexto.append(fn + "\n");
-		caixatexto.append(efficiency + "\n");
+		textBox.append(title + "\n");
+		textBox.append(fp + "\n" );
+		textBox.append(fn + "\n");
+		textBox.append(efficiency + "\n");
 		
 	
-		conclusaoPanel = new AntiSpamFilterStyles().new APanel();
-		conclusaoPanel.setPreferredSize(new Dimension(COMPONENT_MAX_WIDTH,60));
+		conclusionPanel = new AntiSpamFilterStyles().new APanel();
+		conclusionPanel.setPreferredSize(new Dimension(COMPONENT_MAX_WIDTH,60));
+		
 		//Sprint Item
-		//Implementação da janela de resultados
+		//Implementation of results panel
 		setConclusaoPanel();
 
 		
 		//Sprint Item
-		//Implementação do ambiente
-		resultadosEConclusaoPanel = new AntiSpamFilterStyles().new APanel();
+		//Implementation of the environment
+		resultsAndConclusionPanel = new AntiSpamFilterStyles().new APanel();
 		
-		resultadosEConclusaoPanel.setLayout(new BorderLayout());
-		resultadosEConclusaoPanel.add(resultadosPanel,BorderLayout.CENTER);
-		resultadosEConclusaoPanel.add(conclusaoPanel,BorderLayout.PAGE_END);
+		resultsAndConclusionPanel.setLayout(new BorderLayout());
+		resultsAndConclusionPanel.add(resultsPanel,BorderLayout.CENTER);
+		resultsAndConclusionPanel.add(conclusionPanel,BorderLayout.PAGE_END);
 		
 		antiSpamFilterFrame.setLayout(new BorderLayout());
 
-		antiSpamFilterFrame.getContentPane().add(carregamentoPanel,BorderLayout.PAGE_START);
-		antiSpamFilterFrame.getContentPane().add(iniciacaoPanel,BorderLayout.CENTER);
-		antiSpamFilterFrame.getContentPane().add(resultadosEConclusaoPanel,BorderLayout.PAGE_END);
+		antiSpamFilterFrame.getContentPane().add(loadingPanel,BorderLayout.PAGE_START);
+		antiSpamFilterFrame.getContentPane().add(initiationPanel,BorderLayout.CENTER);
+		antiSpamFilterFrame.getContentPane().add(resultsAndConclusionPanel,BorderLayout.PAGE_END);
 
 		antiSpamFilterFrame.setIconImage(Toolkit.getDefaultToolkit().getImage("Icon.png"));
 		antiSpamFilterFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -201,15 +233,13 @@ public class AntiSpamFilterGUI extends JComponent {
 		//Criação do painel de botões Clear e Start
 		APanel buttonPanel = setButtonPanel(2);
 
-		//Criação dos dois botões
 		AButton clearButton = 
 				new AntiSpamFilterStyles().
 				new AButton("Configure rules", AntiSpamFilterStyles.BTN_DEFAULT);
 		clearButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				System.out.println("Test Configure rules Button");
-				AntiSpamFilterConfigurationGUI antiSpamFilterFrame = new AntiSpamFilterConfigurationGUI();
+				configureGUI.setVisible(true);
 			}
 		});
 		
@@ -226,7 +256,7 @@ public class AntiSpamFilterGUI extends JComponent {
 
 		buttonPanel.add(clearButton);
 		buttonPanel.add(startButton);
-		iniciacaoPanel.add(buttonPanel);
+		initiationPanel.add(buttonPanel);
 	}
 	
 	private void setConclusaoPanel() {
@@ -258,7 +288,7 @@ public class AntiSpamFilterGUI extends JComponent {
 
 		buttonPanel.add(withoutSaveButton);
 		buttonPanel.add(saveButton);
-		conclusaoPanel.add(buttonPanel);
+		conclusionPanel.add(buttonPanel);
 	}
 	
 	private APanel setButtonPanel(int n) {

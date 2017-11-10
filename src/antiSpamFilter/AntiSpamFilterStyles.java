@@ -11,6 +11,7 @@ import java.awt.RenderingHints;
 import java.io.File;
 import java.io.FilenameFilter;
 
+import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -20,12 +21,14 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.SpinnerModel;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.plaf.FontUIResource;
 import javax.swing.JSpinner;
+import javax.swing.JTextArea;
 
 public class AntiSpamFilterStyles {
 	
@@ -214,8 +217,14 @@ public class AntiSpamFilterStyles {
 		}
 	}
 	
+	//JOptionPane -> use AOptionPane
 	class AOptionPane extends JOptionPane {
 		
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
 		public AOptionPane() {
 			super();
 			try {
@@ -230,5 +239,34 @@ public class AntiSpamFilterStyles {
 			UIManager.put("OptionPane.messageFont", new FontUIResource(new Font(  
 			          "Arial", Font.PLAIN, 14)));
 		}
+	}
+	
+	class ATextArea extends JTextArea {
+
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+		
+		public ATextArea() {
+			super();
+			super.setFont(new Font("Arial", Font.PLAIN, 16));
+			super.setForeground(TEXTCOLOR);
+		}
+		
+	}
+	
+	class AScrollPane extends JScrollPane {
+
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+		
+		public AScrollPane(ATextArea textBox) {
+			super(textBox);
+			super.setBorder(BorderFactory.createLineBorder(new Color(220,220,220)));
+		}
+		
 	}
 }

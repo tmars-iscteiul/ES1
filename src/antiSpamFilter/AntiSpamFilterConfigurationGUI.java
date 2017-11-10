@@ -38,13 +38,15 @@ public class AntiSpamFilterConfigurationGUI {
 	APanel ruleslistPanel, principalPanel, searchPanel, configurationPanel, inputPanel, applyPanel,
 		testsPanel, conclusionPanel;
 
-	public AntiSpamFilterConfigurationGUI() {
+	public AntiSpamFilterConfigurationGUI(Boolean visible) {
 		//Dimension and position of the window
 		antiSpamFilterFrame.setSize(WINDOW_HSIZE, WINDOW_VSIZE);
 		antiSpamFilterFrame.setLocationRelativeTo(null);
 		antiSpamFilterFrame.setLocation(
 				(int)antiSpamFilterFrame.getLocation().getX()+80,
 				(int)antiSpamFilterFrame.getLocation().getY()+20);
+		
+		antiSpamFilterFrame.setVisible(visible);
 		
 		setRulesListPanel();
 		setMainConfigurationPanel();		
@@ -82,7 +84,6 @@ public class AntiSpamFilterConfigurationGUI {
 
 		antiSpamFilterFrame.setIconImage(Toolkit.getDefaultToolkit().getImage("Icon.png"));
 		antiSpamFilterFrame.setResizable(false);
-		antiSpamFilterFrame.setVisible(true);
 	}
 
 	private void setTestResultsPanel() {
@@ -250,6 +251,10 @@ public class AntiSpamFilterConfigurationGUI {
 		BorderLayout layout = new BorderLayout(COMPONENT_GAP,COMPONENT_GAP);
 		buttonPanel.setLayout(layout);
 		return buttonPanel;
+	}
+
+	public void setVisible(boolean visible) {
+		antiSpamFilterFrame.setVisible(visible);
 	}
 	
 	
