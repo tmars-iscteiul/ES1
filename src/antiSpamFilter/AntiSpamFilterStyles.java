@@ -2,16 +2,12 @@ package antiSpamFilter;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.FileDialog;
 import java.awt.Font;
-import java.awt.Frame;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
-import java.io.File;
 
 import javax.swing.BorderFactory;
-import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
@@ -28,8 +24,27 @@ import javax.swing.plaf.FontUIResource;
 import javax.swing.JSpinner;
 import javax.swing.JTextArea;
 
+/**
+ * <p>This class includes the styles used to define the design of 
+ * the JComponents. The style classes are:</br>
+ * 1. APanel extends JPanel;</br>
+ * 2. ALabel extends JLabel;</br>
+ * 3. AComboBox extends JComboBox;</br>
+ * 4. AButton extends JButton;</br>
+ * 5. AList extends JList;</br>
+ * 6. ATextField extends JTextField;</br>
+ * 7. ASpinner extends JSpinner;</br>
+ * 8. AOptionPane extends JOptionPane;</br>
+ * 9. ATextArea extends JTextArea;</br>
+ * 10. AScrollPane extends JScrollPane;</br>
+ * </p>
+ * 
+ * @author ES1-2017-LIGE-PL-102
+ * 
+ */
+
 public class AntiSpamFilterStyles {
-	
+		
 	protected final static int BTN_DEFAULT = 1;
 	protected final static int BTN_SUCCESS = 2;
 	protected final static int BTN_DANGER = 3;
@@ -44,9 +59,9 @@ public class AntiSpamFilterStyles {
 
 	//Style definition for the GUI objets:
 	//JPanel -> use APanel	
-	class APanel extends JPanel {
+	protected class APanel extends JPanel {
 		/**
-		 * 
+		 * <p> New Panel with white background. </p>
 		 */
 		private static final long serialVersionUID = 1L;
 
@@ -57,9 +72,10 @@ public class AntiSpamFilterStyles {
 	}	
 
 	//JLabel -> use ALabel		
-	class ALabel extends JLabel {
+	protected class ALabel extends JLabel {
 		/**
-		 * 
+		 * <p> New Label with gray foreground and font Arial.
+		 * You can define the label with the type Title (size 18) or Small (size 16). </p>
 		 */
 		private static final long serialVersionUID = 1L;
 
@@ -78,9 +94,9 @@ public class AntiSpamFilterStyles {
 	}
 
 	//JComboBox -> use AComboBox		
-	class AComboBox extends JComboBox<Object> {
+	protected class AComboBox extends JComboBox<Object> {
 		/**
-		 * 
+		 * <p> New ComboBox with white background, gray foreground and font Arial 14. </p>
 		 */
 		private static final long serialVersionUID = 1L;
 
@@ -93,9 +109,11 @@ public class AntiSpamFilterStyles {
 	}
 
 	//JButton -> use AButton			
-	class AButton extends JButton {
+	protected class AButton extends JButton {
 		/**
-		 * 
+		 * <p> New Button with font Arial 16. 
+		 * You can define the button with the type DANGER (color red), 
+		 * type SUCCESS (color green) or type DEFAULT (color blue). </p>
 		 */
 		private static final long serialVersionUID = 1L;
 
@@ -117,42 +135,13 @@ public class AntiSpamFilterStyles {
 			}
 		}
 	}
-	
-	//FileDialog -> use ADialog
-	class ADialog extends FileDialog{
-		/**
-		 * 
-		 */
-		private static final long serialVersionUID = 1L;
-		private String filename;
-		private String directory;
-		private File file;
-		public ADialog(String s) {
-			super((Frame)null, s);
-			this.setMode(FileDialog.LOAD);
-			this.setFile("*.log;*.cf");
-			this.setVisible(true);
-			directory = this.getDirectory();
-			filename = this.getFile();
-			file = new File(directory);
-		}
-		public void sendToTextArea (ATextField a) {
-			a.setText(filename);
-		}
-	}
 
 	//JList -> use AList		
-	class AList extends JList<Object> {
+	protected class AList extends JList<Object> {
 		/**
-		 * 
+		 * <p> New ListBox with white background, gray foreground and font Arial 14. </p>
 		 */
 		private static final long serialVersionUID = 1L;
-
-		public AList(DefaultListModel list) {
-			super(list);
-			super.setFont(new Font("Arial", Font.PLAIN, 14));
-			super.setForeground(TEXTCOLOR);
-		}
 		
 		public AList(String[] list) {
 			super(list);
@@ -163,10 +152,11 @@ public class AntiSpamFilterStyles {
 	}
 	
 	//JTextField -> use ATextField
-	class ATextField extends JTextField {
+	protected class ATextField extends JTextField {
 		
 		/**
-		 * 
+		 * <p> New TextField with white background, gray foreground and font Arial 16.
+		 * It is possible to use a placeholder to define the field. </p>
 		 */
 		private static final long serialVersionUID = 1L;
 		private String placeholder = "";
@@ -201,10 +191,10 @@ public class AntiSpamFilterStyles {
 	}
 	
 	//JSpinner -> use ASpinner
-	class ASpinner extends JSpinner {
+	protected class ASpinner extends JSpinner {
 
 		/**
-		 * 
+		 * <p> New Spinner with white background, gray foreground and font Arial 16. </p>
 		 */
 		private static final long serialVersionUID = 1L;
 		
@@ -220,10 +210,10 @@ public class AntiSpamFilterStyles {
 	}
 	
 	//JOptionPane -> use AOptionPane
-	class AOptionPane extends JOptionPane {
+	protected class AOptionPane extends JOptionPane {
 		
 		/**
-		 * 
+		 * <p> New OptionPane with white background, gray foreground and font Arial 14. </p>
 		 */
 		private static final long serialVersionUID = 1L;
 
@@ -242,25 +232,28 @@ public class AntiSpamFilterStyles {
 		}
 	}
 	
-	class ATextArea extends JTextArea {
+	//JTextArea -> use ATextArea
+	protected class ATextArea extends JTextArea {
 
 		/**
-		 * 
+		 * <p> New TextArea with white background, gray foreground and font Arial 16. </p>
 		 */
 		private static final long serialVersionUID = 1L;
 		
 		public ATextArea() {
 			super();
 			super.setFont(new Font("Arial", Font.PLAIN, 16));
+			super.setBackground(Color.WHITE);
 			super.setForeground(TEXTCOLOR);
 		}
 		
 	}
 	
-	class AScrollPane extends JScrollPane {
+	//JScrollPane -> use AScrollPane
+	protected class AScrollPane extends JScrollPane {
 
 		/**
-		 * 
+		 * <p> New ScrollPane with light gray border. </p>
 		 */
 		private static final long serialVersionUID = 1L;
 		

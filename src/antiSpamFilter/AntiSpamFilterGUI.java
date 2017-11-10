@@ -2,12 +2,14 @@ package antiSpamFilter;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.FileDialog;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.io.File;
 
 import javax.swing.BorderFactory;
 import javax.swing.JComponent;
@@ -15,29 +17,17 @@ import javax.swing.JFrame;
 
 import antiSpamFilter.AntiSpamFilterStyles.*;
 
+/**
+ * <p>AntiSpamFilterGUI - the main GUI panel class</br>
+ * </br>
+ * Creates the Graphics User Interface for the AntiSpamFilter main window. 
+ * The default window has a 500x600 size and a modern design. </p>
+ *
+ * @author ES1-2017-LIGE-PL-102
+ */
+
 public class AntiSpamFilterGUI extends JComponent {
 	
-	/**
-	 * <h2>AntiSpamFilterGUI - the visual class</h2>
-	 * <p>
-	 * Creates the Graphics User Interface for the AntiSpamFilter app. 
-	 * The default window has a 500x600 size and a modern design.
-	 * The class also includes the styles used to define the design of 
-	 * the JComponents. The style classes are:</p>
-	 * <li>
-	 * 	<ul>AntiSpamFilterPanel extends JPanel;</ul>
-	 * 	<ul>AntiSpamFilterLabel extends JLabel;</ul>
-	 * 	<ul>AntiSpamFilterComboBox extends JComboBox;</ul>
-	 * 	<ul>AntiSpamFilterButton extends JButton;</ul>
-	 *	<ul>AntiSpamFilterList extends JList;</ul>
-	 * </li>
-	 *
-	 * @param  url  an absolute URL giving the base location of the image
-	 * @param  name the location of the image, relative to the url argument
-	 * @return      the image at the specified URL
-	 * @see         Image
-	 */
-
 	private static final long serialVersionUID = 1L;
 	private JFrame antiSpamFilterFrame = new JFrame("AntiSpamFilter Optimizer v1.0");
 	
@@ -45,6 +35,18 @@ public class AntiSpamFilterGUI extends JComponent {
 	private final int WINDOW_VSIZE = 600;
 	private final int COMPONENT_GAP = 20;
 	private final int COMPONENT_MAX_WIDTH = WINDOW_HSIZE-(2*COMPONENT_GAP);
+	
+	private String SPAM_FILENAME;
+	private String SPAM_DIRECTORY;
+	private File SPAM_FILE;
+	
+	private String HAM_FILENAME;
+	private String HAM_DIRECTORY;
+	private File HAM_FILE;
+	
+	private String RULES_FILENAME;
+	private String RULES_DIRECTORY;
+	private File RULES_FILE;
 	
 	
 	//Panels initiation
@@ -91,13 +93,21 @@ public class AntiSpamFilterGUI extends JComponent {
 		ATextField rulesArea = new AntiSpamFilterStyles().new ATextField("");
 		rulesArea.setEditable(false);
 		
+		
 		//Buttons
 		AButton spamButton = new AntiSpamFilterStyles().new AButton("Select path", AntiSpamFilterStyles.BTN_DEFAULT);
 		spamButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				ADialog spamFile = new AntiSpamFilterStyles().new ADialog("SPAM log");
-				spamFile.sendToTextArea(spamArea);
+				FileDialog spamFile = new FileDialog(antiSpamFilterFrame, "SPAM log");
+				spamFile.setMode(FileDialog.LOAD);
+				spamFile.setFile("*.log");
+				spamFile.setVisible(true);
+				SPAM_DIRECTORY = spamFile.getDirectory();
+				SPAM_FILENAME = spamFile.getFile();
+				SPAM_FILE = new File(SPAM_FILENAME);
+				
+				spamArea.setText(SPAM_FILENAME);
 			}
 		});
 		
@@ -105,8 +115,15 @@ public class AntiSpamFilterGUI extends JComponent {
 		hamButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				ADialog hamFile = new AntiSpamFilterStyles().new ADialog("HAM log");
-				hamFile.sendToTextArea(hamArea);
+				FileDialog hamFile = new FileDialog(antiSpamFilterFrame, "HAM log");
+				hamFile.setMode(FileDialog.LOAD);
+				hamFile.setFile("*.log");
+				hamFile.setVisible(true);
+				HAM_DIRECTORY = hamFile.getDirectory();
+				HAM_FILENAME = hamFile.getFile();
+				HAM_FILE = new File(HAM_FILENAME);
+				
+				hamArea.setText(HAM_FILENAME);
 			}
 		});
 		
@@ -114,8 +131,15 @@ public class AntiSpamFilterGUI extends JComponent {
 		rulesButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				ADialog rulesFile = new AntiSpamFilterStyles().new ADialog("RULES File");
-				rulesFile.sendToTextArea(rulesArea);
+				FileDialog rulesFile = new FileDialog(antiSpamFilterFrame, "Rules file");
+				rulesFile.setMode(FileDialog.LOAD);
+				rulesFile.setFile("*.cf");
+				rulesFile.setVisible(true);
+				RULES_DIRECTORY = rulesFile.getDirectory();
+				RULES_FILENAME = rulesFile.getFile();
+				RULES_FILE = new File(RULES_FILENAME);
+				
+				rulesArea.setText(RULES_FILENAME);
 			}
 		});
 		
