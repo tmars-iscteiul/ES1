@@ -1,6 +1,3 @@
-/**
- * 
- */
 package antiSpamFilter;
 
 import java.io.File;
