@@ -15,10 +15,11 @@ import antiSpamFilter.AntiSpamFilterStyles.AOptionPane;
  */
 public class EmailStream {
 
-	public static ArrayList<Email> getListOfEmailFromFile (File file, ArrayList<Rule> listOfRules) {
+	public static ArrayList<Email> getListOfEmailsFromFile (File file, ArrayList<Rule> listOfRules) {
 		ArrayList<Email> list = new ArrayList<Email>();
 		String fileLine;
 		int emailType;
+		String[] fileLineList, emailAtributesList;
 				
 		try {
 			BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
@@ -26,18 +27,16 @@ public class EmailStream {
 			try {
 				while ((fileLine = bufferedReader.readLine()) != null) {
 					//Separation of the line fields
-					String[] fileLineList = fileLine.split("\t");
+					fileLineList = fileLine.split("\t");
 
-					//emailAtributesList[2] = Email.type
-					//emailAtributesList[3] = Email.Id
-					String[] emailAtributesList = fileLineList[0].split("/");
+					//emailAtributesList[2] = Email.type | emailAtributesList[3] = Email.Id
+					emailAtributesList = fileLineList[0].split("/");
 					ArrayList<Rule> emailRulesList = new ArrayList<Rule>();
 
 					//List of rules
 					for (int i = 1; i < fileLineList.length; i++) {
 						//Creation of the list of rules for the e-mail
-						//TODO creation of the object Rule
-						Rule rule = new Rule();
+						Rule rule = new Rule(); //TODO creation of the object Rule
 						emailRulesList.add(rule);
 					}
 
@@ -51,14 +50,6 @@ public class EmailStream {
 			} catch (IOException e) {
 				AOptionPane.showMessageDialog(null, "Could not read the file", "Error", AOptionPane.ERROR_MESSAGE);
 			}
-
-			//Creation of the list of e-mails
-
-			/*fileLine = "xval_initial/9/_spam_/00195.0a543c2780491168160570bb6708af86	"
-					+ "BAYES_99	FORGED_OUTLOOK_HTML	FORGED_OUTLOOK_TAGS	FREEMAIL_ENVFROM_END_DIGIT	"
-					+ "FREEMAIL_FROM	FREEMAIL_REPLYTO	HTML_MESSAGE	MIME_HTML_ONLY	"
-					+ "MISSING_MIMEOLE	MSGID_OUTLOOK_INVALID	NO_RDNS_DOTCOM_HELO	RATWARE_MS_HASH	"
-					+ "RCVD_FAKE_HELO_DOTCOM	SPF_FAIL"; */
 
 			try {
 				bufferedReader.close();
@@ -74,6 +65,6 @@ public class EmailStream {
 	}
 	
 	public static void writeListOfEmailToFile (File file, ArrayList<Email> list) {
-		
+		//TODO Implementation of the write function
 	}
 }
