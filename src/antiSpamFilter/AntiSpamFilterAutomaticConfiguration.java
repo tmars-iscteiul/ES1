@@ -28,6 +28,7 @@ public class AntiSpamFilterAutomaticConfiguration {
     String experimentBaseDirectory = "experimentBaseDirectory";
     
     new AntiSpamFilterGUI();
+    ArrayList<Email> listOfEmails = EmailStream.getListOfEmailFromFile(null, null);
     
 /*
     List<ExperimentProblem<DoubleSolution>> problemList = new ArrayList<>();
