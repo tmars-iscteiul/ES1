@@ -12,7 +12,6 @@ import java.awt.event.WindowListener;
 import java.io.File;
 
 import javax.swing.BorderFactory;
-import javax.swing.JComponent;
 import javax.swing.JFrame;
 
 import antiSpamFilter.AntiSpamFilterStyles.*;
@@ -24,12 +23,13 @@ import antiSpamFilter.AntiSpamFilterStyles.*;
  * The default window has a 500x600 size and a modern design. 
  * With a four panel system design, it is possible to load the e-mails
  * file logs and the list of rules, run an automatic Spam Filter 
- * configuration or do a manual configuration.</p>
+ * configuration or do a manual configuration. After the optimization,
+ * it is possible to save the changes or exit without it.</p>
  *
  * @author ES1-2017-LIGE-PL-102
  */
 
-public class AntiSpamFilterGUI extends JComponent {
+public class AntiSpamFilterGUI {
 	
 	
 	private static final long serialVersionUID = 1L;
@@ -108,71 +108,8 @@ public class AntiSpamFilterGUI extends JComponent {
 		});
 	}
 
-	private void implementResultsAndConclusionPanel() {
-		conclusionPanel = new AntiSpamFilterStyles().new APanel();
-		conclusionPanel.setPreferredSize(new Dimension(COMPONENT_MAX_WIDTH,60));
-
-		//Implementation of results panel
-		setConclusaoPanel();
-
-		//Implementation of the environment
-		resultsAndConclusionPanel = new AntiSpamFilterStyles().new APanel();
-		
-		resultsAndConclusionPanel.setLayout(new BorderLayout());
-		resultsAndConclusionPanel.add(resultsPanel,BorderLayout.CENTER);
-		resultsAndConclusionPanel.add(conclusionPanel,BorderLayout.PAGE_END);
-	}
-
-	private void implementResultsPanel() {
-		resultsPanel = new AntiSpamFilterStyles().new APanel();
-		resultsPanel.setPreferredSize(new Dimension(COMPONENT_MAX_WIDTH,200));
-		resultsPanel.setLayout(new BorderLayout());
-
-		resultsPanel = new AntiSpamFilterStyles().new APanel();
-		resultsPanel.setPreferredSize(new Dimension(COMPONENT_MAX_WIDTH,200));
-		resultsPanel.setLayout(new BorderLayout());
-
-		ALabel resultadoslabel = new AntiSpamFilterStyles().new ALabel("RESULTS WINDOW");
-		resultadoslabel.setHorizontalAlignment(ALabel.CENTER);		
-		
-		//Sprint Item
-		//Implementation of results panel
-		ALabel resultsLabel = new AntiSpamFilterStyles().new ALabel("Results Window");
-		resultsLabel.setHorizontalAlignment(ALabel.CENTER);
-		resultsLabel.setPreferredSize(new Dimension(500, 30));
-		ATextArea textBox= new AntiSpamFilterStyles().new ATextArea();
-		textBox.setEditable(false);
-		
-		resultsPanel.add(resultsLabel, BorderLayout.NORTH);
-		resultsPanel.add(textBox, BorderLayout.CENTER);
-		resultsPanel.setBorder(
-				BorderFactory.createEmptyBorder(0,COMPONENT_GAP,COMPONENT_GAP,COMPONENT_GAP));
-			
-		AScrollPane scrollArea = new AntiSpamFilterStyles().new AScrollPane(textBox);
-		resultsPanel.add(scrollArea);
-
-		
-		//futuramente iremos colocar os FP, FN e efficiency que vêm da configuração como variaveis
-		String title= new String("Optimizing Process Result:");
-		String fp= new String(" Final count of FP: X");
-		String fn= new String(" Final count of FN: Y");
-		String efficiency= new String(" Optimizing efficiency: W");
-		textBox.append(title + "\n");
-		textBox.append(fp + "\n" );
-		textBox.append(fn + "\n");
-		textBox.append(efficiency + "\n");
-	}
-
-	private void implementIniciationPanel() {
-		initiationPanel = new AntiSpamFilterStyles().new APanel();
-		initiationPanel.setPreferredSize(new Dimension(COMPONENT_MAX_WIDTH,50));
-		
-		//Implementation of initiating panel
-		setIniciacaoPanel();
-	}
-
 	private void implementLoadingPanel() {
-		APanel loadingPanel = new AntiSpamFilterStyles().new APanel();
+		loadingPanel = new AntiSpamFilterStyles().new APanel();
 		loadingPanel.setPreferredSize(new Dimension(COMPONENT_MAX_WIDTH,250));		
 		
 		//Implementation of the loading panel
@@ -297,15 +234,19 @@ public class AntiSpamFilterGUI extends JComponent {
 		loadingPanel.add(hamPanel);
 		loadingPanel.add(rulesPanel);
 	}
-
-	private void setIniciacaoPanel() {
+	
+	
+	private void implementIniciationPanel() {
+		initiationPanel = new AntiSpamFilterStyles().new APanel();
+		initiationPanel.setPreferredSize(new Dimension(COMPONENT_MAX_WIDTH,50));
+		
 		//Implementation of the button panel Clear e Start
 		APanel buttonPanel = setButtonPanel(2);
 
 		AButton configurationButton = 
 				new AntiSpamFilterStyles().
 				new AButton("Configure rules", AntiSpamFilterStyles.BTN_DEFAULT);
-		
+
 		configurationButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -313,25 +254,83 @@ public class AntiSpamFilterGUI extends JComponent {
 				antiSpamFilterFrame.setEnabled(false);
 			}
 		});
-		
+
 		AButton startButton = 
 				new AntiSpamFilterStyles().
 				new AButton("Start optimization", AntiSpamFilterStyles.BTN_DEFAULT);
-		
+
 		startButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				System.out.println("Test Start optimization Button ");
 			}
 		});
-		
+
 
 		buttonPanel.add(configurationButton);
 		buttonPanel.add(startButton);
 		initiationPanel.add(buttonPanel);
 	}
 	
-	private void setConclusaoPanel() {
+	
+	private void implementResultsPanel() {
+		resultsPanel = new AntiSpamFilterStyles().new APanel();
+		resultsPanel.setPreferredSize(new Dimension(COMPONENT_MAX_WIDTH,200));
+		resultsPanel.setLayout(new BorderLayout());
+
+		resultsPanel = new AntiSpamFilterStyles().new APanel();
+		resultsPanel.setPreferredSize(new Dimension(COMPONENT_MAX_WIDTH,200));
+		resultsPanel.setLayout(new BorderLayout());
+
+		ALabel resultadoslabel = new AntiSpamFilterStyles().new ALabel("RESULTS WINDOW");
+		resultadoslabel.setHorizontalAlignment(ALabel.CENTER);		
+		
+		//Sprint Item
+		//Implementation of results panel
+		ALabel resultsLabel = new AntiSpamFilterStyles().new ALabel("Results Window");
+		resultsLabel.setHorizontalAlignment(ALabel.CENTER);
+		resultsLabel.setPreferredSize(new Dimension(500, 30));
+		ATextArea textBox= new AntiSpamFilterStyles().new ATextArea();
+		textBox.setEditable(false);
+		
+		resultsPanel.add(resultsLabel, BorderLayout.NORTH);
+		resultsPanel.add(textBox, BorderLayout.CENTER);
+		resultsPanel.setBorder(
+				BorderFactory.createEmptyBorder(0,COMPONENT_GAP,COMPONENT_GAP,COMPONENT_GAP));
+			
+		AScrollPane scrollArea = new AntiSpamFilterStyles().new AScrollPane(textBox);
+		resultsPanel.add(scrollArea);
+
+		
+		//futuramente iremos colocar os FP, FN e efficiency que vêm da configuração como variaveis
+		String title= new String("Optimizing Process Result:");
+		String fp= new String(" Final count of FP: X");
+		String fn= new String(" Final count of FN: Y");
+		String efficiency= new String(" Optimizing efficiency: W");
+		textBox.append(title + "\n");
+		textBox.append(fp + "\n" );
+		textBox.append(fn + "\n");
+		textBox.append(efficiency + "\n");
+	}
+	
+	
+	private void implementResultsAndConclusionPanel() {
+		conclusionPanel = new AntiSpamFilterStyles().new APanel();
+		conclusionPanel.setPreferredSize(new Dimension(COMPONENT_MAX_WIDTH,60));
+
+		//Implementation of results panel
+		implementConclusionPanel();
+
+		//Implementation of the environment
+		resultsAndConclusionPanel = new AntiSpamFilterStyles().new APanel();
+		
+		resultsAndConclusionPanel.setLayout(new BorderLayout());
+		resultsAndConclusionPanel.add(resultsPanel,BorderLayout.CENTER);
+		resultsAndConclusionPanel.add(conclusionPanel,BorderLayout.PAGE_END);
+	}
+
+	
+	private void implementConclusionPanel() {
 		//Implementation of the button panel ExitWithout e SaveExit
 		APanel buttonPanel = setButtonPanel(2);
 

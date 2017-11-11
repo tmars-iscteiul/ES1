@@ -16,6 +16,18 @@ import javax.swing.SpinnerNumberModel;
 
 import antiSpamFilter.AntiSpamFilterStyles.*;
 
+/**
+ * <p>AntiSpamFilterConfigurationGUI - the configuration GUI class</br>
+ * </br>
+ * The Graphics User Interface for the AntiSpamFilter manual configuration window. 
+ * The default window has a 500x500 size and a modern design. 
+ * With a six panel system design, it is possible to check and search all the
+ * rules applied in the e-mails, change the weight of them manually and test the
+ * optimization comparing it with the previous values.</p>
+ *
+ * @author ES1-2017-LIGE-PL-102
+ */
+
 public class AntiSpamFilterConfigurationGUI {
 	private JFrame antiSpamFilterFrame = new JFrame("AntiSpamFilter Configuration v1.0");
 	private AntiSpamFilterGUI gui;
@@ -35,7 +47,7 @@ public class AntiSpamFilterConfigurationGUI {
 	APanel ruleslistPanel, principalPanel, searchPanel, configurationPanel, inputPanel, applyPanel,
 		testsPanel, conclusionPanel;
 
-	public AntiSpamFilterConfigurationGUI(AntiSpamFilterGUI gui, Boolean visible) {
+	public AntiSpamFilterConfigurationGUI(AntiSpamFilterGUI gui, boolean visible) {
 		//Dimension and position of the window
 		antiSpamFilterFrame.setSize(WINDOW_HSIZE, WINDOW_VSIZE);
 		antiSpamFilterFrame.setLocationRelativeTo(null);
@@ -74,7 +86,7 @@ public class AntiSpamFilterConfigurationGUI {
 		principalPanel.add(conclusionPanel, BorderLayout.PAGE_END);
 
 		
-		//Implementação do ambiente
+		//Implementation of the environment
 		antiSpamFilterFrame.setLayout(new BorderLayout(2,2));
 
 		antiSpamFilterFrame.getContentPane().add(ruleslistPanel,BorderLayout.WEST);
@@ -111,69 +123,7 @@ public class AntiSpamFilterConfigurationGUI {
 		});
 	}
 
-	private void setTestResultsPanel() {
-		//Implements the test results window
-		testsPanel.setLayout(new BorderLayout(COMPONENT_GAP,COMPONENT_GAP));
-		ALabel testsLabel = new AntiSpamFilterStyles().new ALabel("Test results");
-		String[] testResults = {"FP: 38 in 2000 mails", "FN: 45 in 2000 mails", "Compare results: improved", "Efficiency: 7%", "Tip: save the optimization values"};
-		AList testResultsList = new AntiSpamFilterStyles().new AList(testResults);
-		testResultsList.setFont(new Font("Arial", Font.PLAIN, 16));
-		testsPanel.add(testsLabel, BorderLayout.PAGE_START);
-		testsPanel.add(testResultsList, BorderLayout.CENTER);
-	}
-
-	private void setApplyTestButtons() {
-		//Implementation of apply and test buttons
-		applyPanel = new AntiSpamFilterStyles().new APanel();
-		applyPanel.setPreferredSize(new Dimension(COMPONENT_MAX_WIDTH,40));
-		setApplyPanel();
-	}
-
-	private void setInputPanel() {
-		//Implementation of input window
-		inputPanel.setLayout(new BorderLayout(COMPONENT_GAP,COMPONENT_GAP));
-		ALabel configurationLabel = new AntiSpamFilterStyles().new ALabel("Configuration Panel");
-		ALabel weightLabel = new AntiSpamFilterStyles().new ALabel("Rule weight:", AntiSpamFilterStyles.TXT_SMALL);
-
-		SpinnerModel spinnerModel = new SpinnerNumberModel(INIC_RULE, MIN_RULE, MAX_RULE, INT_RULE);
-		ASpinner spinner = new AntiSpamFilterStyles().new ASpinner(spinnerModel);
-
-		inputPanel.add(configurationLabel, BorderLayout.PAGE_START);
-		inputPanel.add(weightLabel, BorderLayout.LINE_START);
-		inputPanel.add(spinner, BorderLayout.CENTER);
-	}
-
-	private void setRuleConfigurationPanel() {
-		//Implementation of rule configuration window
-		configurationPanel = new AntiSpamFilterStyles().new APanel();
-		inputPanel = new AntiSpamFilterStyles().new APanel();
-		testsPanel = new AntiSpamFilterStyles().new APanel();
-	}
-
-	private void setSearchPanel() {
-		//Implementation of search window
-		searchPanel = new AntiSpamFilterStyles().new APanel();
-		ATextField searchField = new AntiSpamFilterStyles().new ATextField("");
-		searchField.setPlaceholder("Search field");
-
-		AButton clearSearchButton = 
-				new AntiSpamFilterStyles().
-				new AButton("Clear search", AntiSpamFilterStyles.BTN_DEFAULT);
-
-		searchPanel.setLayout(new BorderLayout(COMPONENT_GAP,5));
-		searchPanel.setPreferredSize(new Dimension(200,75));
-		searchPanel.add(searchField,BorderLayout.NORTH);
-		searchPanel.add(clearSearchButton, BorderLayout.CENTER);
-	}
-
-	private void setMainConfigurationPanel() {
-		//Implementation of main configuration window
-		principalPanel = new AntiSpamFilterStyles().new APanel();
-		principalPanel.setLayout(new BorderLayout(COMPONENT_GAP,COMPONENT_GAP));
-		principalPanel.setBorder(
-				BorderFactory.createEmptyBorder(COMPONENT_GAP,COMPONENT_GAP,COMPONENT_GAP,COMPONENT_GAP));
-	}
-
+	
 	private void setRulesListPanel() {
 		//Implementation of rules list window
 		ruleslistPanel = new AntiSpamFilterStyles().new APanel();
@@ -191,6 +141,76 @@ public class AntiSpamFilterConfigurationGUI {
 		ruleslistPanel.add(rulesList, BorderLayout.CENTER);
 	}
 
+	
+	private void setMainConfigurationPanel() {
+		//Implementation of main configuration window
+		principalPanel = new AntiSpamFilterStyles().new APanel();
+		principalPanel.setLayout(new BorderLayout(COMPONENT_GAP,COMPONENT_GAP));
+		principalPanel.setBorder(
+				BorderFactory.createEmptyBorder(COMPONENT_GAP,COMPONENT_GAP,COMPONENT_GAP,COMPONENT_GAP));
+	}
+
+	
+	private void setSearchPanel() {
+		//Implementation of search window
+		searchPanel = new AntiSpamFilterStyles().new APanel();
+		ATextField searchField = new AntiSpamFilterStyles().new ATextField("");
+		searchField.setPlaceholder("Search field");
+
+		AButton clearSearchButton = 
+				new AntiSpamFilterStyles().
+				new AButton("Clear search", AntiSpamFilterStyles.BTN_DEFAULT);
+
+		searchPanel.setLayout(new BorderLayout(COMPONENT_GAP,5));
+		searchPanel.setPreferredSize(new Dimension(200,75));
+		searchPanel.add(searchField,BorderLayout.NORTH);
+		searchPanel.add(clearSearchButton, BorderLayout.CENTER);
+	}
+
+	
+	private void setRuleConfigurationPanel() {
+		//Implementation of rule configuration window
+		configurationPanel = new AntiSpamFilterStyles().new APanel();
+		inputPanel = new AntiSpamFilterStyles().new APanel();
+		testsPanel = new AntiSpamFilterStyles().new APanel();
+	}
+
+	
+	private void setInputPanel() {
+		//Implementation of input window
+		inputPanel.setLayout(new BorderLayout(COMPONENT_GAP,COMPONENT_GAP));
+		ALabel configurationLabel = new AntiSpamFilterStyles().new ALabel("Configuration Panel");
+		ALabel weightLabel = new AntiSpamFilterStyles().new ALabel("Rule weight:", AntiSpamFilterStyles.TXT_SMALL);
+
+		SpinnerModel spinnerModel = new SpinnerNumberModel(INIC_RULE, MIN_RULE, MAX_RULE, INT_RULE);
+		ASpinner spinner = new AntiSpamFilterStyles().new ASpinner(spinnerModel);
+
+		inputPanel.add(configurationLabel, BorderLayout.PAGE_START);
+		inputPanel.add(weightLabel, BorderLayout.LINE_START);
+		inputPanel.add(spinner, BorderLayout.CENTER);
+	}
+
+	
+	private void setApplyTestButtons() {
+		//Implementation of apply and test buttons
+		applyPanel = new AntiSpamFilterStyles().new APanel();
+		applyPanel.setPreferredSize(new Dimension(COMPONENT_MAX_WIDTH,40));
+		setApplyPanel();
+	}
+
+	
+	private void setTestResultsPanel() {
+		//Implements the test results window
+		testsPanel.setLayout(new BorderLayout(COMPONENT_GAP,COMPONENT_GAP));
+		ALabel testsLabel = new AntiSpamFilterStyles().new ALabel("Test results");
+		String[] testResults = {"FP: 38 in 2000 mails", "FN: 45 in 2000 mails", "Compare results: improved", "Efficiency: 7%", "Tip: save the optimization values"};
+		AList testResultsList = new AntiSpamFilterStyles().new AList(testResults);
+		testResultsList.setFont(new Font("Arial", Font.PLAIN, 16));
+		testsPanel.add(testsLabel, BorderLayout.PAGE_START);
+		testsPanel.add(testResultsList, BorderLayout.CENTER);
+	}
+
+	
 	private void setApplyPanel() {
 		APanel buttonPanel = setButtonPanel();
 
