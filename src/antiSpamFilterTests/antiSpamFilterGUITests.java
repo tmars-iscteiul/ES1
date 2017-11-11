@@ -19,6 +19,7 @@ import antiSpamFilter.AntiSpamFilterGUI;
  */
 public class antiSpamFilterGUITests {
 
+	private AntiSpamFilterGUI gui = new AntiSpamFilterGUI();
 	/**
 	 * @throws java.lang.Exception
 	 */
@@ -52,8 +53,7 @@ public class antiSpamFilterGUITests {
 	 */
 	@Test
 	public void testGetSerialversionuid() {
-		AntiSpamFilterGUI anti = new AntiSpamFilterGUI();
-		assertEquals(1L, anti.getSerialversionuid());
+		assertEquals(1L, gui.getSerialversionuid());
 	}
 
 	/**
@@ -77,7 +77,7 @@ public class antiSpamFilterGUITests {
 	 */
 	@Test
 	public void testGetWINDOW_HSIZE() {
-		fail("Not yet implemented");
+		assertEquals(500, gui.getWINDOW_HSIZE());
 	}
 
 	/**
@@ -85,7 +85,7 @@ public class antiSpamFilterGUITests {
 	 */
 	@Test
 	public void testGetWINDOW_VSIZE() {
-		fail("Not yet implemented");
+		assertEquals(600, gui.getWINDOW_VSIZE());
 	}
 
 	/**
@@ -93,7 +93,7 @@ public class antiSpamFilterGUITests {
 	 */
 	@Test
 	public void testGetCOMPONENT_GAP() {
-		fail("Not yet implemented");
+		assertEquals(20, gui.getCOMPONENT_GAP());
 	}
 
 	/**
@@ -101,7 +101,7 @@ public class antiSpamFilterGUITests {
 	 */
 	@Test
 	public void testGetCOMPONENT_MAX_WIDTH() {
-		fail("Not yet implemented");
+		assertEquals(gui.getWINDOW_HSIZE()-(2*gui.getCOMPONENT_GAP()), gui.getCOMPONENT_MAX_WIDTH());
 	}
 
 	/**
