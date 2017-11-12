@@ -10,7 +10,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.File;
-import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
@@ -42,27 +41,24 @@ public class AntiSpamFilterGUI {
 	private final int COMPONENT_MAX_WIDTH = WINDOW_HSIZE-(2*COMPONENT_GAP);
 	
 	private String SPAM_FILENAME;
-	private String SPAM_DIRECTORY;
 	private File SPAM_FILE;
 	
 	private String HAM_FILENAME;
-	private String HAM_DIRECTORY;
 	private File HAM_FILE;
 	
 	private String RULES_FILENAME;
-	private String RULES_DIRECTORY;
 	private File RULES_FILE;
 	
-	ArrayList<Email> listOfEmails, listOfEmailsSpam, listOfEmailsHam;
-	ArrayList<Rule> listOfRules;
-	
+	private AntiSpamFilterAutomaticConfiguration main;
 	
 	//Panels initiation
 	APanel loadingPanel, initiationPanel, resultsPanel, conclusionPanel, resultsAndConclusionPanel;
 	AntiSpamFilterConfigurationGUI configureGUI;
 	
 
-	public AntiSpamFilterGUI() {
+	public AntiSpamFilterGUI(AntiSpamFilterAutomaticConfiguration main) {
+		this.main = main;
+		
 		//Window dimension
 		antiSpamFilterFrame.setSize(WINDOW_HSIZE, WINDOW_VSIZE);
 		antiSpamFilterFrame.setLocationRelativeTo(null);
@@ -152,7 +148,6 @@ public class AntiSpamFilterGUI {
 				spamFile.setMode(FileDialog.LOAD);
 				spamFile.setFile("*.log");
 				spamFile.setVisible(true);
-				SPAM_DIRECTORY = spamFile.getDirectory();
 				SPAM_FILENAME = spamFile.getFile();
 				
 				if (SPAM_FILENAME != null) {
@@ -170,7 +165,6 @@ public class AntiSpamFilterGUI {
 				hamFile.setMode(FileDialog.LOAD);
 				hamFile.setFile("*.log");
 				hamFile.setVisible(true);
-				HAM_DIRECTORY = hamFile.getDirectory();
 				HAM_FILENAME = hamFile.getFile();
 				
 				if (HAM_FILENAME != null) {
@@ -188,7 +182,6 @@ public class AntiSpamFilterGUI {
 				rulesFile.setMode(FileDialog.LOAD);
 				rulesFile.setFile("*.cf");
 				rulesFile.setVisible(true);
-				RULES_DIRECTORY = rulesFile.getDirectory();
 				RULES_FILENAME = rulesFile.getFile();
 				
 				if (RULES_FILENAME != null) {
@@ -254,10 +247,10 @@ public class AntiSpamFilterGUI {
 		configurationButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				if (validateFiles()) buildRulesAndEmails();
-				
-				configureGUI.setVisible(true);
-				antiSpamFilterFrame.setEnabled(false);
+				if (main.validateFilesAndBuildRulesAndEmails(SPAM_FILE, HAM_FILE, RULES_FILE)) {
+					configureGUI.setVisible(true);
+					antiSpamFilterFrame.setEnabled(false);
+				}
 			}
 		});
 
@@ -268,9 +261,9 @@ public class AntiSpamFilterGUI {
 		startButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				if (validateFiles()) buildRulesAndEmails();
-				
-				System.out.println("Test Start optimization Button ");
+				if (main.validateFilesAndBuildRulesAndEmails(SPAM_FILE, HAM_FILE, RULES_FILE)) {
+					System.out.println("Test Start optimization Button ");
+				}
 			}
 		});
 
@@ -401,26 +394,6 @@ public class AntiSpamFilterGUI {
 		}
 	}
 	
-	protected boolean validateFiles() {
-		//Sprint item 1 and 2
-		// TODO Validation zone
-		
-		
-		return true;
-	}
-	
-	protected void buildRulesAndEmails() {
-		//Creation of the list of rules
-		//TODO Evoque the static class RuleStream to return the list
-		//listOfRules = RuleStream.getListOfRulesFromFile(RULES_FILE);
-		
-		//Creation of the lists of email Spam and email Ham
-		//listOfEmailsSpam = EmailStream.getListOfEmailsFromFile(SPAM_FILE, listOfRules);
-		//listOfEmailsHam = EmailStream.getListOfEmailsFromFile(HAM_FILE, listOfRules);
-
-		//System.out.println(listOfEmails);
-	}
-	
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
@@ -445,10 +418,6 @@ public class AntiSpamFilterGUI {
 		return SPAM_FILENAME;
 	}
 
-	public String getSPAM_DIRECTORY() {
-		return SPAM_DIRECTORY;
-	}
-
 	public File getSPAM_FILE() {
 		return SPAM_FILE;
 	}
@@ -457,20 +426,12 @@ public class AntiSpamFilterGUI {
 		return HAM_FILENAME;
 	}
 
-	public String getHAM_DIRECTORY() {
-		return HAM_DIRECTORY;
-	}
-
 	public File getHAM_FILE() {
 		return HAM_FILE;
 	}
 
 	public String getRULES_FILENAME() {
 		return RULES_FILENAME;
-	}
-
-	public String getRULES_DIRECTORY() {
-		return RULES_DIRECTORY;
 	}
 
 	public File getRULES_FILE() {

@@ -23,14 +23,23 @@ import java.util.Arrays;
 import java.util.List;
 
 public class AntiSpamFilterAutomaticConfiguration {
-  private static final int INDEPENDENT_RUNS = 5 ;
+	private static final int INDEPENDENT_RUNS = 5 ;
 
-  public static void main(String[] args) throws IOException {
-    String experimentBaseDirectory = "experimentBaseDirectory";
-    
-    new AntiSpamFilterGUI();
- 
-/*
+	ArrayList<Email> listOfEmails, listOfEmailsSpam, listOfEmailsHam;
+	ArrayList<Rule> listOfRules;
+	
+	File spamFile, hamFile, rulesFile;
+	
+	public AntiSpamFilterAutomaticConfiguration() {
+		new AntiSpamFilterGUI(this);
+	}
+
+	public static void main(String[] args) throws IOException {
+		String experimentBaseDirectory = "experimentBaseDirectory";
+
+		new AntiSpamFilterAutomaticConfiguration();
+		
+		/*
     List<ExperimentProblem<DoubleSolution>> problemList = new ArrayList<>();
     problemList.add(new ExperimentProblem<>(new AntiSpamFilterProblem()));
 
@@ -55,7 +64,7 @@ public class AntiSpamFilterAutomaticConfiguration {
     new ComputeQualityIndicators<>(experiment).run() ;
     new GenerateLatexTablesWithStatistics(experiment).run() ;
     new GenerateBoxplotsWithR<>(experiment).setRows(1).setColumns(1).run() ;
-    
+
   }
 
   static List<ExperimentAlgorithm<DoubleSolution, List<DoubleSolution>>> configureAlgorithmList(
@@ -72,8 +81,41 @@ public class AntiSpamFilterAutomaticConfiguration {
               .build();
       algorithms.add(new ExperimentAlgorithm<>(algorithm, "NSGAII", problemList.get(i).getTag()));
     }
-   
+
     return algorithms; */
-  }
+	}
+
+	protected boolean validateFilesAndBuildRulesAndEmails(File spamFile, File hamFile, File rulesFile) {
+		this.spamFile = spamFile;
+		this.hamFile = hamFile;
+		this.rulesFile = rulesFile;
+		
+		//Sprint item 1 and 2
+		if (!validateFiles()) return false;
+		
+		//Creation of the list of rules
+		if (!buildRulesAndEmails()) return false;
+
+		return true;
+	}
+
+	private boolean validateFiles() {
+		// TODO Validation zone
+		
+		return true;
+	}
+
+	private boolean buildRulesAndEmails() {
+		//TODO Evoque the static class RuleStream to return the list
+		//listOfRules = RuleStream.getListOfRulesFromFile(rulesFile);
+
+		//Creation of the lists of email Spam and email Ham
+		listOfEmailsSpam = EmailStream.getListOfEmailsFromFile(spamFile, listOfRules);
+		listOfEmailsHam = EmailStream.getListOfEmailsFromFile(hamFile, listOfRules);
+		
+		if (listOfEmailsSpam == null || listOfEmailsHam == null) return false;
+		
+		return true;
+	}
 
 }

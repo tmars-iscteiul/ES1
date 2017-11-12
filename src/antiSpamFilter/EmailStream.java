@@ -67,6 +67,7 @@ public class EmailStream {
 			} catch (IOException e) {
 				AOptionPane.showMessageDialog(
 						null, "Could not read the file", "Error", AOptionPane.ERROR_MESSAGE);
+				return null;
 			}
 
 			try {
@@ -74,11 +75,13 @@ public class EmailStream {
 			} catch (IOException e) {
 				AOptionPane.showMessageDialog(
 						null, "Could not read the file.", "Error", AOptionPane.ERROR_MESSAGE);
+				return null;
 			}
 
 		} catch (FileNotFoundException e) {
 			AOptionPane.showMessageDialog(
 					null, "File not found. Confirm the link.", "Error", AOptionPane.ERROR_MESSAGE);
+			return null;
 		}
 		
 		return list;
