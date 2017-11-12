@@ -263,6 +263,7 @@ public class AntiSpamFilterGUI {
 			public void actionPerformed(ActionEvent arg0) {
 				if (main.validateFilesAndBuildRulesAndEmails(SPAM_FILE, HAM_FILE, RULES_FILE)) {
 					System.out.println("Test Start optimization Button ");
+					main.runOptimization();
 				}
 			}
 		});

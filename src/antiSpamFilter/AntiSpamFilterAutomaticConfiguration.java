@@ -24,84 +24,101 @@ import java.util.List;
 
 public class AntiSpamFilterAutomaticConfiguration {
 	private static final int INDEPENDENT_RUNS = 5 ;
+	private boolean filesAreValidated = false;
 
 	ArrayList<Email> listOfEmails, listOfEmailsSpam, listOfEmailsHam;
 	ArrayList<Rule> listOfRules;
-	
+
 	File spamFile, hamFile, rulesFile;
-	
+
 	public AntiSpamFilterAutomaticConfiguration() {
 		new AntiSpamFilterGUI(this);
 	}
 
-	public static void main(String[] args) throws IOException {
-		String experimentBaseDirectory = "experimentBaseDirectory";
+	public static void main(String[] args) {
+
 
 		new AntiSpamFilterAutomaticConfiguration();
+	}
+
+	public void runOptimization() {
 		
-		/*
-    List<ExperimentProblem<DoubleSolution>> problemList = new ArrayList<>();
-    problemList.add(new ExperimentProblem<>(new AntiSpamFilterProblem()));
+		if (!filesAreValidated) {
+			String experimentBaseDirectory = "experimentBaseDirectory";
 
-    List<ExperimentAlgorithm<DoubleSolution, List<DoubleSolution>>> algorithmList =
-            configureAlgorithmList(problemList);
+			List<ExperimentProblem<DoubleSolution>> problemList = new ArrayList<>();
+			problemList.add(new ExperimentProblem<>(new AntiSpamFilterProblem()));
 
-    Experiment<DoubleSolution, List<DoubleSolution>> experiment =
-        new ExperimentBuilder<DoubleSolution, List<DoubleSolution>>("AntiSpamStudy")
-            .setAlgorithmList(algorithmList)
-            .setProblemList(problemList)
-            .setExperimentBaseDirectory(experimentBaseDirectory)
-            .setOutputParetoFrontFileName("FUN")
-            .setOutputParetoSetFileName("VAR")
-            .setReferenceFrontDirectory(experimentBaseDirectory+"/referenceFronts")
-            .setIndicatorList(Arrays.asList(new PISAHypervolume<DoubleSolution>()))
-            .setIndependentRuns(INDEPENDENT_RUNS)
-            .setNumberOfCores(8)
-            .build();
+			List<ExperimentAlgorithm<DoubleSolution, List<DoubleSolution>>> algorithmList =
+					configureAlgorithmList(problemList);
 
-    new ExecuteAlgorithms<>(experiment).run();
-    new GenerateReferenceParetoSetAndFrontFromDoubleSolutions(experiment).run();
-    new ComputeQualityIndicators<>(experiment).run() ;
-    new GenerateLatexTablesWithStatistics(experiment).run() ;
-    new GenerateBoxplotsWithR<>(experiment).setRows(1).setColumns(1).run() ;
+			Experiment<DoubleSolution, List<DoubleSolution>> experiment =
+					new ExperimentBuilder<DoubleSolution, List<DoubleSolution>>("AntiSpamStudy")
+					.setAlgorithmList(algorithmList)
+					.setProblemList(problemList)
+					.setExperimentBaseDirectory(experimentBaseDirectory)
+					.setOutputParetoFrontFileName("FUN")
+					.setOutputParetoSetFileName("VAR")
+					.setReferenceFrontDirectory(experimentBaseDirectory+"/referenceFronts")
+					.setIndicatorList(Arrays.asList(new PISAHypervolume<DoubleSolution>()))
+					.setIndependentRuns(INDEPENDENT_RUNS)
+					.setNumberOfCores(8)
+					.build();
 
-  }
+			new ExecuteAlgorithms<>(experiment).run();
+			try {
+				new GenerateReferenceParetoSetAndFrontFromDoubleSolutions(experiment).run();
+				new ComputeQualityIndicators<>(experiment).run();
+				new GenerateLatexTablesWithStatistics(experiment).run();
+				new GenerateBoxplotsWithR<>(experiment).setRows(1).setColumns(1).run();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
 
-  static List<ExperimentAlgorithm<DoubleSolution, List<DoubleSolution>>> configureAlgorithmList(
-          List<ExperimentProblem<DoubleSolution>> problemList) {
-    List<ExperimentAlgorithm<DoubleSolution, List<DoubleSolution>>> algorithms = new ArrayList<>();
+	static List<ExperimentAlgorithm<DoubleSolution, List<DoubleSolution>>> configureAlgorithmList(
+			List<ExperimentProblem<DoubleSolution>> problemList) {
+		List<ExperimentAlgorithm<DoubleSolution, List<DoubleSolution>>> algorithms = new ArrayList<>();
 
-    for (int i = 0; i < problemList.size(); i++) {
-      Algorithm<List<DoubleSolution>> algorithm = new NSGAIIBuilder<>(
-              problemList.get(i).getProblem(),
-              new SBXCrossover(1.0, 5),
-              new PolynomialMutation(1.0 / problemList.get(i).getProblem().getNumberOfVariables(), 10.0))
-              .setMaxEvaluations(25000)
-              .setPopulationSize(100)
-              .build();
-      algorithms.add(new ExperimentAlgorithm<>(algorithm, "NSGAII", problemList.get(i).getTag()));
-    }
+		for (int i = 0; i < problemList.size(); i++) {
+			Algorithm<List<DoubleSolution>> algorithm = new NSGAIIBuilder<>(
+					problemList.get(i).getProblem(),
+					new SBXCrossover(1.0, 5),
+					new PolynomialMutation(1.0 / problemList.get(i).getProblem().getNumberOfVariables(), 10.0))
+					.setMaxEvaluations(25000)
+					.setPopulationSize(100)
+					.build();
+			algorithms.add(new ExperimentAlgorithm<>(algorithm, "NSGAII", problemList.get(i).getTag()));
+		}
 
-    return algorithms; */
+		return algorithms;
 	}
 
 	protected boolean validateFilesAndBuildRulesAndEmails(File spamFile, File hamFile, File rulesFile) {
 		this.spamFile = spamFile;
 		this.hamFile = hamFile;
 		this.rulesFile = rulesFile;
-		
-		//Sprint item 1 and 2
+
 		if (!validateFiles()) return false;
-		
+
 		//Creation of the list of rules
 		if (!buildRulesAndEmails()) return false;
 
+		filesAreValidated = true;
 		return true;
 	}
 
-	private boolean validateFiles() {
-		// TODO Validation zone
-		
+	private boolean validateFiles() {		
+		//Sprint item 1
+		//TODO Validation of the spam and ham log files
+
+
+		//Sprint item 2
+		//TODO Validation of the rules file
+
+
 		return true;
 	}
 
@@ -112,9 +129,12 @@ public class AntiSpamFilterAutomaticConfiguration {
 		//Creation of the lists of email Spam and email Ham
 		listOfEmailsSpam = EmailStream.getListOfEmailsFromFile(spamFile, listOfRules);
 		listOfEmailsHam = EmailStream.getListOfEmailsFromFile(hamFile, listOfRules);
-		
+
 		if (listOfEmailsSpam == null || listOfEmailsHam == null) return false;
-		
+
+		listOfEmails.addAll(listOfEmailsSpam);
+		listOfEmails.addAll(listOfEmailsHam);
+
 		return true;
 	}
 

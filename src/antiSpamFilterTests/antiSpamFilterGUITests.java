@@ -19,7 +19,7 @@ import antiSpamFilter.AntiSpamFilterGUI;
  */
 public class antiSpamFilterGUITests {
 
-	private AntiSpamFilterGUI gui = new AntiSpamFilterGUI();
+	private AntiSpamFilterGUI gui = new AntiSpamFilterGUI(null);
 	/**
 	 * @throws java.lang.Exception
 	 */
@@ -53,7 +53,7 @@ public class antiSpamFilterGUITests {
 	 */
 	@Test
 	public void testGetSerialversionuid() {
-		assertEquals(1L, gui.getSerialversionuid());
+		assertEquals(1L, AntiSpamFilterGUI.getSerialversionuid());
 	}
 
 	/**
