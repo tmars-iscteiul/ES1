@@ -10,6 +10,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.File;
+import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
@@ -51,6 +52,9 @@ public class AntiSpamFilterGUI {
 	private String RULES_FILENAME;
 	private String RULES_DIRECTORY;
 	private File RULES_FILE;
+	
+	ArrayList<Email> listOfEmails, listOfEmailsSpam, listOfEmailsHam;
+	ArrayList<Rule> listOfRules;
 	
 	
 	//Panels initiation
@@ -250,6 +254,8 @@ public class AntiSpamFilterGUI {
 		configurationButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
+				if (validateFiles()) buildRulesAndEmails();
+				
 				configureGUI.setVisible(true);
 				antiSpamFilterFrame.setEnabled(false);
 			}
@@ -262,6 +268,8 @@ public class AntiSpamFilterGUI {
 		startButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
+				if (validateFiles()) buildRulesAndEmails();
+				
 				System.out.println("Test Start optimization Button ");
 			}
 		});
@@ -272,7 +280,7 @@ public class AntiSpamFilterGUI {
 		initiationPanel.add(buttonPanel);
 	}
 	
-	
+
 	private void implementResultsPanel() {
 		resultsPanel = new AntiSpamFilterStyles().new APanel();
 		resultsPanel.setPreferredSize(new Dimension(COMPONENT_MAX_WIDTH,200));
@@ -391,6 +399,26 @@ public class AntiSpamFilterGUI {
 		if (result == AOptionPane.OK_OPTION) {
 			System.exit(0);
 		}
+	}
+	
+	protected boolean validateFiles() {
+		//Sprint item 1 and 2
+		// TODO Validation zone
+		
+		
+		return true;
+	}
+	
+	protected void buildRulesAndEmails() {
+		//Creation of the list of rules
+		//TODO Evoque the static class RuleStream to return the list
+		//listOfRules = RuleStream.getListOfRulesFromFile(RULES_FILE);
+		
+		//Creation of the lists of email Spam and email Ham
+		//listOfEmailsSpam = EmailStream.getListOfEmailsFromFile(SPAM_FILE, listOfRules);
+		//listOfEmailsHam = EmailStream.getListOfEmailsFromFile(HAM_FILE, listOfRules);
+
+		//System.out.println(listOfEmails);
 	}
 	
 	public static long getSerialversionuid() {

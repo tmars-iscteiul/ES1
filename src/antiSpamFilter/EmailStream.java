@@ -6,6 +6,8 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import antiSpamFilter.AntiSpamFilterStyles.AOptionPane;
 
@@ -18,9 +20,18 @@ public class EmailStream {
 	public static ArrayList<Email> getListOfEmailsFromFile (File file, ArrayList<Rule> listOfRules) {
 		ArrayList<Email> list = new ArrayList<Email>();
 		String fileLine;
-		int emailType;
+		int emailType, rulePosition;
+		double finalWeight = 0;
 		String[] fileLineList, emailAtributesList;
-				
+		
+		//Implementation of the comparator of objects Rule
+		Comparator<Rule> compareName = new Comparator<Rule>() {
+			public int compare(Rule r1, Rule r2) {
+				return r1.getName().compareTo(r2.getName());
+			}
+		};
+		
+		//Start the reading		
 		try {
 			BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
 
@@ -31,34 +42,43 @@ public class EmailStream {
 
 					//emailAtributesList[2] = Email.type | emailAtributesList[3] = Email.Id
 					emailAtributesList = fileLineList[0].split("/");
-					ArrayList<Rule> emailRulesList = new ArrayList<Rule>();
+					ArrayList<Integer> emailRulesList = new ArrayList<Integer>();
 
 					//List of rules
 					for (int i = 1; i < fileLineList.length; i++) {
 						//Creation of the list of rules for the e-mail
-						Rule rule = new Rule(); //TODO creation of the object Rule
-						emailRulesList.add(rule);
+						rulePosition = Collections.binarySearch(
+								listOfRules, new Rule(fileLineList[i],0), compareName);
+						
+						emailRulesList.add(rulePosition);
+						
+						//Calculation of the final weight of the email
+						finalWeight += listOfRules.get(rulePosition).getWeight();
 					}
-
+					
 					//Conversion of the type of email
 					if (emailAtributesList[2].equals("_SPAM_")) emailType = Email.SPAM;
 					else emailType = Email.HAM;
 
 					//Creation of the object Email and the addition to the list
-					list.add(new Email(emailAtributesList[3], emailRulesList, emailType));
+					list.add(new Email(emailAtributesList[3], emailRulesList, emailType, finalWeight));
 				}
+				
 			} catch (IOException e) {
-				AOptionPane.showMessageDialog(null, "Could not read the file", "Error", AOptionPane.ERROR_MESSAGE);
+				AOptionPane.showMessageDialog(
+						null, "Could not read the file", "Error", AOptionPane.ERROR_MESSAGE);
 			}
 
 			try {
 				bufferedReader.close();
 			} catch (IOException e) {
-				AOptionPane.showMessageDialog(null, "Could not read the file.", "Error", AOptionPane.ERROR_MESSAGE);
+				AOptionPane.showMessageDialog(
+						null, "Could not read the file.", "Error", AOptionPane.ERROR_MESSAGE);
 			}
 
 		} catch (FileNotFoundException e) {
-			AOptionPane.showMessageDialog(null, "File not found. Confirm the link.", "Error", AOptionPane.ERROR_MESSAGE);
+			AOptionPane.showMessageDialog(
+					null, "File not found. Confirm the link.", "Error", AOptionPane.ERROR_MESSAGE);
 		}
 		
 		return list;

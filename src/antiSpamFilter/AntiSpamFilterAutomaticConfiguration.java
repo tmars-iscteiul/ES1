@@ -29,11 +29,7 @@ public class AntiSpamFilterAutomaticConfiguration {
     String experimentBaseDirectory = "experimentBaseDirectory";
     
     new AntiSpamFilterGUI();
-    ArrayList<Email> listOfEmails = EmailStream.getListOfEmailsFromFile(new File(
-    		"C:/Users/tiago/Desktop/Formação/01 - ISCTE/3º ANO/01 - ENGENHARIA DE SOFTWARE I/Projecto/spam.log"),
-    		null);
-    
-    System.out.println(listOfEmails);
+ 
 /*
     List<ExperimentProblem<DoubleSolution>> problemList = new ArrayList<>();
     problemList.add(new ExperimentProblem<>(new AntiSpamFilterProblem()));
