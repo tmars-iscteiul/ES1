@@ -29,9 +29,10 @@ public class AntiSpamFilterAutomaticConfiguration {
 	ArrayList<Email> listOfEmails, listOfEmailsSpam, listOfEmailsHam;
 	ArrayList<Rule> listOfRules;
 
-	File spamFile, hamFile, rulesFile;
+	File spamFile, hamFile, rulesFile; 
 
 	public AntiSpamFilterAutomaticConfiguration() {
+		//validateFilesAndBuildRulesAndEmails(spamFile, hamFile, rulesFile);
 		new AntiSpamFilterGUI(this);
 	}
 
@@ -111,15 +112,22 @@ public class AntiSpamFilterAutomaticConfiguration {
 	}
 
 	private boolean validateFiles() {		
-		//Sprint item 1
+		boolean validateFiles=false;
+		
 		//TODO Validation of the spam and ham log files
-
-
-		//Sprint item 2
+		boolean validarHamFile=ReadLOG.readFile(new File("Ficheiros/ham.log"));
+		boolean validarSpamFile=ReadLOG.readFile(new File("Ficheiros/spam.log"));
+		System.out.println("validar ficheiro ham.log: " + validarHamFile);
+		System.out.println("validar ficheiro Spam.log: " + validarSpamFile);
+		
 		//TODO Validation of the rules file
+		boolean validarRulesFile;//adicionar ReadCF.readFile quando o ricardo acabar a validação
 
-
-		return true;
+		if(validarHamFile==true && validarSpamFile==true){//adicionar validarRulesFile==true quando Ricardo acabar
+			validateFiles= true;
+		}
+		
+		return validateFiles;
 	}
 
 	private boolean buildRulesAndEmails() {
