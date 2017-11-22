@@ -8,9 +8,10 @@ import java.util.Scanner;
 public class ReadLOG {
 	
 	public static void readFile(File f) {
-		boolean hamFileValidation = false;
+		boolean validated = false;
 		boolean linhaComParametrosAMais=false;
 		int contadorHam =0;
+		int contadorSpam =0;
 		int contadorLinhas=0;
 		
 		String []hamFileFields = null;
@@ -31,7 +32,7 @@ public class ReadLOG {
 				//Divisão da primeira coluna do ficheiro em /
 				firstFieldSplit= hamFileFields[0].split("/");
 				
-				//Adicionar o nome de todas as linhas do ficheiro "ham.log" à lista "nameList"
+				//Adicionar o nome de todas as linhas do ficheiro "ham.log"ou"spam.log à lista "nameList"
 				nameList.add(firstFieldSplit[2]);
 				
 				//Verificar número de parametros da primeira coluna (firstFieldSplit[])
@@ -42,7 +43,7 @@ public class ReadLOG {
 				
 			}
 			
-			//Verificar se o nome do email está correto (ham)
+			//Verificar se o nome de cada email do ficheiro ham.log está correto
 			for(int i=0; i<nameList.size();i++){
 				if(nameList.get(i).equals("_ham_")){
 					contadorHam++;
@@ -51,13 +52,27 @@ public class ReadLOG {
 					System.out.println("Linha: '"+ (i+1)+"' com nome incorreto: "+nameList.get(i)); 
 				}
 			}
-			
 			//Validação do ficheiro ham.log
 			if(contadorHam==contadorLinhas && linhaComParametrosAMais==false){
-				hamFileValidation=true;
+				validated=true;
+				System.out.println("Validação do ficheiro ham.log: "+ validated);
 			}
 			
-			System.out.println(hamFileValidation);
+			//Verificar se o nome de cada email do ficheiro spam.log está correto
+			for(int j=0; j<nameList.size();j++){
+				if(nameList.get(j).equals("_spam_")){
+					contadorSpam++;
+				}
+				else{
+					System.out.println("Linha: '"+ (j+1)+"' com nome incorreto: "+nameList.get(j)); 
+				}
+			}
+			//Validação do ficheiro spam.log
+			if(contadorSpam==contadorLinhas && linhaComParametrosAMais==false){
+				validated=true;
+				System.out.println("Validação do ficheiro spam.log: " + validated);
+			}
+			
 
 		} catch (FileNotFoundException e) {
 			e.getStackTrace();
@@ -67,6 +82,7 @@ public class ReadLOG {
 
 	public static void main(String[] args) {
 		readFile(new File("Ficheiros/ham.log"));
+		//readFile(new File("Ficheiros/spam.log"));
 	}
 
 }
