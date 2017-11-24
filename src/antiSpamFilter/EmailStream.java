@@ -12,6 +12,13 @@ import java.util.Comparator;
 import antiSpamFilter.AntiSpamFilterStyles.AOptionPane;
 
 /**
+ * <p>EmailStream - the creation of the object Email through the log files</br>
+ * </br>
+ * The EmailStream class reads the email log files and extracts the information.
+ * This class returns the list of emails read from the file. 
+ * It is important to assure that the log files are not corrupted and were before
+ * validated.</p>
+ * 
  * @author ES1-2017-LIGE-PL-102
  *
  */
