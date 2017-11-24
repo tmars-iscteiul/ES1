@@ -6,17 +6,45 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class ReadLOG {
+	static boolean validated = false;
+	static boolean linhaComParametrosAMais=false;
+	static int contadorHam =0;
+	static int contadorSpam =0;
+	static int contadorLinhas=0;
+	
+	static String []hamFileFields = null;
+	static String []firstFieldSplit = null;
+	static ArrayList<String> typeList = new ArrayList<String>();
+	
+	public static boolean verificarTipoEmail(File f){
+		if(f.getName().equals("ham.log")){
+			//Verificar se o tipo de cada email do ficheiro ham.log está correto
+			for(int i=0; i<typeList.size();i++){
+				if(typeList.get(i).equals("_ham_")){
+					return true;
+				}
+				else{
+					return false;
+				}
+			}
+		}
+		else if(f.getName().equals("spam.log")){
+			//Verificar se o tipo de cada email do ficheiro spam.log está correto
+			for(int j=0; j<typeList.size();j++){
+				if(typeList.get(j).equals("_spam_")){
+					return true;
+				}
+				else{
+					return false;
+				}
+			}
+		}
+		//Ficheiro não interessante para o software AntiSpam
+		return false;
+	}
 	
 	public static boolean readFile(File f) {
-		boolean validated = false;
-		boolean linhaComParametrosAMais=false;
-		int contadorHam =0;
-		int contadorSpam =0;
-		int contadorLinhas=0;
 		
-		String []hamFileFields = null;
-		String []firstFieldSplit = null;
-		ArrayList<String> nameList = new ArrayList<String>();
 		
 		try {
 			Scanner s = new Scanner(f);
@@ -32,57 +60,23 @@ public class ReadLOG {
 				firstFieldSplit= hamFileFields[0].split("/");
 				
 				//Adicionar o nome de todas as linhas do ficheiro "ham.log"ou"spam.log à lista "nameList"
-				nameList.add(firstFieldSplit[2]);
+				typeList.add(firstFieldSplit[2]);
+				
+				if(verificarTipoEmail(f)==false){
+					return false;
+				}
 				
 				//Verificar número de parametros da primeira coluna (firstFieldSplit[])
-				if (firstFieldSplit.length>4){
-					linhaComParametrosAMais=true;
-					System.out.println("Linha: '"+ contadorLinhas+ "' do ficheiro: "+f.getName()+" ,com parametros a mais");
-				}
-			}
-			
-			if(f.getName().equals("ham.log")){
-				//Verificar se o nome de cada email do ficheiro ham.log está correto
-				for(int i=0; i<nameList.size();i++){
-					if(nameList.get(i).equals("_ham_")){
-						contadorHam++;
-					}
-					else{
-						System.out.println("Linha: '"+ (i+1)+"' com nome incorreto: "+nameList.get(i)); 
-					}
-				}
-				//Validação do ficheiro ham.log
-				if(contadorHam==contadorLinhas && linhaComParametrosAMais==false){
-					validated=true;
+				if (firstFieldSplit.length>4||firstFieldSplit.length<4){
+					return false;
 				}
 				
+				s.close();
 			}
-			else if(f.getName().equals("spam.log")){
-				//Verificar se o nome de cada email do ficheiro spam.log está correto
-				for(int j=0; j<nameList.size();j++){
-					if(nameList.get(j).equals("_spam_")){
-						contadorSpam++;
-					}
-					else{
-						System.out.println("Linha: '"+ (j+1)+"' com nome incorreto: "+nameList.get(j)); 
-						
-					}
-				}
-				//Validação do ficheiro spam.log
-				if(contadorSpam==contadorLinhas && linhaComParametrosAMais==false){
-					validated=true;
-				}
-			}
-			else{
-				//Ficheiro não interessante para o software AntiSpam
-			}
-			
-			
 		} catch (FileNotFoundException e) {
 			e.getStackTrace();
 		}
-		return validated;
-		
+		return true;
 	}
 
 }

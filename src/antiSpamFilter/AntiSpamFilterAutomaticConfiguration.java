@@ -109,20 +109,14 @@ public class AntiSpamFilterAutomaticConfiguration {
 	}
 
 	private boolean validateFiles() {		
-		boolean validateFiles=false;
-		
-		//TODO Validation of the spam and ham log files
-		boolean validarHamFile=ReadLOG.readFile(new File("Ficheiros/ham.log"));
-		boolean validarSpamFile=ReadLOG.readFile(new File("Ficheiros/spam.log"));
-		
 		//TODO Validation of the rules file
-		boolean validarRulesFile;//adicionar ReadCF.readFile quando o ricardo acabar a validação
+		boolean validarRulesFile = false;//adicionar ReadCF.readFile quando o ricardo acabar a validação
 
-		if(validarHamFile==true && validarSpamFile==true){//adicionar validarRulesFile==true quando Ricardo acabar
-			validateFiles= true;
+		if(ReadLOG.readFile(hamFile) && ReadLOG.readFile(spamFile)&& validarRulesFile==true){//adicionar validarRulesFile==true quando Ricardo acabar
+			return true;
 		}
+		return false;
 		
-		return validateFiles;
 	}
 
 	private boolean buildRulesAndEmails() {
