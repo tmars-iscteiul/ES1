@@ -18,7 +18,7 @@ import antiSpamFilter.AntiSpamFilterStyles.AOptionPane;
 public class EmailStream {
 
 	public static ArrayList<Email> getListOfEmailsFromFile (File file, ArrayList<Rule> listOfRules) {
-		ArrayList<Email> list = new ArrayList<Email>();
+		ArrayList<Email> listOfAllEmails = new ArrayList<Email>();
 		String fileLine;
 		int emailType, rulePosition;
 		double finalWeight = 0;
@@ -44,16 +44,18 @@ public class EmailStream {
 					emailAtributesList = fileLineList[0].split("/");
 					ArrayList<Integer> emailRulesList = new ArrayList<Integer>();
 
-					//List of rules
-					for (int i = 1; i < fileLineList.length; i++) {
-						//Creation of the list of rules for the e-mail
-						rulePosition = Collections.binarySearch(
-								listOfRules, new Rule(fileLineList[i],0), compareName);
-						
-						emailRulesList.add(rulePosition);
-						
-						//Calculation of the final weight of the email
-						finalWeight += listOfRules.get(rulePosition).getWeight();
+					//List of rules if exist
+					if (fileLineList.length > 1) {
+						for (int i = 1; i < fileLineList.length; i++) {
+							//Creation of the list of rules for the e-mail
+							rulePosition = Collections.binarySearch(
+									listOfRules, new Rule(fileLineList[i],0), compareName);
+
+							emailRulesList.add(rulePosition);
+
+							//Increment of the final weight of the email
+							finalWeight += listOfRules.get(rulePosition).getWeight();
+						}
 					}
 					
 					//Conversion of the type of email
@@ -61,7 +63,7 @@ public class EmailStream {
 					else emailType = Email.HAM;
 
 					//Creation of the object Email and the addition to the list
-					list.add(new Email(emailAtributesList[3], emailRulesList, emailType, finalWeight));
+					listOfAllEmails.add(new Email(emailAtributesList[3], emailRulesList, emailType, finalWeight));
 				}
 				
 			} catch (IOException e) {
@@ -84,7 +86,7 @@ public class EmailStream {
 			return null;
 		}
 		
-		return list;
+		return listOfAllEmails;
 	}
 	
 	public static void writeListOfEmailsToFile (File file, ArrayList<Email> list) {
