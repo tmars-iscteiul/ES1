@@ -2,12 +2,16 @@ package antiSpamFilter;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.PrintStream;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import org.apache.commons.lang3.StringUtils;
+
 public class ReadCF {
 
-	public static void read(File file) {
+	public static boolean read(File file) throws FileNotFoundException {
 
 		String line = null;
 		ArrayList<String> lineList = new ArrayList<String>();
@@ -18,20 +22,26 @@ public class ReadCF {
 			Scanner scanner = new Scanner(file);
 
 			while (scanner.hasNextLine()) {
-
+				
+			
 				line = scanner.nextLine();
 				line.split(" ");
 				lineList.add(line);
-				String[] vetor = line.split(" ");
+				String[] vetor = line.split("\t");
+				
+			
 
 
-				if (vetor.length == 1) 
-					regraValida = true;
+				if (vetor.length > 2) 
+					return false;
 
+
+			
+				if(vetor.length == 2 && !StringUtils.isNumericSpace(vetor[1]))
+					return false;
 					
-				System.out.println("regra valida: " + line + "---->"+ regraValida);
-
-				regraValida = false;
+				System.out.println(line);
+			
 			}
 			
 			scanner.close();
@@ -39,11 +49,13 @@ public class ReadCF {
 		} catch (FileNotFoundException e) {
 			e.getStackTrace();
 		}
+		return true;
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws FileNotFoundException {
 
 		read(new File("Ficheiros/rules.cf"));
+		
 
 	}
 
