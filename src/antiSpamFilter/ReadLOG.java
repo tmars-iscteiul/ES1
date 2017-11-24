@@ -8,9 +8,6 @@ import java.util.Scanner;
 public class ReadLOG {
 	static boolean validated = false;
 	static boolean linhaComParametrosAMais=false;
-	static int contadorHam =0;
-	static int contadorSpam =0;
-	static int contadorLinhas=0;
 	
 	static String []hamFileFields = null;
 	static String []firstFieldSplit = null;
@@ -50,7 +47,7 @@ public class ReadLOG {
 			Scanner s = new Scanner(f);
 			
 			while (s.hasNextLine()) {
-				contadorLinhas++;
+				
 				String nextLine = s.nextLine();
 				
 				//Divisão das diversas colunas do ficheiro
