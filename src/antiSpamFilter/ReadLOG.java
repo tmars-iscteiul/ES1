@@ -41,8 +41,6 @@ public class ReadLOG {
 				}
 			}
 			
-			System.out.println("Ficheiro nome: "+ f.getName());
-			
 			if(f.getName().equals("ham.log")){
 				//Verificar se o nome de cada email do ficheiro ham.log está correto
 				for(int i=0; i<nameList.size();i++){
@@ -57,10 +55,9 @@ public class ReadLOG {
 				if(contadorHam==contadorLinhas && linhaComParametrosAMais==false){
 					validated=true;
 				}
-				System.out.println("Validação do ficheiro ham.log: "+ validated);
 				
 			}
-			if(f.getName().equals("spam.log")){
+			else if(f.getName().equals("spam.log")){
 				//Verificar se o nome de cada email do ficheiro spam.log está correto
 				for(int j=0; j<nameList.size();j++){
 					if(nameList.get(j).equals("_spam_")){
@@ -68,17 +65,16 @@ public class ReadLOG {
 					}
 					else{
 						System.out.println("Linha: '"+ (j+1)+"' com nome incorreto: "+nameList.get(j)); 
+						
 					}
 				}
 				//Validação do ficheiro spam.log
 				if(contadorSpam==contadorLinhas && linhaComParametrosAMais==false){
 					validated=true;
 				}
-				System.out.println("Validação do ficheiro spam.log: " + validated);
 			}
 			else{
-				//System.out.println("Ficheiro não interessante para o software AntiSpam");
-				//nao sei porque aparece este print quando eu não estou a inserir nenhum ficheiro sem ser o ham ou o spam
+				//Ficheiro não interessante para o software AntiSpam
 			}
 			
 			
@@ -88,11 +84,5 @@ public class ReadLOG {
 		return validated;
 		
 	}
-
-	/*
-	public static void main(String[] args) {
-		readFile(new File("Ficheiros/ham.log"));
-		readFile(new File("Ficheiros/spam.log"));
-	}*/
 
 }

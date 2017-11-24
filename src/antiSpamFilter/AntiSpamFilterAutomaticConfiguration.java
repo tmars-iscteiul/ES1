@@ -32,13 +32,10 @@ public class AntiSpamFilterAutomaticConfiguration {
 	File spamFile, hamFile, rulesFile; 
 
 	public AntiSpamFilterAutomaticConfiguration() {
-		//validateFilesAndBuildRulesAndEmails(spamFile, hamFile, rulesFile);
 		new AntiSpamFilterGUI(this);
 	}
 
 	public static void main(String[] args) {
-
-
 		new AntiSpamFilterAutomaticConfiguration();
 	}
 
@@ -101,11 +98,12 @@ public class AntiSpamFilterAutomaticConfiguration {
 		this.spamFile = spamFile;
 		this.hamFile = hamFile;
 		this.rulesFile = rulesFile;
+		
+		//Validation of the files
+		if (!validateFiles()) {filesAreValidated = false; return false;}
 
-		if (!validateFiles()) return false;
-
-		//Creation of the list of rules
-		if (!buildRulesAndEmails()) return false;
+		//Creation of the list of rules and emails
+		if (!buildRulesAndEmails()) {filesAreValidated = false; return false;}
 
 		filesAreValidated = true;
 		return true;
@@ -117,8 +115,6 @@ public class AntiSpamFilterAutomaticConfiguration {
 		//TODO Validation of the spam and ham log files
 		boolean validarHamFile=ReadLOG.readFile(new File("Ficheiros/ham.log"));
 		boolean validarSpamFile=ReadLOG.readFile(new File("Ficheiros/spam.log"));
-		System.out.println("validar ficheiro ham.log: " + validarHamFile);
-		System.out.println("validar ficheiro Spam.log: " + validarSpamFile);
 		
 		//TODO Validation of the rules file
 		boolean validarRulesFile;//adicionar ReadCF.readFile quando o ricardo acabar a validação

@@ -2,15 +2,23 @@ package antiSpamFilter;
 
 import java.io.File;
 
-public class Rule {
+/**
+ * @author ES1-2017-LIGE-PL-102
+ *
+ */
 
-	public Rule(String string, double weight) {
-		// TODO Auto-generated constructor stub
+public class Rule {
+	
+	private String name;
+	private double weight;
+	
+	public Rule(String name, double weight) {
+		this.name = name;
+		this.weight = weight;
 	}
 
-	public File getName() {
-		// TODO Auto-generated method stub
-		return null;
+	public String getName() {
+		return name;
 	}
 
 	public double getWeight() {
