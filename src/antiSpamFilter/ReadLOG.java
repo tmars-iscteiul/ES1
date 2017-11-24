@@ -66,10 +66,10 @@ public class ReadLOG {
 				//Verificar número de parametros da primeira coluna (firstFieldSplit[])
 				if (firstFieldSplit.length>4||firstFieldSplit.length<4){
 					return false;
-				}
-				
-				s.close();
+				}				
 			}
+			
+			s.close();
 		} catch (FileNotFoundException e) {
 			e.getStackTrace();
 		}

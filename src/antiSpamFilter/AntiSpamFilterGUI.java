@@ -151,7 +151,7 @@ public class AntiSpamFilterGUI {
 				SPAM_FILENAME = spamFile.getFile();
 				
 				if (SPAM_FILENAME != null) {
-					SPAM_FILE = new File(SPAM_FILENAME);
+					SPAM_FILE = new File(spamFile.getDirectory() + SPAM_FILENAME);
 					spamArea.setText(SPAM_FILENAME);
 				}
 			}
@@ -168,7 +168,7 @@ public class AntiSpamFilterGUI {
 				HAM_FILENAME = hamFile.getFile();
 				
 				if (HAM_FILENAME != null) {
-					HAM_FILE = new File(HAM_FILENAME);
+					HAM_FILE = new File(hamFile.getDirectory() + HAM_FILENAME);
 					hamArea.setText(HAM_FILENAME);
 				}
 			}
@@ -185,7 +185,7 @@ public class AntiSpamFilterGUI {
 				RULES_FILENAME = rulesFile.getFile();
 				
 				if (RULES_FILENAME != null) {
-					RULES_FILE = new File(RULES_FILENAME);
+					RULES_FILE = new File(rulesFile.getDirectory() + RULES_FILENAME);
 					rulesArea.setText(RULES_FILENAME);
 				}
 			}
