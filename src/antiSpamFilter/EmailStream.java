@@ -22,6 +22,7 @@ import antiSpamFilter.AntiSpamFilterStyles.AOptionPane;
  * @author ES1-2017-LIGE-PL-102
  *
  */
+
 public class EmailStream {
 
 	public static ArrayList<Email> getListOfEmailsFromFile (File file, ArrayList<Rule> listOfRules) {

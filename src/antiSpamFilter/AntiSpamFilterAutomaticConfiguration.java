@@ -95,29 +95,36 @@ public class AntiSpamFilterAutomaticConfiguration {
 	}
 
 	protected boolean validateFilesAndBuildRulesAndEmails(File spamFile, File hamFile, File rulesFile) {
-		this.spamFile = spamFile;
-		this.hamFile = hamFile;
-		this.rulesFile = rulesFile;
+		boolean isSameFiles = false;
 		
-		//Validation of the files
-		if (!validateFiles()) {filesAreValidated = false; return false;}
+		//Check if the files are the same since the last optimization
+		if (this.spamFile == spamFile && this.hamFile == hamFile && this.rulesFile == rulesFile)
+			isSameFiles = true;
+		
+		//Check if the files were already validated before
+		if (!filesAreValidated || !isSameFiles) {
+			this.spamFile = spamFile;
+			this.hamFile = hamFile;
+			this.rulesFile = rulesFile;
 
-		//Creation of the list of rules and emails
-		if (!buildRulesAndEmails()) {filesAreValidated = false; return false;}
+			//Validation of the files
+			if (!validateFiles()) {filesAreValidated = false; return false;}
 
-		filesAreValidated = true;
+			//Creation of the list of rules and emails
+			if (!buildRulesAndEmails()) {filesAreValidated = false; return false;}
+
+			filesAreValidated = true;
+		}
+		
 		return true;
 	}
 
 	private boolean validateFiles() {		
-		//TODO Validation of the rules file
-		boolean validarRulesFile = false;//adicionar ReadCF.readFile quando o ricardo acabar a validação
-
-		if(ReadLOG.readFile(hamFile) && ReadLOG.readFile(spamFile)&& validarRulesFile==true){//adicionar validarRulesFile==true quando Ricardo acabar
+		//Call the validation classes and validate
+		if(ReadLOG.readFile(hamFile) && ReadLOG.readFile(spamFile)&& ReadCF.read(rulesFile))
 			return true;
-		}
+	
 		return false;
-		
 	}
 
 	private boolean buildRulesAndEmails() {
