@@ -98,11 +98,12 @@ public class AntiSpamFilterAutomaticConfiguration {
 		this.spamFile = spamFile;
 		this.hamFile = hamFile;
 		this.rulesFile = rulesFile;
+		
+		//Validation of the files
+		if (!validateFiles()) {filesAreValidated = false; return false;}
 
-		if (!validateFiles()) return false;
-
-		//Creation of the list of rules
-		if (!buildRulesAndEmails()) return false;
+		//Creation of the list of rules and emails
+		if (!buildRulesAndEmails()) {filesAreValidated = false; return false;}
 
 		filesAreValidated = true;
 		return true;
