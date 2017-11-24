@@ -22,8 +22,14 @@ public class Rule {
 	}
 
 	public double getWeight() {
-		// TODO Auto-generated method stub
-		return 0;
+		return weight;
 	}
+
+	@Override
+	public String toString() {
+		return ("Rule name: "+name+" Peso:"+weight);
+	}
+	
+	
 
 }
