@@ -25,6 +25,14 @@ public class Rule {
 		return weight;
 	}
 
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public void setWeight(double weight) {
+		this.weight = weight;
+	}
+
 	@Override
 	public String toString() {
 		return ("Rule name: "+name+" Peso:"+weight);
