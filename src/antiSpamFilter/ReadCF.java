@@ -2,43 +2,48 @@ package antiSpamFilter;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
 import java.util.Scanner;
+
+import org.apache.commons.lang3.StringUtils;
+
+import antiSpamFilter.AntiSpamFilterStyles.AOptionPane;
 
 public class ReadCF {
 
-	public static void read(File file) {
+	public static boolean read(File file) {
 
-		String line = null;
-		ArrayList<String> lineList = new ArrayList<String>();
-		boolean regraValida = false;
+		String line;
 
 		try {
 
 			Scanner scanner = new Scanner(file);
 
 			while (scanner.hasNextLine()) {
-
+							
 				line = scanner.nextLine();
-				line.split(" ");
-				lineList.add(line);
-				String[] vetor = line.split(" ");
-
-
-				if (vetor.length == 1) 
-					regraValida = true;
-
+				String[] vetor = line.split("\t");
+				
+				if (vetor.length > 2) {
+					scanner.close();
+					return false;
+				}	
+				
+				if(vetor.length == 2 && !StringUtils.isNumericSpace(vetor[1])) {
+					scanner.close();
+					return false;
+				}
 					
-				System.out.println("regra valida: " + line + "---->"+ regraValida);
-
-				regraValida = false;
+				//System.out.println(line);
 			}
 			
 			scanner.close();
 
 		} catch (FileNotFoundException e) {
-			e.getStackTrace();
+			AOptionPane.showMessageDialog(
+					null, "File not found. Confirm the link.", "Error", AOptionPane.ERROR_MESSAGE);
+			return false;
 		}
+<<<<<<< HEAD
 	}
 	
 	
@@ -48,6 +53,10 @@ public class ReadCF {
 
 		read(new File("Ficheiros/rules.cf"));
 
+=======
+		
+		return true;
+>>>>>>> branch 'developer_1.0' of https://github.com/tmars-iscteiul/ES1-2017-LIGE-PL-102
 	}
 
 }

@@ -12,17 +12,30 @@ import java.util.Scanner;
 import antiSpamFilter.AntiSpamFilterStyles.AOptionPane;
 
 /**
+ * 
+ * EXPLICAÇÂO DA CLASSE
+ * 
  * @author ES1-2017-LIGE-PL-102
  *
  */
 
 public class RuleStream {
 	
-	private File filename = new File("Ficheiros/rulesExpRodolfo.cf"); //depois tenho de tirar esta parte de dizer o ficheiro
+	/**
+	 *Attribute that keeps track of the Rules.cf file from where every Rule is created. 
+	 */
+	private File filename; //depois tenho de tirar esta parte de dizer o ficheiro
+	/**
+	 * 
+	 */
 	private ArrayList<Rule> ruleStream = new ArrayList<Rule>();
 	
-	public RuleStream(/*File filename*/) {
-		//this.filename = filename;
+	/**
+	 * The constructor method creates an array of Rules to be used in the AntiSpam Filter.
+	 * @param filename file with the information of rules to be used
+	 */
+	public RuleStream(File filename) {
+		this.filename = filename;
 		ReadCF reader = new ReadCF();
 		
 		//if(reader.read(filename)) {
@@ -30,8 +43,6 @@ public class RuleStream {
 			Scanner scanner;
 			String line;
 			String [] tokens;
-			String ruleName;
-			Double ruleWeight;
 			try {
 				scanner = new Scanner(filename);
 				while (scanner.hasNextLine()) {
@@ -57,7 +68,7 @@ public class RuleStream {
 	
 	public static void main(String[] args) {
 
-		RuleStream r = new RuleStream();
+		RuleStream r = new RuleStream(new File("Ficheiros/rulesExpRodolfo.cf"));
 		for(int i=0; i < r.ruleStream.size(); i++) {
 			System.out.println(r.ruleStream.get(i).toString());
 		}

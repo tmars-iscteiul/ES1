@@ -3,6 +3,9 @@ package antiSpamFilter;
 import java.io.File;
 
 /**
+ * 
+ * EXPLICAÇÂO DA CLASSE
+ * 
  * @author ES1-2017-LIGE-PL-102
  *
  */

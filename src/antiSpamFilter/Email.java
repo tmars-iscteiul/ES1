@@ -3,6 +3,11 @@ package antiSpamFilter;
 import java.util.ArrayList;
 
 /**
+ * <p>Email - the main email class</br>
+ * </br>
+ * The email class includes all the information of an email, including its type,
+ * its ID and the list of rules that were detected.</p>
+ * 
  * @author ES1-2017-LIGE-PL-102
  *
  */
