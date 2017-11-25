@@ -13,7 +13,7 @@ import antiSpamFilter.AntiSpamFilterStyles.AOptionPane;
 
 /**
  * 
- * EXPLICAÇÂO DA CLASSE
+ * Class RuleStream represents a series of Rules to be used in the AntiSpam Filter in order to determine if an email must be classified as Spam or Ham.
  * 
  * @author ES1-2017-LIGE-PL-102
  *
@@ -66,6 +66,10 @@ public class RuleStream {
 		}
 	//}
 	
+	/**
+	 * Test method to make sure the array of Rules is constructed correctly.
+	 * @param args
+	 */
 	public static void main(String[] args) {
 
 		RuleStream r = new RuleStream(new File("Ficheiros/rulesExpRodolfo.cf"));
