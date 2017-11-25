@@ -32,8 +32,7 @@ public class ReadCF {
 					scanner.close();
 					return false;
 				}
-					
-				//System.out.println(line);
+	
 			}
 			
 			scanner.close();
@@ -43,20 +42,8 @@ public class ReadCF {
 					null, "File not found. Confirm the link.", "Error", AOptionPane.ERROR_MESSAGE);
 			return false;
 		}
-<<<<<<< HEAD
-	}
-	
-	
-	
 
-	public static void main(String[] args) {
-
-		read(new File("Ficheiros/rules.cf"));
-
-=======
-		
 		return true;
->>>>>>> branch 'developer_1.0' of https://github.com/tmars-iscteiul/ES1-2017-LIGE-PL-102
 	}
 
 }

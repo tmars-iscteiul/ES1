@@ -5,6 +5,8 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import antiSpamFilter.AntiSpamFilterStyles.AOptionPane;
+
 public class ReadLOG {
 	static boolean validated = false;
 	static boolean linhaComParametrosAMais=false;
@@ -42,7 +44,6 @@ public class ReadLOG {
 	
 	public static boolean readFile(File f) {
 		
-		
 		try {
 			Scanner s = new Scanner(f);
 			
@@ -59,20 +60,26 @@ public class ReadLOG {
 				//Adicionar o nome de todas as linhas do ficheiro "ham.log"ou"spam.log à lista "nameList"
 				typeList.add(firstFieldSplit[2]);
 				
-				if(verificarTipoEmail(f)==false){
+				if(!verificarTipoEmail(f)){
+					s.close();
 					return false;
 				}
 				
 				//Verificar número de parametros da primeira coluna (firstFieldSplit[])
-				if (firstFieldSplit.length>4||firstFieldSplit.length<4){
+				if (firstFieldSplit.length != 4){
+					s.close();
 					return false;
 				}				
 			}
 			
 			s.close();
+			
 		} catch (FileNotFoundException e) {
-			e.getStackTrace();
+			AOptionPane.showMessageDialog(
+					null, "Could not read the file", "Error", AOptionPane.ERROR_MESSAGE);
+			return false;
 		}
+		
 		return true;
 	}
 
