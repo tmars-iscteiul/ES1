@@ -87,7 +87,7 @@ public class RuleStream {
 	 * Test method to make sure the array of Rules is constructed correctly.
 	 * @param args
 	 */
-	public static void main(String[] args) {
+	/*public static void main(String[] args) {
 
 		RuleStream r = new RuleStream(new File("Files/rulesExpRodolfo.cf"));
 		
@@ -95,7 +95,7 @@ public class RuleStream {
 			System.out.println(r.ruleStream.get(i).toString());
 		}
 
-	}
+	}*/
 
 
 
