@@ -11,6 +11,7 @@ import java.util.ArrayList;
  * @author ES1-2017-LIGE-PL-102
  *
  */
+
 public class Email {
 	
 	final String ID;
