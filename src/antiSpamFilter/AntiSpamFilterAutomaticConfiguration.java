@@ -142,17 +142,15 @@ public class AntiSpamFilterAutomaticConfiguration {
 	}
 
 	private boolean buildRulesAndEmails() {
-		//TODO Evoque the static class RuleStream to return the list
+		//Creation of the list of rules
 		listOfRules = new RuleStream(rulesFile).getRuleStream();
 		
 		//Creation of the lists of email Spam and email Ham
 		listOfEmailsSpam = EmailStream.getListOfEmailsFromFile(spamFile, listOfRules, Email.SPAM);
 		listOfEmailsHam = EmailStream.getListOfEmailsFromFile(hamFile, listOfRules, Email.HAM);
 
+		if (listOfEmailsSpam == null || listOfEmailsHam == null) return false;
 		if (listOfEmailsSpam.size() == 0 || listOfEmailsHam.size() == 0) return false;
-
-		listOfEmails.addAll(listOfEmailsSpam);
-		listOfEmails.addAll(listOfEmailsHam);
 
 		return true;
 	}

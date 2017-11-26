@@ -1,13 +1,12 @@
 package antiSpamFilter.emails;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Scanner;
 
 import antiSpamFilter.GUI.AntiSpamFilterStyles.AOptionPane;
 import antiSpamFilter.rules.Rule;
@@ -29,10 +28,9 @@ public class EmailStream {
 	public static ArrayList<Email> getListOfEmailsFromFile (File file, ArrayList<Rule> listOfRules, int emailType) {
 		
 		ArrayList<Email> listOfAllEmails = new ArrayList<Email>();
-		String fileLine;
 		int rulePosition;
 		double finalWeight = 0;
-		String[] fileLineList, emailAtributesList;
+		String[] fileLineList;
 		 
 		//Implementation of the comparator of objects Rule
 		Comparator<Rule> compareName = new Comparator<Rule>() {
@@ -43,47 +41,38 @@ public class EmailStream {
 		
 		//Start the reading		
 		try {
-			BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
+			Scanner scanner = new Scanner(new FileReader(file));
 
-			try {
-				while ((fileLine = bufferedReader.readLine()) != null) {
-					//Separation of the line fields
-					fileLineList = fileLine.split("\t");
+			while (scanner.hasNextLine()) {
+				
+				//Separation of the line fields
+				fileLineList = scanner.nextLine().split("\t");
 
-					ArrayList<Integer> emailRulesList = new ArrayList<Integer>();
+				ArrayList<Integer> emailRulesList = new ArrayList<Integer>();
 
-					//List of rules if exists
-					if (fileLineList.length > 1) {
-						for (int i = 1; i < fileLineList.length; i++) {
-							//Creation of the list of rules for the e-mail
-							rulePosition = Collections.binarySearch(
-									listOfRules, new Rule(fileLineList[i],0), compareName);
-
-							emailRulesList.add(rulePosition);
-							System.out.println(fileLineList[i]);
-
-							//Increment of the final weight of the email
-							finalWeight += listOfRules.get(rulePosition).getWeight();
+				//List of rules if exists
+				if (fileLineList.length > 1) {
+					for (int i = 1; i < fileLineList.length; i++) {
+						//Creation of the list of rules for the e-mail
+						rulePosition = Collections.binarySearch(
+								listOfRules, new Rule(fileLineList[i],0), compareName);
+						
+						if (rulePosition < 0) {
+							scanner.close();
+							return null;
 						}
+						emailRulesList.add(rulePosition);
+
+						//Increment of the final weight of the email
+						finalWeight += listOfRules.get(rulePosition).getWeight();
 					}
-					
-					//Creation of the object Email and the addition to the list
-					listOfAllEmails.add(new Email(fileLineList[0], emailRulesList, emailType, finalWeight));
 				}
 				
-			} catch (IOException e) {
-				AOptionPane.showMessageDialog(
-						null, "Could not read the file", "Error", AOptionPane.ERROR_MESSAGE);
-				return null;
+				//Creation of the object Email and the addition to the list
+				listOfAllEmails.add(new Email(fileLineList[0], emailRulesList, emailType, finalWeight));
 			}
 
-			try {
-				bufferedReader.close();
-			} catch (IOException e) {
-				AOptionPane.showMessageDialog(
-						null, "Could not read the file.", "Error", AOptionPane.ERROR_MESSAGE);
-				return null;
-			}
+			scanner.close();
 
 		} catch (FileNotFoundException e) {
 			AOptionPane.showMessageDialog(
