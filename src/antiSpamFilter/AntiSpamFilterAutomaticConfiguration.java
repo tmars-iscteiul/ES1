@@ -20,6 +20,7 @@ import antiSpamFilter.GUI.AntiSpamFilterGUI;
 import antiSpamFilter.emails.Email;
 import antiSpamFilter.emails.EmailStream;
 import antiSpamFilter.rules.Rule;
+import antiSpamFilter.rules.RuleStream;
 import antiSpamFilter.validations.ReadCF;
 import antiSpamFilter.validations.ReadLOG;
 
@@ -134,7 +135,7 @@ public class AntiSpamFilterAutomaticConfiguration {
 
 	private boolean validateFiles() {		
 		//Call the validation classes and validate
-		if(ReadLOG.readFile(hamFile) && ReadLOG.readFile(spamFile)&& ReadCF.read(rulesFile))
+		if(/*ReadLOG.readFile(hamFile) && ReadLOG.readFile(spamFile)&&*/ ReadCF.read(rulesFile))
 			return true;
 	
 		return false;
@@ -142,13 +143,13 @@ public class AntiSpamFilterAutomaticConfiguration {
 
 	private boolean buildRulesAndEmails() {
 		//TODO Evoque the static class RuleStream to return the list
-		//listOfRules = RuleStream.getListOfRulesFromFile(rulesFile);
-
+		listOfRules = new RuleStream(rulesFile).getRuleStream();
+		
 		//Creation of the lists of email Spam and email Ham
-		listOfEmailsSpam = EmailStream.getListOfEmailsFromFile(spamFile, listOfRules);
-		listOfEmailsHam = EmailStream.getListOfEmailsFromFile(hamFile, listOfRules);
+		listOfEmailsSpam = EmailStream.getListOfEmailsFromFile(spamFile, listOfRules, Email.SPAM);
+		listOfEmailsHam = EmailStream.getListOfEmailsFromFile(hamFile, listOfRules, Email.HAM);
 
-		if (listOfEmailsSpam == null || listOfEmailsHam == null) return false;
+		if (listOfEmailsSpam.size() == 0 || listOfEmailsHam.size() == 0) return false;
 
 		listOfEmails.addAll(listOfEmailsSpam);
 		listOfEmails.addAll(listOfEmailsHam);

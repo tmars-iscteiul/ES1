@@ -19,8 +19,8 @@ public class Email {
 	final int type;
 	double finalWeight;
 	
-	protected final static int HAM = 0;
-	protected final static int SPAM = 1;
+	public final static int HAM = 0;
+	public final static int SPAM = 1;
 	
 	public Email(String Id, ArrayList<Integer> rulesPositionList, int type, double finalWeight) {
 		this.ID = Id;

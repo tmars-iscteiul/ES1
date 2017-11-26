@@ -26,13 +26,14 @@ import antiSpamFilter.rules.Rule;
 
 public class EmailStream {
 
-	public static ArrayList<Email> getListOfEmailsFromFile (File file, ArrayList<Rule> listOfRules) {
+	public static ArrayList<Email> getListOfEmailsFromFile (File file, ArrayList<Rule> listOfRules, int emailType) {
+		
 		ArrayList<Email> listOfAllEmails = new ArrayList<Email>();
 		String fileLine;
-		int emailType, rulePosition;
+		int rulePosition;
 		double finalWeight = 0;
 		String[] fileLineList, emailAtributesList;
-		
+		 
 		//Implementation of the comparator of objects Rule
 		Comparator<Rule> compareName = new Comparator<Rule>() {
 			public int compare(Rule r1, Rule r2) {
@@ -49,11 +50,9 @@ public class EmailStream {
 					//Separation of the line fields
 					fileLineList = fileLine.split("\t");
 
-					//emailAtributesList[2] = Email.type | emailAtributesList[3] = Email.Id
-					emailAtributesList = fileLineList[0].split("/");
 					ArrayList<Integer> emailRulesList = new ArrayList<Integer>();
 
-					//List of rules if exist
+					//List of rules if exists
 					if (fileLineList.length > 1) {
 						for (int i = 1; i < fileLineList.length; i++) {
 							//Creation of the list of rules for the e-mail
@@ -61,18 +60,15 @@ public class EmailStream {
 									listOfRules, new Rule(fileLineList[i],0), compareName);
 
 							emailRulesList.add(rulePosition);
+							System.out.println(fileLineList[i]);
 
 							//Increment of the final weight of the email
 							finalWeight += listOfRules.get(rulePosition).getWeight();
 						}
 					}
 					
-					//Conversion of the type of email
-					if (emailAtributesList[2].equals("_SPAM_")) emailType = Email.SPAM;
-					else emailType = Email.HAM;
-
 					//Creation of the object Email and the addition to the list
-					listOfAllEmails.add(new Email(emailAtributesList[3], emailRulesList, emailType, finalWeight));
+					listOfAllEmails.add(new Email(fileLineList[0], emailRulesList, emailType, finalWeight));
 				}
 				
 			} catch (IOException e) {
