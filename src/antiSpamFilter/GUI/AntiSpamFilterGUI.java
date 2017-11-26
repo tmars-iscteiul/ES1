@@ -248,10 +248,12 @@ public class AntiSpamFilterGUI {
 		configurationButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				if (main.validateFilesAndBuildRulesAndEmails(SPAM_FILE, HAM_FILE, RULES_FILE)) {
-					configureGUI.setVisible(true);
-					antiSpamFilterFrame.setEnabled(false);
-				}
+				if (validFilesPath()) 
+					if (main.validateFilesAndBuildRulesAndEmails(SPAM_FILE, HAM_FILE, RULES_FILE)) {
+						configureGUI.setVisible(true);
+						antiSpamFilterFrame.setEnabled(false);
+					}
+					else showCorruptFileMessage();
 			}
 		});
 
@@ -262,10 +264,12 @@ public class AntiSpamFilterGUI {
 		startButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				if (main.validateFilesAndBuildRulesAndEmails(SPAM_FILE, HAM_FILE, RULES_FILE)) {
-					System.out.println("Test Start optimization Button ");
-					main.runOptimization();
-				}
+				if (validFilesPath()) 
+					if (main.validateFilesAndBuildRulesAndEmails(SPAM_FILE, HAM_FILE, RULES_FILE)) {
+						System.out.println("Test Start optimization Button ");
+						main.runOptimization();
+					}
+					else showCorruptFileMessage();
 			}
 		});
 
@@ -274,7 +278,6 @@ public class AntiSpamFilterGUI {
 		buttonPanel.add(startButton);
 		initiationPanel.add(buttonPanel);
 	}
-	
 
 	private void implementResultsPanel() {
 		resultsPanel = new AntiSpamFilterStyles().new APanel();
@@ -394,6 +397,22 @@ public class AntiSpamFilterGUI {
 		if (result == AOptionPane.OK_OPTION) {
 			System.exit(0);
 		}
+	}
+	
+	protected boolean validFilesPath() {
+		if (SPAM_FILE == null || HAM_FILE == null || RULES_FILE == null) {
+			new AntiSpamFilterStyles().new AOptionPane();
+			AOptionPane.showMessageDialog(
+					null, "Please select the files.", "Error", AOptionPane.ERROR_MESSAGE);
+			return false;
+		}
+		return true;
+	}
+	
+	protected void showCorruptFileMessage() {
+		new AntiSpamFilterStyles().new AOptionPane();
+		AOptionPane.showMessageDialog(
+				null, "The files are corrupted. Please confirm its content.", "Error", AOptionPane.ERROR_MESSAGE);
 	}
 	
 	public static long getSerialversionuid() {

@@ -115,10 +115,16 @@ public class AntiSpamFilterAutomaticConfiguration {
 			this.rulesFile = rulesFile;
 
 			//Validation of the files
-			if (!validateFiles()) {filesAreValidated = false; return false;}
+			if (!validateFiles()) {
+				filesAreValidated = false; 
+				return false;
+			}
 
 			//Creation of the list of rules and emails
-			if (!buildRulesAndEmails()) {filesAreValidated = false; return false;}
+			if (!buildRulesAndEmails()) {
+				filesAreValidated = false; 
+				return false;
+			}
 
 			filesAreValidated = true;
 		}
