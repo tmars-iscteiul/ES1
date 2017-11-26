@@ -1,11 +1,11 @@
-package antiSpamFilterTests;
+package antiSpamFilter.tests;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 
 import org.junit.Test;
 
-import antiSpamFilter.Email;
+import antiSpamFilter.emails.Email;
 
 public class EmailTest {
 

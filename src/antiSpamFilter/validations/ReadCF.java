@@ -1,10 +1,10 @@
-package antiSpamFilter;
+package antiSpamFilter.validations;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
-import antiSpamFilter.AntiSpamFilterStyles.AOptionPane;
+import antiSpamFilter.GUI.AntiSpamFilterStyles.AOptionPane;
 
 /**
  * <p>ReadCF - the rules file validation class</br>

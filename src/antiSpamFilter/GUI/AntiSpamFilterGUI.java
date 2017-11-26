@@ -1,4 +1,4 @@
-package antiSpamFilter;
+package antiSpamFilter.GUI;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -14,7 +14,8 @@ import java.io.File;
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 
-import antiSpamFilter.AntiSpamFilterStyles.*;
+import antiSpamFilter.AntiSpamFilterAutomaticConfiguration;
+import antiSpamFilter.GUI.AntiSpamFilterStyles.*;
 
 /**
  * <p>AntiSpamFilterGUI - the main GUI panel class</br>

@@ -16,6 +16,13 @@ import org.uma.jmetal.util.experiment.component.*;
 import org.uma.jmetal.util.experiment.util.ExperimentAlgorithm;
 import org.uma.jmetal.util.experiment.util.ExperimentProblem;
 
+import antiSpamFilter.GUI.AntiSpamFilterGUI;
+import antiSpamFilter.emails.Email;
+import antiSpamFilter.emails.EmailStream;
+import antiSpamFilter.rules.Rule;
+import antiSpamFilter.validations.ReadCF;
+import antiSpamFilter.validations.ReadLOG;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -94,7 +101,7 @@ public class AntiSpamFilterAutomaticConfiguration {
 		return algorithms;
 	}
 
-	protected boolean validateFilesAndBuildRulesAndEmails(File spamFile, File hamFile, File rulesFile) {
+	public boolean validateFilesAndBuildRulesAndEmails(File spamFile, File hamFile, File rulesFile) {
 		boolean isSameFiles = false;
 		
 		//Check if the files are the same since the last optimization

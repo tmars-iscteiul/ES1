@@ -1,4 +1,4 @@
-package antiSpamFilter;
+package antiSpamFilter.GUI;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -14,7 +14,7 @@ import javax.swing.JFrame;
 import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
 
-import antiSpamFilter.AntiSpamFilterStyles.*;
+import antiSpamFilter.GUI.AntiSpamFilterStyles.*;
 
 /**
  * <p>AntiSpamFilterConfigurationGUI - the configuration GUI class</br>

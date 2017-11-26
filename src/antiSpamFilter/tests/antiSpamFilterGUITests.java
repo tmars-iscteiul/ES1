@@ -1,7 +1,7 @@
 /**
  * 
  */
-package antiSpamFilterTests;
+package antiSpamFilter.tests;
 
 import static org.junit.Assert.*;
 
@@ -11,7 +11,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import antiSpamFilter.AntiSpamFilterGUI;
+import antiSpamFilter.GUI.AntiSpamFilterGUI;
 
 /**
  * @author Rodolfo Arnaldo
@@ -49,7 +49,7 @@ public class antiSpamFilterGUITests {
 	}
 
 	/**
-	 * Test method for {@link antiSpamFilter.AntiSpamFilterGUI#getSerialversionuid()}.
+	 * Test method for {@link antiSpamFilter.GUI.AntiSpamFilterGUI#getSerialversionuid()}.
 	 */
 	@Test
 	public void testGetSerialversionuid() {
@@ -57,7 +57,7 @@ public class antiSpamFilterGUITests {
 	}
 
 	/**
-	 * Test method for {@link antiSpamFilter.AntiSpamFilterGUI#AntiSpamFilterGUI()}.
+	 * Test method for {@link antiSpamFilter.GUI.AntiSpamFilterGUI#AntiSpamFilterGUI()}.
 	 */
 	@Test
 	public void testAntiSpamFilterGUI() {
@@ -65,7 +65,7 @@ public class antiSpamFilterGUITests {
 	}
 
 	/**
-	 * Test method for {@link antiSpamFilter.AntiSpamFilterGUI#setEnable(boolean)}.
+	 * Test method for {@link antiSpamFilter.GUI.AntiSpamFilterGUI#setEnable(boolean)}.
 	 */
 	@Test
 	public void testSetEnable() {
@@ -73,7 +73,7 @@ public class antiSpamFilterGUITests {
 	}
 
 	/**
-	 * Test method for {@link antiSpamFilter.AntiSpamFilterGUI#getWINDOW_HSIZE()}.
+	 * Test method for {@link antiSpamFilter.GUI.AntiSpamFilterGUI#getWINDOW_HSIZE()}.
 	 */
 	@Test
 	public void testGetWINDOW_HSIZE() {
@@ -81,7 +81,7 @@ public class antiSpamFilterGUITests {
 	}
 
 	/**
-	 * Test method for {@link antiSpamFilter.AntiSpamFilterGUI#getWINDOW_VSIZE()}.
+	 * Test method for {@link antiSpamFilter.GUI.AntiSpamFilterGUI#getWINDOW_VSIZE()}.
 	 */
 	@Test
 	public void testGetWINDOW_VSIZE() {
@@ -89,7 +89,7 @@ public class antiSpamFilterGUITests {
 	}
 
 	/**
-	 * Test method for {@link antiSpamFilter.AntiSpamFilterGUI#getCOMPONENT_GAP()}.
+	 * Test method for {@link antiSpamFilter.GUI.AntiSpamFilterGUI#getCOMPONENT_GAP()}.
 	 */
 	@Test
 	public void testGetCOMPONENT_GAP() {
@@ -97,7 +97,7 @@ public class antiSpamFilterGUITests {
 	}
 
 	/**
-	 * Test method for {@link antiSpamFilter.AntiSpamFilterGUI#getCOMPONENT_MAX_WIDTH()}.
+	 * Test method for {@link antiSpamFilter.GUI.AntiSpamFilterGUI#getCOMPONENT_MAX_WIDTH()}.
 	 */
 	@Test
 	public void testGetCOMPONENT_MAX_WIDTH() {
@@ -105,7 +105,7 @@ public class antiSpamFilterGUITests {
 	}
 
 	/**
-	 * Test method for {@link antiSpamFilter.AntiSpamFilterGUI#getSPAM_FILENAME()}.
+	 * Test method for {@link antiSpamFilter.GUI.AntiSpamFilterGUI#getSPAM_FILENAME()}.
 	 */
 	@Test
 	public void testGetSPAM_FILENAME() {
@@ -113,7 +113,7 @@ public class antiSpamFilterGUITests {
 	}
 
 	/**
-	 * Test method for {@link antiSpamFilter.AntiSpamFilterGUI#getSPAM_DIRECTORY()}.
+	 * Test method for {@link antiSpamFilter.GUI.AntiSpamFilterGUI#getSPAM_DIRECTORY()}.
 	 */
 	@Test
 	public void testGetSPAM_DIRECTORY() {
@@ -121,7 +121,7 @@ public class antiSpamFilterGUITests {
 	}
 
 	/**
-	 * Test method for {@link antiSpamFilter.AntiSpamFilterGUI#getSPAM_FILE()}.
+	 * Test method for {@link antiSpamFilter.GUI.AntiSpamFilterGUI#getSPAM_FILE()}.
 	 */
 	@Test
 	public void testGetSPAM_FILE() {
@@ -129,7 +129,7 @@ public class antiSpamFilterGUITests {
 	}
 
 	/**
-	 * Test method for {@link antiSpamFilter.AntiSpamFilterGUI#getHAM_FILENAME()}.
+	 * Test method for {@link antiSpamFilter.GUI.AntiSpamFilterGUI#getHAM_FILENAME()}.
 	 */
 	@Test
 	public void testGetHAM_FILENAME() {
@@ -137,7 +137,7 @@ public class antiSpamFilterGUITests {
 	}
 
 	/**
-	 * Test method for {@link antiSpamFilter.AntiSpamFilterGUI#getHAM_DIRECTORY()}.
+	 * Test method for {@link antiSpamFilter.GUI.AntiSpamFilterGUI#getHAM_DIRECTORY()}.
 	 */
 	@Test
 	public void testGetHAM_DIRECTORY() {
@@ -145,7 +145,7 @@ public class antiSpamFilterGUITests {
 	}
 
 	/**
-	 * Test method for {@link antiSpamFilter.AntiSpamFilterGUI#getHAM_FILE()}.
+	 * Test method for {@link antiSpamFilter.GUI.AntiSpamFilterGUI#getHAM_FILE()}.
 	 */
 	@Test
 	public void testGetHAM_FILE() {
@@ -153,7 +153,7 @@ public class antiSpamFilterGUITests {
 	}
 
 	/**
-	 * Test method for {@link antiSpamFilter.AntiSpamFilterGUI#getRULES_FILENAME()}.
+	 * Test method for {@link antiSpamFilter.GUI.AntiSpamFilterGUI#getRULES_FILENAME()}.
 	 */
 	@Test
 	public void testGetRULES_FILENAME() {
@@ -161,7 +161,7 @@ public class antiSpamFilterGUITests {
 	}
 
 	/**
-	 * Test method for {@link antiSpamFilter.AntiSpamFilterGUI#getRULES_DIRECTORY()}.
+	 * Test method for {@link antiSpamFilter.GUI.AntiSpamFilterGUI#getRULES_DIRECTORY()}.
 	 */
 	@Test
 	public void testGetRULES_DIRECTORY() {
@@ -169,7 +169,7 @@ public class antiSpamFilterGUITests {
 	}
 
 	/**
-	 * Test method for {@link antiSpamFilter.AntiSpamFilterGUI#getRULES_FILE()}.
+	 * Test method for {@link antiSpamFilter.GUI.AntiSpamFilterGUI#getRULES_FILE()}.
 	 */
 	@Test
 	public void testGetRULES_FILE() {

@@ -1,11 +1,11 @@
-package antiSpamFilter;
+package antiSpamFilter.validations;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import antiSpamFilter.AntiSpamFilterStyles.AOptionPane;
+import antiSpamFilter.GUI.AntiSpamFilterStyles.AOptionPane;
 
 public class ReadLOG {
 	static boolean validated = false;

@@ -1,4 +1,4 @@
-package antiSpamFilter;
+package antiSpamFilter.rules;
 
 import java.io.File;
 

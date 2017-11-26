@@ -1,4 +1,4 @@
-package antiSpamFilter;
+package antiSpamFilter.GUI;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -210,7 +210,7 @@ public class AntiSpamFilterStyles {
 	}
 	
 	//JOptionPane -> use AOptionPane
-	protected class AOptionPane extends JOptionPane {
+	public class AOptionPane extends JOptionPane {
 		
 		/**
 		 * <p> New OptionPane with white background, gray foreground and font Arial 14. </p>

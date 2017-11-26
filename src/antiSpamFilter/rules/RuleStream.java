@@ -1,4 +1,4 @@
-package antiSpamFilter;
+package antiSpamFilter.rules;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -9,7 +9,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
 
-import antiSpamFilter.AntiSpamFilterStyles.AOptionPane;
+import antiSpamFilter.GUI.AntiSpamFilterStyles.AOptionPane;
+import antiSpamFilter.validations.ReadCF;
 
 /**
  * 

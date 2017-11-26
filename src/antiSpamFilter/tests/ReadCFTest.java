@@ -1,4 +1,4 @@
-package antiSpamFilterTests;
+package antiSpamFilter.tests;
 
 import static org.junit.Assert.*;
 
@@ -6,7 +6,7 @@ import java.io.File;
 
 import org.junit.Test;
 
-import antiSpamFilter.ReadCF;
+import antiSpamFilter.validations.ReadCF;
 
 public class ReadCFTest {
 

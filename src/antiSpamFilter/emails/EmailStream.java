@@ -1,4 +1,4 @@
-package antiSpamFilter;
+package antiSpamFilter.emails;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -9,7 +9,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
-import antiSpamFilter.AntiSpamFilterStyles.AOptionPane;
+import antiSpamFilter.GUI.AntiSpamFilterStyles.AOptionPane;
+import antiSpamFilter.rules.Rule;
 
 /**
  * <p>EmailStream - the creation of the object Email through the log files</br>
