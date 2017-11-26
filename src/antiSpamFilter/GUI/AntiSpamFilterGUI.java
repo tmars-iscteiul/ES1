@@ -54,7 +54,7 @@ public class AntiSpamFilterGUI {
 	
 	//Panels initiation
 	APanel loadingPanel, initiationPanel, resultsPanel, conclusionPanel, resultsAndConclusionPanel;
-	AntiSpamFilterConfigurationGUI configureGUI;
+	
 	
 
 	public AntiSpamFilterGUI(AntiSpamFilterAutomaticConfiguration main) {
@@ -64,8 +64,6 @@ public class AntiSpamFilterGUI {
 		antiSpamFilterFrame.setSize(WINDOW_HSIZE, WINDOW_VSIZE);
 		antiSpamFilterFrame.setLocationRelativeTo(null);
 		
-		configureGUI = new AntiSpamFilterConfigurationGUI(this,false);
-
 		implementLoadingPanel();
 		implementIniciationPanel();
 		implementResultsPanel();
@@ -250,7 +248,7 @@ public class AntiSpamFilterGUI {
 			public void actionPerformed(ActionEvent arg0) {
 				if (validFilesPath()) 
 					if (main.validateFilesAndBuildRulesAndEmails(SPAM_FILE, HAM_FILE, RULES_FILE)) {
-						configureGUI.setVisible(true);
+						main.setConfigureWindowVisible(true);
 						antiSpamFilterFrame.setEnabled(false);
 					}
 					else showCorruptFileMessage();

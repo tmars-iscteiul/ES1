@@ -8,13 +8,16 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
 
+import antiSpamFilter.AntiSpamFilterAutomaticConfiguration;
 import antiSpamFilter.GUI.AntiSpamFilterStyles.*;
+import antiSpamFilter.rules.Rule;
 
 /**
  * <p>AntiSpamFilterConfigurationGUI - the configuration GUI class</br>
@@ -31,6 +34,8 @@ import antiSpamFilter.GUI.AntiSpamFilterStyles.*;
 public class AntiSpamFilterConfigurationGUI {
 	private JFrame antiSpamFilterFrame = new JFrame("AntiSpamFilter Configuration v1.0");
 	private AntiSpamFilterGUI gui;
+	private AntiSpamFilterAutomaticConfiguration main;
+	private String[] listOfRules;
 	
 	private final int WINDOW_HSIZE = 500;
 	private final int WINDOW_VSIZE = 500;
@@ -47,7 +52,8 @@ public class AntiSpamFilterConfigurationGUI {
 	APanel ruleslistPanel, principalPanel, searchPanel, configurationPanel, inputPanel, applyPanel,
 		testsPanel, conclusionPanel;
 
-	public AntiSpamFilterConfigurationGUI(AntiSpamFilterGUI gui, boolean visible) {
+	public AntiSpamFilterConfigurationGUI(
+			AntiSpamFilterAutomaticConfiguration main, AntiSpamFilterGUI gui, boolean visible) {
 		//Dimension and position of the window
 		antiSpamFilterFrame.setSize(WINDOW_HSIZE, WINDOW_VSIZE);
 		antiSpamFilterFrame.setLocationRelativeTo(null);
@@ -57,7 +63,8 @@ public class AntiSpamFilterConfigurationGUI {
 		
 		antiSpamFilterFrame.setVisible(visible);
 		this.gui = gui;
-		
+		this.main = main;
+				
 		setRulesListPanel();
 		setMainConfigurationPanel();		
 		setSearchPanel();
@@ -123,7 +130,6 @@ public class AntiSpamFilterConfigurationGUI {
 		});
 	}
 
-	
 	private void setRulesListPanel() {
 		//Implementation of rules list window
 		ruleslistPanel = new AntiSpamFilterStyles().new APanel();
@@ -135,10 +141,7 @@ public class AntiSpamFilterConfigurationGUI {
 		ALabel spamLabel = new AntiSpamFilterStyles().new ALabel("Rules List");
 		ruleslistPanel.add(spamLabel, BorderLayout.PAGE_START);
 		
-		String[] rList = {"BAYES_00 (4.1)","FREEMAIL_FROM (1.8)","RDNS_NONE (-2.6)"};
-		AList rulesList = new AntiSpamFilterStyles().new AList(rList);
 		
-		ruleslistPanel.add(rulesList, BorderLayout.CENTER);
 	}
 
 	
@@ -305,6 +308,31 @@ public class AntiSpamFilterConfigurationGUI {
 			antiSpamFilterFrame.setVisible(false);
 			gui.setEnable(true);
 		}
+	}
+	
+	private String[] buildListOfRules() {
+		ArrayList<Rule> mainListOfRules = main.getListOfRules();
+		String[] listOfRules = new String[mainListOfRules.size()];
+		String name;
+		
+		for (int i = 0; i < mainListOfRules.size(); i++) {
+			name = mainListOfRules.get(i).getName();
+			listOfRules[i] = name;
+		}
+		
+		return listOfRules;
+	}
+
+	public void startConfiguration() {
+		listOfRules = buildListOfRules();
+		AList rulesList = new AntiSpamFilterStyles().new AList(listOfRules);
+		AScrollPane scroll = new AntiSpamFilterStyles().new AScrollPane(rulesList,
+				AScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+	            AScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		
+		ruleslistPanel.add(scroll, BorderLayout.CENTER);
+		
+		this.setVisible(true);
 	}
 
 }

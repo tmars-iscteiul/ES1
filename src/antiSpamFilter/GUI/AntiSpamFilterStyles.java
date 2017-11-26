@@ -21,6 +21,7 @@ import javax.swing.SpinnerModel;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.plaf.FontUIResource;
+
 import javax.swing.JSpinner;
 import javax.swing.JTextArea;
 
@@ -259,6 +260,16 @@ public class AntiSpamFilterStyles {
 		
 		public AScrollPane(ATextArea textBox) {
 			super(textBox);
+			super.setBorder(BorderFactory.createLineBorder(new Color(220,220,220)));
+		}
+
+		public AScrollPane(AList list) {
+			super(list);
+			super.setBorder(BorderFactory.createLineBorder(new Color(220,220,220)));
+		}
+
+		public AScrollPane(AList list, int v, int h) {
+			super(list,v,h);
 			super.setBorder(BorderFactory.createLineBorder(new Color(220,220,220)));
 		}
 		

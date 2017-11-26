@@ -16,6 +16,7 @@ import org.uma.jmetal.util.experiment.component.*;
 import org.uma.jmetal.util.experiment.util.ExperimentAlgorithm;
 import org.uma.jmetal.util.experiment.util.ExperimentProblem;
 
+import antiSpamFilter.GUI.AntiSpamFilterConfigurationGUI;
 import antiSpamFilter.GUI.AntiSpamFilterGUI;
 import antiSpamFilter.emails.Email;
 import antiSpamFilter.emails.EmailStream;
@@ -33,20 +34,24 @@ import java.util.List;
 public class AntiSpamFilterAutomaticConfiguration {
 	private static final int INDEPENDENT_RUNS = 5 ;
 	private boolean filesAreValidated = false;
+	
+	AntiSpamFilterGUI mainGUI;
+	AntiSpamFilterConfigurationGUI configureGUI;
 
-	ArrayList<Email> listOfEmails, listOfEmailsSpam, listOfEmailsHam;
+	ArrayList<Email> listOfEmailsSpam, listOfEmailsHam;
 	ArrayList<Rule> listOfRules;
 
 	File spamFile, hamFile, rulesFile; 
 
 	public AntiSpamFilterAutomaticConfiguration() {
-		new AntiSpamFilterGUI(this);
+		mainGUI = new AntiSpamFilterGUI(this);
+		configureGUI = new AntiSpamFilterConfigurationGUI(this,mainGUI,false);
 	}
 
 	public static void main(String[] args) {
 		new AntiSpamFilterAutomaticConfiguration();
 	}
-
+ 
 	public void runOptimization() {
 		
 		if (!filesAreValidated) {
@@ -153,6 +158,22 @@ public class AntiSpamFilterAutomaticConfiguration {
 		if (listOfEmailsSpam.size() == 0 || listOfEmailsHam.size() == 0) return false;
 
 		return true;
+	}
+	
+	public ArrayList<Email> getListOfEmailsSpam() {
+		return listOfEmailsSpam;
+	}
+
+	public ArrayList<Email> getListOfEmailsHam() {
+		return listOfEmailsHam;
+	}
+
+	public ArrayList<Rule> getListOfRules() {
+		return listOfRules;
+	}
+
+	public void setConfigureWindowVisible(boolean b) {
+		configureGUI.startConfiguration();
 	}
 
 }
