@@ -10,7 +10,7 @@ import java.io.File;
  *
  */
 
-public class Rule {
+public class Rule implements Comparable<Rule>{
 	
 	/**
 	 * The Name attribute of the class is a String to be compared in every email.
@@ -63,10 +63,17 @@ public class Rule {
 	public void setWeight(double weight) {
 		this.weight = weight;
 	}
+	
+	
 
 	@Override
 	public String toString() {
 		return ("Rule name: "+name+" Peso:"+weight);
+	}
+
+	@Override
+	public int compareTo(Rule other) {
+		return this.getName().compareTo(other.getName());
 	}
 	
 	

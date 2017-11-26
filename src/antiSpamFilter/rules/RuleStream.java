@@ -7,9 +7,11 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.Scanner;
 
-import antiSpamFilter.GUI.AntiSpamFilterStyles.AOptionPane;
+import javax.swing.JOptionPane;
+
 import antiSpamFilter.validations.ReadCF;
 
 /**
@@ -25,7 +27,7 @@ public class RuleStream {
 	/**
 	 *Attribute that keeps track of the Rules.cf file from where every Rule is created. 
 	 */
-	private File filename; //depois tenho de tirar esta parte de dizer o ficheiro
+	private File filename;
 	/**
 	 * 
 	 */
@@ -39,7 +41,7 @@ public class RuleStream {
 		this.filename = filename;
 		ReadCF reader = new ReadCF();
 		
-		//if(reader.read(filename)) {
+		if(reader.read(filename)) {
 			//Start the reading		
 			Scanner scanner;
 			String line;
@@ -60,12 +62,26 @@ public class RuleStream {
 				}
 			
 			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
+				JOptionPane.showMessageDialog(null, "Could not read the file.", "Error", JOptionPane.ERROR_MESSAGE);
 				e.printStackTrace();
-			}		
+				return;
+			}
+			Collections.sort(ruleStream);
 				
 		}
-	//}
+		else {
+			JOptionPane.showMessageDialog(null, "Could not read the file.", "Error", JOptionPane.ERROR_MESSAGE);
+			return;
+		}
+	}
+	
+	/**
+	 * Getter with the purpose to obtain the arraylist attribute of the RuleStream
+	 * @return returns the arraylist of Rules
+	 */
+	public ArrayList<Rule> getRuleStream() {
+		return ruleStream;
+	}
 	
 	/**
 	 * Test method to make sure the array of Rules is constructed correctly.
@@ -73,11 +89,16 @@ public class RuleStream {
 	 */
 	public static void main(String[] args) {
 
-		RuleStream r = new RuleStream(new File("Ficheiros/rulesExpRodolfo.cf"));
+		RuleStream r = new RuleStream(new File("Files/rulesExpRodolfo.cf"));
+		
 		for(int i=0; i < r.ruleStream.size(); i++) {
 			System.out.println(r.ruleStream.get(i).toString());
 		}
 
 	}
+
+
+
+	
 	
 }
