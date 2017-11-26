@@ -68,7 +68,7 @@ public class Rule implements Comparable<Rule>{
 
 	@Override
 	public String toString() {
-		return ("Rule name: "+name+" Peso:"+weight);
+		return ("Rule name: "+name+" Peso: "+weight);
 	}
 
 	@Override
