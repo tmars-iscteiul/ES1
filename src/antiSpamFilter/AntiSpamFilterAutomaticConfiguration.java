@@ -139,7 +139,7 @@ public class AntiSpamFilterAutomaticConfiguration {
 
 	private boolean validateFiles() {		
 		//Call the validation classes and validate
-		if(/*ReadLOG.readFile(hamFile) && ReadLOG.readFile(spamFile)&&*/ ReadCF.read(rulesFile))
+		if(ReadLOG.readFile(hamFile) && ReadLOG.readFile(spamFile) && ReadCF.read(rulesFile))
 			return true;
 	
 		return false;

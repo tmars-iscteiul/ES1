@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 public class ReadLOG {
 	
-	public static boolean readFile(File f) throws FileNotFoundException {
+	public static boolean readFile(File f) {
 		
 		
 		try {
@@ -17,21 +17,28 @@ public class ReadLOG {
 				String nextLine = s.nextLine();
 				
 				//Divisão das diversas colunas do ficheiro
-				String []hamFileFields= nextLine.split("\t");
+				String []fileFields= nextLine.split("\t");
 				
 				//o ficheiro tem de ter pelo menos o ID de cada email 
-				if (hamFileFields.length<1)
+				if (fileFields.length<1) {
+					s.close();
 					return false;
-				
+				}
+									
 				//caso o ficheiro não seja o ham.log nem o spam.log não é relevante para o software
-				if (f.getName()!= "ham.log" || f.getName()!= "spam.log")
+				/*if (f.getName()!= "ham.log" || f.getName()!= "spam.log") {
+					s.close();
 					return false;
-						
-				s.close();
+				}	*/
 			}
+			
+			s.close();
+			
 		} catch (FileNotFoundException e) {
 			e.getStackTrace();
 		}
+		
+		
 		return true;
 	}
 	
