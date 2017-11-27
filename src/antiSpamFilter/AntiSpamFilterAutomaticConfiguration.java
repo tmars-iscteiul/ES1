@@ -16,7 +16,6 @@ import org.uma.jmetal.util.experiment.component.*;
 import org.uma.jmetal.util.experiment.util.ExperimentAlgorithm;
 import org.uma.jmetal.util.experiment.util.ExperimentProblem;
 
-import antiSpamFilter.GUI.AntiSpamFilterConfigurationGUI;
 import antiSpamFilter.GUI.AntiSpamFilterGUI;
 import antiSpamFilter.emails.Email;
 import antiSpamFilter.emails.EmailStream;
@@ -36,7 +35,7 @@ public class AntiSpamFilterAutomaticConfiguration {
 	private boolean filesAreValidated = false;
 	
 	AntiSpamFilterGUI mainGUI;
-	AntiSpamFilterConfigurationGUI configureGUI;
+	AntiSpamFilterManualConfiguration manualConfigure;
 
 	ArrayList<Email> listOfEmailsSpam, listOfEmailsHam;
 	ArrayList<Rule> listOfRules;
@@ -45,7 +44,7 @@ public class AntiSpamFilterAutomaticConfiguration {
 
 	public AntiSpamFilterAutomaticConfiguration() {
 		mainGUI = new AntiSpamFilterGUI(this);
-		configureGUI = new AntiSpamFilterConfigurationGUI(this,mainGUI,false);
+		manualConfigure = new AntiSpamFilterManualConfiguration(this);
 	}
 
 	public static void main(String[] args) {
@@ -173,7 +172,11 @@ public class AntiSpamFilterAutomaticConfiguration {
 	}
 
 	public void setConfigureWindowVisible(boolean b) {
-		configureGUI.startConfiguration();
+		manualConfigure.startConfiguration();
+	}
+
+	public void configureWindowClose() {
+		mainGUI.setEnable(true);
 	}
 
 }

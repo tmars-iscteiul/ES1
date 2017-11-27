@@ -8,16 +8,17 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
-import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
+import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
-import antiSpamFilter.AntiSpamFilterAutomaticConfiguration;
+import antiSpamFilter.AntiSpamFilterManualConfiguration;
 import antiSpamFilter.GUI.AntiSpamFilterStyles.*;
-import antiSpamFilter.rules.Rule;
 
 /**
  * <p>AntiSpamFilterConfigurationGUI - the configuration GUI class</br>
@@ -33,9 +34,7 @@ import antiSpamFilter.rules.Rule;
 
 public class AntiSpamFilterConfigurationGUI {
 	private JFrame antiSpamFilterFrame = new JFrame("AntiSpamFilter Configuration v1.0");
-	private AntiSpamFilterGUI gui;
-	private AntiSpamFilterAutomaticConfiguration main;
-	private String[] listOfRules;
+	private AntiSpamFilterManualConfiguration main;
 	
 	private final int WINDOW_HSIZE = 500;
 	private final int WINDOW_VSIZE = 500;
@@ -51,9 +50,15 @@ public class AntiSpamFilterConfigurationGUI {
 	//Panels initiation
 	APanel ruleslistPanel, principalPanel, searchPanel, configurationPanel, inputPanel, applyPanel,
 		testsPanel, conclusionPanel;
+	
+	AList<String> rulesList;
+	AScrollPane scroll;
+	ASpinner spinner;
+	DefaultListModel<String> rulesListModel, resultsListModel;
+	int lastSelectedRule;
 
 	public AntiSpamFilterConfigurationGUI(
-			AntiSpamFilterAutomaticConfiguration main, AntiSpamFilterGUI gui, boolean visible) {
+			AntiSpamFilterManualConfiguration main, boolean visible) {
 		//Dimension and position of the window
 		antiSpamFilterFrame.setSize(WINDOW_HSIZE, WINDOW_VSIZE);
 		antiSpamFilterFrame.setLocationRelativeTo(null);
@@ -62,7 +67,6 @@ public class AntiSpamFilterConfigurationGUI {
 				(int)antiSpamFilterFrame.getLocation().getY()+20);
 		
 		antiSpamFilterFrame.setVisible(visible);
-		this.gui = gui;
 		this.main = main;
 				
 		setRulesListPanel();
@@ -186,7 +190,7 @@ public class AntiSpamFilterConfigurationGUI {
 		ALabel weightLabel = new AntiSpamFilterStyles().new ALabel("Rule weight:", AntiSpamFilterStyles.TXT_SMALL);
 
 		SpinnerModel spinnerModel = new SpinnerNumberModel(INIC_RULE, MIN_RULE, MAX_RULE, INT_RULE);
-		ASpinner spinner = new AntiSpamFilterStyles().new ASpinner(spinnerModel);
+		spinner = new AntiSpamFilterStyles().new ASpinner(spinnerModel);
 
 		inputPanel.add(configurationLabel, BorderLayout.PAGE_START);
 		inputPanel.add(weightLabel, BorderLayout.LINE_START);
@@ -206,8 +210,15 @@ public class AntiSpamFilterConfigurationGUI {
 		//Implements the test results window
 		testsPanel.setLayout(new BorderLayout(COMPONENT_GAP,COMPONENT_GAP));
 		ALabel testsLabel = new AntiSpamFilterStyles().new ALabel("Test results");
-		String[] testResults = {"FP: 38 in 2000 mails", "FN: 45 in 2000 mails", "Compare results: improved", "Efficiency: 7%", "Tip: save the optimization values"};
-		AList testResultsList = new AntiSpamFilterStyles().new AList(testResults);
+		
+		resultsListModel = new DefaultListModel<String>();
+		resultsListModel.addElement("FP: ");
+		resultsListModel.addElement("FN: ");
+		resultsListModel.addElement("Compare results: ");
+		resultsListModel.addElement("Efficiency: ");
+		resultsListModel.addElement("Tip: ");
+		
+		AList<String> testResultsList = new AntiSpamFilterStyles().new AList<String>(resultsListModel);
 		testResultsList.setFont(new Font("Arial", Font.PLAIN, 16));
 		testsPanel.add(testsLabel, BorderLayout.PAGE_START);
 		testsPanel.add(testResultsList, BorderLayout.CENTER);
@@ -241,7 +252,7 @@ public class AntiSpamFilterConfigurationGUI {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {				
-				System.out.println("Apply button test");
+				main.applyWeightValue(rulesList.getSelectedIndex(), (Double)spinner.getValue());
 			}
 		});
 	}
@@ -306,33 +317,44 @@ public class AntiSpamFilterConfigurationGUI {
 
 		if (result == AOptionPane.OK_OPTION) {
 			antiSpamFilterFrame.setVisible(false);
-			gui.setEnable(true);
+			main.setWindowClose();
 		}
-	}
-	
-	private String[] buildListOfRules() {
-		ArrayList<Rule> mainListOfRules = main.getListOfRules();
-		String[] listOfRules = new String[mainListOfRules.size()];
-		String name;
-		
-		for (int i = 0; i < mainListOfRules.size(); i++) {
-			name = mainListOfRules.get(i).getName();
-			listOfRules[i] = name;
-		}
-		
-		return listOfRules;
 	}
 
 	public void startConfiguration() {
-		listOfRules = buildListOfRules();
-		AList rulesList = new AntiSpamFilterStyles().new AList(listOfRules);
-		AScrollPane scroll = new AntiSpamFilterStyles().new AScrollPane(rulesList,
+		rulesListModel = new DefaultListModel<String>();
+		
+		for (String rule : main.getListOfNames()) {
+			rulesListModel.addElement(rule);
+		}
+		
+		rulesList = new AntiSpamFilterStyles().new AList<String>(rulesListModel);
+		scroll = new AntiSpamFilterStyles().new AScrollPane(rulesList,
 				AScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 	            AScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		
 		ruleslistPanel.add(scroll, BorderLayout.CENTER);
 		
 		this.setVisible(true);
+		
+		rulesList.addListSelectionListener(new ListSelectionListener() {
+			
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				if (rulesList.getSelectedIndex() >= 0) {
+					spinner.setValue(new Double(main.getRuleWeight(rulesList.getSelectedIndex())));
+					lastSelectedRule = rulesList.getSelectedIndex();
+				}
+			}
+		});
+	}
+	
+	public void refreshRulesList() {
+		rulesListModel.removeAllElements();
+		for (String rule : main.getListOfNames())
+			rulesListModel.addElement(rule);
+		
+		rulesList.setSelectedIndex(lastSelectedRule);
 	}
 
 }

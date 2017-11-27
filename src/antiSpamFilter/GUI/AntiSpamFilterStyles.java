@@ -17,6 +17,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.ListModel;
 import javax.swing.SpinnerModel;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -138,17 +139,18 @@ public class AntiSpamFilterStyles {
 	}
 
 	//JList -> use AList		
-	protected class AList extends JList<Object> {
+	@SuppressWarnings("hiding")
+	protected class AList<Object> extends JList<Object> {
 		/**
 		 * <p> New ListBox with white background, gray foreground and font Arial 14. </p>
 		 */
 		private static final long serialVersionUID = 1L;
-		
-		public AList(String[] list) {
-			super(list);
+
+		public AList(ListModel<Object> list) {
+			super();
+			this.setModel(list);;
 			super.setFont(new Font("Arial", Font.PLAIN, 14));
 			super.setForeground(TEXTCOLOR);
-
 		}
 	}
 	
@@ -263,12 +265,12 @@ public class AntiSpamFilterStyles {
 			super.setBorder(BorderFactory.createLineBorder(new Color(220,220,220)));
 		}
 
-		public AScrollPane(AList list) {
+		public AScrollPane(AList<String> list) {
 			super(list);
 			super.setBorder(BorderFactory.createLineBorder(new Color(220,220,220)));
 		}
 
-		public AScrollPane(AList list, int v, int h) {
+		public AScrollPane(AList<String> list, int v, int h) {
 			super(list,v,h);
 			super.setBorder(BorderFactory.createLineBorder(new Color(220,220,220)));
 		}

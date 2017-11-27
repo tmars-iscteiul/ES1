@@ -54,8 +54,7 @@ public class AntiSpamFilterGUI {
 	
 	//Panels initiation
 	APanel loadingPanel, initiationPanel, resultsPanel, conclusionPanel, resultsAndConclusionPanel;
-	
-	
+		
 
 	public AntiSpamFilterGUI(AntiSpamFilterAutomaticConfiguration main) {
 		this.main = main;
