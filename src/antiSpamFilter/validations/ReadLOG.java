@@ -2,47 +2,12 @@ package antiSpamFilter.validations;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
 import java.util.Scanner;
 
-import antiSpamFilter.GUI.AntiSpamFilterStyles.AOptionPane;
-
 public class ReadLOG {
-	static boolean validated = false;
-	static boolean linhaComParametrosAMais=false;
 	
-	static String []hamFileFields = null;
-	static String []firstFieldSplit = null;
-	static ArrayList<String> typeList = new ArrayList<String>();
-	
-	public static boolean verificarTipoEmail(File f){
-		if(f.getName().equals("ham.log")){
-			//Verificar se o tipo de cada email do ficheiro ham.log está correto
-			for(int i=0; i<typeList.size();i++){
-				if(typeList.get(i).equals("_ham_")){
-					return true;
-				}
-				else{
-					return false;
-				}
-			}
-		}
-		else if(f.getName().equals("spam.log")){
-			//Verificar se o tipo de cada email do ficheiro spam.log está correto
-			for(int j=0; j<typeList.size();j++){
-				if(typeList.get(j).equals("_spam_")){
-					return true;
-				}
-				else{
-					return false;
-				}
-			}
-		}
-		//Ficheiro não interessante para o software AntiSpam
-		return false;
-	}
-	
-	public static boolean readFile(File f) {
+	public static boolean readFile(File f) throws FileNotFoundException {
+		
 		
 		try {
 			Scanner s = new Scanner(f);
@@ -52,35 +17,22 @@ public class ReadLOG {
 				String nextLine = s.nextLine();
 				
 				//Divisão das diversas colunas do ficheiro
-				hamFileFields= nextLine.split("\t");
+				String []hamFileFields= nextLine.split("\t");
 				
-				//Divisão da primeira coluna do ficheiro em /
-				firstFieldSplit= hamFileFields[0].split("/");
-				
-				//Adicionar o nome de todas as linhas do ficheiro "ham.log"ou"spam.log à lista "nameList"
-				typeList.add(firstFieldSplit[2]);
-				
-				if(!verificarTipoEmail(f)){
-					s.close();
+				//o ficheiro tem de ter pelo menos o ID de cada email 
+				if (hamFileFields.length<1)
 					return false;
-				}
 				
-				//Verificar número de parametros da primeira coluna (firstFieldSplit[])
-				if (firstFieldSplit.length != 4){
-					s.close();
+				//caso o ficheiro não seja o ham.log nem o spam.log não é relevante para o software
+				if (f.getName()!= "ham.log" || f.getName()!= "spam.log")
 					return false;
-				}				
+						
+				s.close();
 			}
-			
-			s.close();
-			
 		} catch (FileNotFoundException e) {
-			AOptionPane.showMessageDialog(
-					null, "Could not read the file", "Error", AOptionPane.ERROR_MESSAGE);
-			return false;
+			e.getStackTrace();
 		}
-		
 		return true;
 	}
-
+	
 }
