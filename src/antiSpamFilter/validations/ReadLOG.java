@@ -6,6 +6,16 @@ import java.util.Scanner;
 
 import antiSpamFilter.GUI.AntiSpamFilterStyles.AOptionPane;
 
+/**
+ * <p>ReadLOG - the ham file and spam file validation class</br>
+ * </br>
+ * This class tests if a .log file is a valid ham file or spam file,
+ * checking if it has at least the ID of the email .</p>
+ * 
+ * @author ES1-2017-LIGE-PL-102
+ *
+ */
+
 public class ReadLOG {
 	
 	public static boolean readFile(File f){
