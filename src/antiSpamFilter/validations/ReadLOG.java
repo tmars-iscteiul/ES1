@@ -4,9 +4,11 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
+import antiSpamFilter.GUI.AntiSpamFilterStyles.AOptionPane;
+
 public class ReadLOG {
 	
-	public static boolean readFile(File f) throws FileNotFoundException {
+	public static boolean readFile(File f){
 		
 		
 		try {
@@ -16,21 +18,28 @@ public class ReadLOG {
 				
 				String nextLine = s.nextLine();
 				
-				//Divisão das diversas colunas do ficheiro
+				//Split the fields in tabs
 				String []hamFileFields= nextLine.split("\t");
 				
-				//o ficheiro tem de ter pelo menos o ID de cada email 
-				if (hamFileFields.length<1)
+				//Validates the minimum number of line fields
+				if (hamFileFields.length<1){
+					s.close();
 					return false;
+				}
+					
 				
-				//caso o ficheiro não seja o ham.log nem o spam.log não é relevante para o software
-				if (f.getName()!= "ham.log" || f.getName()!= "spam.log")
+				//Validates if the file is ham.log or spam.log
+				if (f.getName()!= "ham.log" || f.getName()!= "spam.log"){
+					s.close();
 					return false;
+				}
 						
 				s.close();
 			}
 		} catch (FileNotFoundException e) {
-			e.getStackTrace();
+			AOptionPane.showMessageDialog(
+					null, "File not found. Confirm the link.", "Error", AOptionPane.ERROR_MESSAGE);
+			return false;
 		}
 		return true;
 	}
