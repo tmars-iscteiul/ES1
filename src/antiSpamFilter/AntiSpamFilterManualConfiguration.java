@@ -48,8 +48,11 @@ public class AntiSpamFilterManualConfiguration {
 		return temporaryListOfRules.get(selectedIndex).getWeight();
 	}
 
-	public void applyWeightValue(int selectedIndex, Double value) {
-		temporaryListOfRules.get(selectedIndex).setWeight(value);
+	public void applyWeightValue(String selectedRule, Double value) {
+		for (int i = 0; i < temporaryListOfRules.size(); i++)
+			if (temporaryListOfRules.get(i).getName().equals(selectedRule))
+				temporaryListOfRules.get(i).setWeight(value);
+		
 		updateListOfNames();
 		gui.refreshRulesList();
 	}

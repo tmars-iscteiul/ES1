@@ -59,6 +59,7 @@ public class AntiSpamFilterConfigurationGUI {
 	AList<String> rulesList;
 	AScrollPane scroll;
 	ASpinner spinner;
+	ATextField searchField;
 	DefaultListModel<String> rulesListModel, resultsListModel;
 	int lastSelectedRule;
 
@@ -164,7 +165,7 @@ public class AntiSpamFilterConfigurationGUI {
 	private void setSearchPanel() {
 		//Implementation of search window
 		searchPanel = new AntiSpamFilterStyles().new APanel();
-		ATextField searchField = new AntiSpamFilterStyles().new ATextField("");
+		searchField = new AntiSpamFilterStyles().new ATextField("");
 		searchField.setPlaceholder("Search field");
 
 		AButton clearSearchButton = 
@@ -281,7 +282,8 @@ public class AntiSpamFilterConfigurationGUI {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {				
-				main.applyWeightValue(rulesList.getSelectedIndex(), (Double)spinner.getValue());
+				main.applyWeightValue(rulesList.getSelectedValue(), (Double)spinner.getValue());
+				main.filterRulesList(searchField.getText());
 			}
 		});
 	}
