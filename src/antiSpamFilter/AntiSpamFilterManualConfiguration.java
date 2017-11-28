@@ -11,6 +11,7 @@ public class AntiSpamFilterManualConfiguration {
 	AntiSpamFilterConfigurationGUI gui;
 	ArrayList<Rule> mainListOfRules, temporaryListOfRules;
 	ArrayList<String> listOfNames;
+	Boolean initiateGUI = false;
 	
 	public AntiSpamFilterManualConfiguration (
 			AntiSpamFilterAutomaticConfiguration main) {
@@ -27,7 +28,12 @@ public class AntiSpamFilterManualConfiguration {
 		
 		updateListOfNames();
 		
-		gui.startConfiguration();
+		if (!initiateGUI) gui.startConfiguration();
+		else gui.refreshRulesList();
+		
+		gui.setVisible(true);
+		
+		initiateGUI = true;
 	}
 
 	public ArrayList<String> getListOfNames() {
@@ -53,7 +59,28 @@ public class AntiSpamFilterManualConfiguration {
 
 		for (int i = 0; i < temporaryListOfRules.size(); i++)
 			if (temporaryListOfRules.get(i).getWeight() == mainListOfRules.get(i).getWeight())
-				listOfNames.add(temporaryListOfRules.get(i).getName());
-			else listOfNames.add("> " + temporaryListOfRules.get(i).getName());
+				listOfNames.add(mainListOfRules.get(i).getName());
+			else listOfNames.add("> " + mainListOfRules.get(i).getName());
+	}
+	
+	public void resetWeightValue(int selectedIndex) {
+		temporaryListOfRules.get(selectedIndex).setWeight(
+				mainListOfRules.get(selectedIndex).getWeight());
+		updateListOfNames();
+		gui.refreshRulesList();
+	}
+
+	public void filterRulesList(String text) {
+		if (text.isEmpty()) updateListOfNames();
+		else {
+			listOfNames = new ArrayList<String>();
+
+			for (int i = 0; i < temporaryListOfRules.size(); i++)
+				if (temporaryListOfRules.get(i).getName().contains(text))
+					if (temporaryListOfRules.get(i).getWeight() == mainListOfRules.get(i).getWeight())
+						listOfNames.add(mainListOfRules.get(i).getName());
+					else listOfNames.add("> " + mainListOfRules.get(i).getName());
+		}
+		gui.refreshRulesList();
 	}
 }

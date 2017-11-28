@@ -6,6 +6,8 @@ import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
@@ -14,6 +16,9 @@ import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.SwingUtilities;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -144,8 +149,6 @@ public class AntiSpamFilterConfigurationGUI {
 
 		ALabel spamLabel = new AntiSpamFilterStyles().new ALabel("Rules List");
 		ruleslistPanel.add(spamLabel, BorderLayout.PAGE_START);
-		
-		
 	}
 
 	
@@ -167,6 +170,32 @@ public class AntiSpamFilterConfigurationGUI {
 		AButton clearSearchButton = 
 				new AntiSpamFilterStyles().
 				new AButton("Clear search", AntiSpamFilterStyles.BTN_DEFAULT);
+		
+		searchField.getDocument().addDocumentListener(new DocumentListener() {
+			
+			@Override
+			public void removeUpdate(DocumentEvent e) {
+				main.filterRulesList(searchField.getText().toUpperCase());
+			}
+			
+			@Override
+			public void insertUpdate(DocumentEvent e) {
+				main.filterRulesList(searchField.getText().toUpperCase());
+			}
+			
+			@Override
+			public void changedUpdate(DocumentEvent e) {
+					
+			}
+		});
+		
+		clearSearchButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				searchField.setText("");
+			}
+		});
 
 		searchPanel.setLayout(new BorderLayout(COMPONENT_GAP,5));
 		searchPanel.setPreferredSize(new Dimension(200,75));
@@ -335,8 +364,6 @@ public class AntiSpamFilterConfigurationGUI {
 		
 		ruleslistPanel.add(scroll, BorderLayout.CENTER);
 		
-		this.setVisible(true);
-		
 		rulesList.addListSelectionListener(new ListSelectionListener() {
 			
 			@Override
@@ -346,6 +373,14 @@ public class AntiSpamFilterConfigurationGUI {
 					lastSelectedRule = rulesList.getSelectedIndex();
 				}
 			}
+		});
+		
+		rulesList.addMouseListener(new MouseAdapter() {
+			public void mousePressed(MouseEvent e) {
+		        if ( SwingUtilities.isRightMouseButton(e) ) {
+		            main.resetWeightValue(rulesList.locationToIndex(e.getPoint()));
+		        }
+		    }
 		});
 	}
 	
