@@ -326,7 +326,9 @@ public class AntiSpamFilterConfigurationGUI {
 						null, AOptionPane.YES_NO_OPTION);
 				
 				if (result == AOptionPane.OK_OPTION) {
-					System.out.println("Save button test");
+					main.saveMainListOfRules();
+					AOptionPane.showMessageDialog(null, "Rules saved with success", 
+							"Manual configuration", AOptionPane.INFORMATION_MESSAGE);
 				}
 			}
 		});
@@ -345,12 +347,18 @@ public class AntiSpamFilterConfigurationGUI {
 	}
 	
 	private void confirmCloseWindow() {
-		new AntiSpamFilterStyles().new AOptionPane();
-		int result = AOptionPane.showConfirmDialog(null, 
-				"Are you sure? All the changes will be lost",
-				null, AOptionPane.YES_NO_OPTION);
+		if (main.isListChanged()) {
+			new AntiSpamFilterStyles().new AOptionPane();
+			int result = AOptionPane.showConfirmDialog(null, 
+					"Are you sure? All the changes will be lost",
+					null, AOptionPane.YES_NO_OPTION);
 
-		if (result == AOptionPane.OK_OPTION) {
+			if (result == AOptionPane.OK_OPTION) {
+				antiSpamFilterFrame.setVisible(false);
+				main.setWindowClose();
+			}
+		}
+		else {
 			antiSpamFilterFrame.setVisible(false);
 			main.setWindowClose();
 		}
@@ -382,7 +390,7 @@ public class AntiSpamFilterConfigurationGUI {
 					else
 						if (rulesList.getSelectedValue().charAt(0) == '>')
 							spinner.setValue(new Double(main.getRuleWeight(
-									rulesList.getSelectedValue().substring(2))));
+								rulesList.getSelectedValue().substring(2))));
 						else spinner.setValue(new Double(main.getRuleWeight(rulesList.getSelectedValue())));
 					
 					spinner.setEnabled(true);
@@ -397,10 +405,8 @@ public class AntiSpamFilterConfigurationGUI {
 		            main.resetWeightValue(rulesListModel.getElementAt(
 		            		rulesList.locationToIndex(e.getPoint())));
 		            
-		            if (!searchField.getText().equals("")) {
+		            if (!searchField.getText().equals(""))
 		            	main.filterRulesList(searchField.getText().toUpperCase());
-						rulesList.setSelectedIndex(0);
-		            }
 		        }
 		    }
 		});

@@ -99,4 +99,19 @@ public class AntiSpamFilterManualConfiguration {
 		}
 		gui.refreshRulesList();
 	}
+	
+	public void saveMainListOfRules() {
+		for (int i = 0; i < mainListOfRules.size(); i++)
+			mainListOfRules.get(i).setWeight(temporaryListOfRules.get(i).getWeight());
+		
+		main.saveListOfRules(mainListOfRules);
+	}
+
+	public boolean isListChanged() {
+		for (int i = 0; i < temporaryListOfRules.size(); i++)
+			if (temporaryListOfRules.get(i).getWeight() != mainListOfRules.get(i).getWeight())
+				return true;
+			
+		return false;
+	}
 }

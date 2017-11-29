@@ -179,4 +179,8 @@ public class AntiSpamFilterAutomaticConfiguration {
 		mainGUI.setEnable(true);
 	}
 
+	public void saveListOfRules(ArrayList<Rule> mainListOfRules) {
+		listOfRules = mainListOfRules;
+	}
+
 }
