@@ -47,6 +47,14 @@ public class AntiSpamFilterManualConfiguration {
 	public Double getRuleWeight(int selectedIndex) {
 		return temporaryListOfRules.get(selectedIndex).getWeight();
 	}
+	
+	public Double getRuleWeight(String name) {
+		for (int i = 0; i < temporaryListOfRules.size(); i++)
+			if (temporaryListOfRules.get(i).getName().equals(name))
+				return temporaryListOfRules.get(i).getWeight();
+		
+		return 0.0;
+	}
 
 	public void applyWeightValue(String selectedRule, Double value) {
 		for (int i = 0; i < temporaryListOfRules.size(); i++)
@@ -66,9 +74,14 @@ public class AntiSpamFilterManualConfiguration {
 			else listOfNames.add("> " + mainListOfRules.get(i).getName());
 	}
 	
-	public void resetWeightValue(int selectedIndex) {
-		temporaryListOfRules.get(selectedIndex).setWeight(
-				mainListOfRules.get(selectedIndex).getWeight());
+	public void resetWeightValue(String name) {
+		if (name.charAt(0) == '>')
+			name = name.substring(2);
+		
+		for (int i = 0; i < temporaryListOfRules.size(); i++)
+			if (temporaryListOfRules.get(i).getName().contains(name))
+				temporaryListOfRules.get(i).setWeight(mainListOfRules.get(i).getWeight());
+
 		updateListOfNames();
 		gui.refreshRulesList();
 	}

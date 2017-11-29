@@ -177,11 +177,13 @@ public class AntiSpamFilterConfigurationGUI {
 			@Override
 			public void removeUpdate(DocumentEvent e) {
 				main.filterRulesList(searchField.getText().toUpperCase());
+				rulesList.setSelectedIndex(0);
 			}
 			
 			@Override
 			public void insertUpdate(DocumentEvent e) {
 				main.filterRulesList(searchField.getText().toUpperCase());
+				rulesList.setSelectedIndex(0);
 			}
 			
 			@Override
@@ -282,8 +284,10 @@ public class AntiSpamFilterConfigurationGUI {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {				
-				main.applyWeightValue(rulesList.getSelectedValue(), (Double)spinner.getValue());
-				main.filterRulesList(searchField.getText());
+				if (spinner.isEnabled()) {
+					main.applyWeightValue(rulesList.getSelectedValue(), (Double)spinner.getValue());
+					main.filterRulesList(searchField.getText().toUpperCase());
+				}
 			}
 		});
 	}
@@ -370,8 +374,18 @@ public class AntiSpamFilterConfigurationGUI {
 			
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
-				if (rulesList.getSelectedIndex() >= 0) {
-					spinner.setValue(new Double(main.getRuleWeight(rulesList.getSelectedIndex())));
+				if (rulesList.getSelectedValue() == null)
+					spinner.setEnabled(false);				
+				else {
+					if (searchField.getText().equals(""))
+						spinner.setValue(new Double(main.getRuleWeight(rulesList.getSelectedIndex())));
+					else
+						if (rulesList.getSelectedValue().charAt(0) == '>')
+							spinner.setValue(new Double(main.getRuleWeight(
+									rulesList.getSelectedValue().substring(2))));
+						else spinner.setValue(new Double(main.getRuleWeight(rulesList.getSelectedValue())));
+					
+					spinner.setEnabled(true);
 					lastSelectedRule = rulesList.getSelectedIndex();
 				}
 			}
@@ -380,7 +394,13 @@ public class AntiSpamFilterConfigurationGUI {
 		rulesList.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
 		        if ( SwingUtilities.isRightMouseButton(e) ) {
-		            main.resetWeightValue(rulesList.locationToIndex(e.getPoint()));
+		            main.resetWeightValue(rulesListModel.getElementAt(
+		            		rulesList.locationToIndex(e.getPoint())));
+		            
+		            if (!searchField.getText().equals("")) {
+		            	main.filterRulesList(searchField.getText().toUpperCase());
+						rulesList.setSelectedIndex(0);
+		            }
 		        }
 		    }
 		});
