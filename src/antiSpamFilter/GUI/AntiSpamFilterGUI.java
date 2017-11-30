@@ -95,7 +95,9 @@ public class AntiSpamFilterGUI {
 
 			@Override
 			public void windowClosing(WindowEvent e) {
-				confirmCloseWindow();
+				if (main.isRulesChanged())
+					confirmCloseWindow();
+				else System.exit(0);
 			}
 
 			@Override
@@ -344,14 +346,9 @@ public class AntiSpamFilterGUI {
 		withoutSaveButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				new AntiSpamFilterStyles().new AOptionPane();
-				int result = AOptionPane.showConfirmDialog(null, 
-						"Are you sure? All the changes will be lost",
-						null, AOptionPane.YES_NO_OPTION);
-				
-				if (result == AOptionPane.OK_OPTION) {
-					System.exit(0);
-				}
+				if (main.isRulesChanged())
+					confirmCloseWindow();
+				else System.exit(0);
 			}
 		});
 		
@@ -391,9 +388,8 @@ public class AntiSpamFilterGUI {
 				"Are you sure? All the changes will be lost",
 				null, AOptionPane.YES_NO_OPTION);
 		
-		if (result == AOptionPane.OK_OPTION) {
+		if (result == AOptionPane.OK_OPTION)
 			System.exit(0);
-		}
 	}
 	
 	protected boolean validFilesPath() {

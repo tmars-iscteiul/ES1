@@ -32,7 +32,7 @@ import java.util.List;
 
 public class AntiSpamFilterAutomaticConfiguration {
 	private static final int INDEPENDENT_RUNS = 5 ;
-	private boolean filesAreValidated = false;
+	private boolean filesAreValidated = false, isRulesChanged = false;
 	
 	AntiSpamFilterGUI mainGUI;
 	AntiSpamFilterManualConfiguration manualConfigure;
@@ -181,6 +181,10 @@ public class AntiSpamFilterAutomaticConfiguration {
 
 	public void saveListOfRules(ArrayList<Rule> mainListOfRules) {
 		listOfRules = mainListOfRules;
+		isRulesChanged = true;
 	}
 
+	public boolean isRulesChanged() {
+		return isRulesChanged;
+	}
 }
