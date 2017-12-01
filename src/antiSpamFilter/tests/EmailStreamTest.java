@@ -29,9 +29,4 @@ public class EmailStreamTest {
 				
 	}
 
-	@Test
-	public final void testWriteListOfEmailsToFile() {
-		fail("Not yet implemented"); // TODO
-	}
-
 }

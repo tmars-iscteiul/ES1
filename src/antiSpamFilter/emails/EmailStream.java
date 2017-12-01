@@ -83,7 +83,4 @@ public class EmailStream {
 		return listOfAllEmails;
 	}
 	
-	public static void writeListOfEmailsToFile (File file, ArrayList<Email> list) {
-		//TODO Implementation of the write function
-	}
 }

@@ -36,7 +36,7 @@ public class AntiSpamFilterAutomaticConfiguration {
 	
 	AntiSpamFilterGUI mainGUI;
 	AntiSpamFilterManualConfiguration manualConfigure;
-
+	
 	ArrayList<Email> listOfEmailsSpam, listOfEmailsHam;
 	ArrayList<Rule> listOfRules;
 

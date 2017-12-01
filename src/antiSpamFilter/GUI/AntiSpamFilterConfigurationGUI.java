@@ -402,7 +402,8 @@ public class AntiSpamFilterConfigurationGUI {
 		rulesList.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
 		        if ( SwingUtilities.isRightMouseButton(e) ) {
-		            main.resetWeightValue(rulesListModel.getElementAt(
+		            if (rulesListModel.getElementAt(rulesList.locationToIndex(e.getPoint())).charAt(0) == '>')
+		            	main.resetWeightValue(rulesListModel.getElementAt(
 		            		rulesList.locationToIndex(e.getPoint())));
 		            
 		            if (!searchField.getText().equals(""))

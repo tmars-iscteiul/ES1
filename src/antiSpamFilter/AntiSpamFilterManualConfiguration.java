@@ -58,6 +58,11 @@ public class AntiSpamFilterManualConfiguration {
 		return 0.0;
 	}
 	
+	/** Returns the weight of a rule by the index **/
+	public Double getRuleWeight(int selectedIndex) {
+		return temporaryListOfRules.get(selectedIndex).getWeight();
+	}
+	
 	/** Apply a certain weight value to a rule **/
 	public void applyWeightValue(String selectedRule, Double value) {
 		for (int i = 0; i < temporaryListOfRules.size(); i++)
@@ -80,8 +85,7 @@ public class AntiSpamFilterManualConfiguration {
 	
 	/** Resets a rule value to his original value **/
 	public void resetWeightValue(String name) {
-		if (name.charAt(0) == '>')
-			name = name.substring(2);
+		name = name.substring(2);
 		
 		for (int i = 0; i < temporaryListOfRules.size(); i++)
 			if (temporaryListOfRules.get(i).getName().contains(name))
@@ -130,9 +134,5 @@ public class AntiSpamFilterManualConfiguration {
 	/** Closes the window **/
 	public void setWindowClose() {
 		main.configureWindowClose();
-	}
-
-	public Double getRuleWeight(int selectedIndex) {
-		return temporaryListOfRules.get(selectedIndex).getWeight();
 	}
 }
