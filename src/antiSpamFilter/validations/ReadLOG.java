@@ -39,7 +39,7 @@ public class ReadLOG {
 					
 				
 				//Validates if the file is ham.log or spam.log
-				if (f.getName()!= "ham.log" || f.getName()!= "spam.log"){
+				if (!f.getName().equals("ham.log") || !f.getName().equals("spam.log")){
 					s.close();
 					return false;
 				}
