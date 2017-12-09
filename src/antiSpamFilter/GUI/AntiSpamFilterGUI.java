@@ -250,7 +250,6 @@ public class AntiSpamFilterGUI {
 					main.setConfigureWindowVisible(true);
 					antiSpamFilterFrame.setEnabled(false);
 				}
-				else showCorruptFileMessage();
 			}
 		});
 
@@ -263,7 +262,6 @@ public class AntiSpamFilterGUI {
 			public void actionPerformed(ActionEvent arg0) {
 				if (validFilesPath())
 					System.out.println("Teste inicio otimização");
-				else showCorruptFileMessage();
 			}
 		});
 
