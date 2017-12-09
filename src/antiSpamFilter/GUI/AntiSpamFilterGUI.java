@@ -32,8 +32,6 @@ import antiSpamFilter.GUI.AntiSpamFilterStyles.*;
 
 public class AntiSpamFilterGUI {
 	
-	
-	private static final long serialVersionUID = 1L;
 	private JFrame antiSpamFilterFrame = new JFrame("AntiSpamFilter Optimizer v1.0");
 	
 	private final int WINDOW_HSIZE = 500;
@@ -41,16 +39,11 @@ public class AntiSpamFilterGUI {
 	private final int COMPONENT_GAP = 20;
 	private final int COMPONENT_MAX_WIDTH = WINDOW_HSIZE-(2*COMPONENT_GAP);
 	
-	private String SPAM_FILENAME;
-	private File SPAM_FILE;
-	
-	private String HAM_FILENAME;
-	private File HAM_FILE;
-	
-	private String RULES_FILENAME;
-	private File RULES_FILE;
+	private String SPAM_FILENAME, HAM_FILENAME, RULES_FILENAME;
+	private File SPAM_FILE, HAM_FILE, RULES_FILE;
 	
 	private AntiSpamFilterAutomaticConfiguration main;
+	ATextArea textBox;
 	
 	//Panels initiation
 	APanel loadingPanel, initiationPanel, resultsPanel, conclusionPanel, resultsAndConclusionPanel;
@@ -153,6 +146,8 @@ public class AntiSpamFilterGUI {
 				if (SPAM_FILENAME != null) {
 					SPAM_FILE = new File(spamFile.getDirectory() + SPAM_FILENAME);
 					spamArea.setText(SPAM_FILENAME);
+					if (SPAM_FILE != null && HAM_FILE != null && RULES_FILE != null) 
+						validateFiles();
 				}
 			}
 		});
@@ -170,6 +165,8 @@ public class AntiSpamFilterGUI {
 				if (HAM_FILENAME != null) {
 					HAM_FILE = new File(hamFile.getDirectory() + HAM_FILENAME);
 					hamArea.setText(HAM_FILENAME);
+					if (SPAM_FILE != null && HAM_FILE != null && RULES_FILE != null) 
+						validateFiles();
 				}
 			}
 		});
@@ -187,6 +184,8 @@ public class AntiSpamFilterGUI {
 				if (RULES_FILENAME != null) {
 					RULES_FILE = new File(rulesFile.getDirectory() + RULES_FILENAME);
 					rulesArea.setText(RULES_FILENAME);
+					if (SPAM_FILE != null && HAM_FILE != null && RULES_FILE != null) 
+						validateFiles();
 				}
 			}
 		});
@@ -247,12 +246,11 @@ public class AntiSpamFilterGUI {
 		configurationButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				if (validFilesPath()) 
-					if (main.validateFilesAndBuildRulesAndEmails(SPAM_FILE, HAM_FILE, RULES_FILE)) {
-						main.setConfigureWindowVisible(true);
-						antiSpamFilterFrame.setEnabled(false);
-					}
-					else showCorruptFileMessage();
+				if (validFilesPath()) {
+					main.setConfigureWindowVisible(true);
+					antiSpamFilterFrame.setEnabled(false);
+				}
+				else showCorruptFileMessage();
 			}
 		});
 
@@ -263,12 +261,9 @@ public class AntiSpamFilterGUI {
 		startButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				if (validFilesPath()) 
-					if (main.validateFilesAndBuildRulesAndEmails(SPAM_FILE, HAM_FILE, RULES_FILE)) {
-						System.out.println("Test Start optimization Button ");
-						main.runOptimization();
-					}
-					else showCorruptFileMessage();
+				if (validFilesPath())
+					System.out.println("Teste inicio otimização");
+				else showCorruptFileMessage();
 			}
 		});
 
@@ -295,7 +290,7 @@ public class AntiSpamFilterGUI {
 		ALabel resultsLabel = new AntiSpamFilterStyles().new ALabel("Results Window");
 		resultsLabel.setHorizontalAlignment(ALabel.CENTER);
 		resultsLabel.setPreferredSize(new Dimension(500, 30));
-		ATextArea textBox= new AntiSpamFilterStyles().new ATextArea();
+		textBox= new AntiSpamFilterStyles().new ATextArea();
 		textBox.setEditable(false);
 		
 		resultsPanel.add(resultsLabel, BorderLayout.NORTH);
@@ -305,17 +300,6 @@ public class AntiSpamFilterGUI {
 			
 		AScrollPane scrollArea = new AntiSpamFilterStyles().new AScrollPane(textBox);
 		resultsPanel.add(scrollArea);
-
-		
-		//futuramente iremos colocar os FP, FN e efficiency que vêm da configuração como variaveis
-		String title= new String("Optimizing Process Result:");
-		String fp= new String(" Final count of FP: X");
-		String fn= new String(" Final count of FN: Y");
-		String efficiency= new String(" Optimizing efficiency: W");
-		textBox.append(title + "\n");
-		textBox.append(fp + "\n" );
-		textBox.append(fn + "\n");
-		textBox.append(efficiency + "\n");
 	}
 	
 	
@@ -392,6 +376,7 @@ public class AntiSpamFilterGUI {
 			System.exit(0);
 	}
 	
+	//Checks if the three files are loaded in the box
 	protected boolean validFilesPath() {
 		if (SPAM_FILE == null || HAM_FILE == null || RULES_FILE == null) {
 			new AntiSpamFilterStyles().new AOptionPane();
@@ -406,5 +391,22 @@ public class AntiSpamFilterGUI {
 		new AntiSpamFilterStyles().new AOptionPane();
 		AOptionPane.showMessageDialog(
 				null, "The files are corrupted. Please confirm its content.", "Error", AOptionPane.ERROR_MESSAGE);
+	}
+	
+	//Validates the spam file, the ham file and the rules list
+	protected boolean validateFiles() {
+		if (validFilesPath()) 
+			if (main.validateFilesAndBuildRulesAndEmails(SPAM_FILE, HAM_FILE, RULES_FILE)) {
+				textBox.setText("");
+				textBox.append("The files were validated with success.\nYou can run the optimization.\n");
+				return true;
+			}
+			else {
+				textBox.setText("");
+				showCorruptFileMessage();
+				return false;
+			}
+		
+		return false;
 	}
 }
