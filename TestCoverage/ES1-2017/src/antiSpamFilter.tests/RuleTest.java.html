@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>RuleTest.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">antiSpamFilter.tests (9/dez/2017 15:25:38)</a> &gt; <a href="../../index.html" class="el_group">ES1-2017</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">antiSpamFilter.tests</a> &gt; <span class="el_source">RuleTest.java</span></div><h1>RuleTest.java</h1><pre class="source lang-java linenums">package antiSpamFilter.tests;
+
+import static org.junit.Assert.*;
+
+import org.junit.Test;
+
+import antiSpamFilter.rules.Rule;
+
+<span class="fc" id="L9">public class RuleTest {</span>
+
+	@Test
+	public void testRule() {
+<span class="fc" id="L13">		Rule test = new Rule(&quot;teste&quot;,2.0);</span>
+<span class="fc" id="L14">		assertEquals(test.getName(), &quot;teste&quot;);</span>
+<span class="fc" id="L15">		assertEquals(test.getWeight(), 2.0, 0.0);		</span>
+<span class="fc" id="L16">	}</span>
+
+	@Test
+	public void testGetName() {
+<span class="fc" id="L20">		Rule test = new Rule(&quot;teste&quot;,2.0);</span>
+<span class="fc" id="L21">		assertEquals(test.getName(), &quot;teste&quot;);</span>
+<span class="fc" id="L22">	}</span>
+
+	@Test
+	public void testGetWeight() {
+<span class="fc" id="L26">		Rule test = new Rule(&quot;teste&quot;,2.0);</span>
+<span class="fc" id="L27">		assertEquals(test.getWeight(), 2.0, 0.0);</span>
+<span class="fc" id="L28">	}</span>
+
+	@Test
+	public void testSetName() {
+<span class="fc" id="L32">		Rule test = new Rule(&quot;teste&quot;,2.0);</span>
+<span class="fc" id="L33">		test.setName(&quot;teste2&quot;);</span>
+<span class="fc" id="L34">		assertEquals(test.getName(), &quot;teste2&quot;);</span>
+<span class="fc" id="L35">	}</span>
+
+	@Test
+	public void testSetWeight() {
+<span class="fc" id="L39">		Rule test = new Rule(&quot;teste&quot;,2.0);</span>
+<span class="fc" id="L40">		test.setWeight(-1.8);</span>
+<span class="fc" id="L41">		assertEquals(test.getWeight(), -1.8, 0.0);</span>
+<span class="fc" id="L42">	}</span>
+
+	@Test
+	public void testToString() {
+<span class="fc" id="L46">		Rule test = new Rule(&quot;teste&quot;,2.0);</span>
+<span class="fc" id="L47">		assertEquals(test.toString(), &quot;Rule name: teste Peso: 2.0&quot;);</span>
+<span class="fc" id="L48">	}</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span>antiSpamFilter.tests (9/dez/2017 15:25:38)</div></body></html>

@@ -19,6 +19,7 @@ import antiSpamFilter.GUI.AntiSpamFilterStyles.AOptionPane;
 
 public class ReadCF {
 
+	/** Reads the rules file and validates it **/
 	public static boolean read(File file) {
 
 		String line;

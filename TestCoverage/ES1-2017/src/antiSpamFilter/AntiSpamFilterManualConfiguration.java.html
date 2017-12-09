@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>AntiSpamFilterManualConfiguration.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">antiSpamFilter.tests (9/dez/2017 15:25:38)</a> &gt; <a href="../../index.html" class="el_group">ES1-2017</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">antiSpamFilter</a> &gt; <span class="el_source">AntiSpamFilterManualConfiguration.java</span></div><h1>AntiSpamFilterManualConfiguration.java</h1><pre class="source lang-java linenums">package antiSpamFilter;
+
+import java.util.ArrayList;
+
+import antiSpamFilter.GUI.AntiSpamFilterConfigurationGUI;
+import antiSpamFilter.rules.Rule;
+
+/**
+ * &lt;p&gt;AntiSpamFilterManualConfiguration - the rules configuration class&lt;/br&gt;
+ * &lt;/br&gt;
+ * The AntiSpamFilter Manual Configuration allows the user to manually change
+ * and test the list of rules. This class also creates the configuration GUI
+ * and interacts with it.&lt;/p&gt;
+ *
+ * @author ES1-2017-LIGE-PL-102
+ */
+
+public class AntiSpamFilterManualConfiguration {
+	
+	//Launch of the global variables
+	AntiSpamFilterAutomaticConfiguration main;
+	AntiSpamFilterConfigurationGUI gui;
+	ArrayList&lt;Rule&gt; mainListOfRules, temporaryListOfRules;
+	ArrayList&lt;String&gt; listOfNames;
+<span class="fc" id="L25">	Boolean initiateGUI = false;</span>
+	
+<span class="fc" id="L27">	public AntiSpamFilterManualConfiguration (</span>
+			AntiSpamFilterAutomaticConfiguration main) {
+<span class="fc" id="L29">		this.main = main;	</span>
+<span class="fc" id="L30">		gui = new AntiSpamFilterConfigurationGUI(this,false);</span>
+<span class="fc" id="L31">	}</span>
+
+	/**Creation of the main list and the temporary list of rules**/
+	public void startConfiguration() {
+<span class="fc" id="L35">		mainListOfRules = main.getListOfRules();</span>
+<span class="fc" id="L36">		temporaryListOfRules = new ArrayList&lt;Rule&gt;();</span>
+		
+<span class="fc bfc" id="L38" title="All 2 branches covered.">		for (Rule rule : mainListOfRules)</span>
+<span class="fc" id="L39">			temporaryListOfRules.add(new Rule(rule.getName(),rule.getWeight()));</span>
+		
+<span class="fc" id="L41">		updateListOfNames();</span>
+		
+		//See if the window was already created before
+<span class="fc bfc" id="L44" title="All 2 branches covered.">		if (!initiateGUI) gui.startConfiguration();</span>
+<span class="fc" id="L45">		else gui.refreshRulesList();</span>
+		
+<span class="fc" id="L47">		gui.setVisible(true);</span>
+		
+<span class="fc" id="L49">		initiateGUI = true;</span>
+<span class="fc" id="L50">	}</span>
+	
+	/** Returns the weight of a rule by the name **/
+	public Double getRuleWeight(String name) {
+<span class="fc bfc" id="L54" title="All 2 branches covered.">		for (int i = 0; i &lt; temporaryListOfRules.size(); i++)</span>
+<span class="fc bfc" id="L55" title="All 2 branches covered.">			if (temporaryListOfRules.get(i).getName().equals(name))</span>
+<span class="fc" id="L56">				return temporaryListOfRules.get(i).getWeight();</span>
+		
+<span class="fc" id="L58">		return 0.0;</span>
+	}
+	
+	/** Returns the weight of a rule by the index **/
+	public Double getRuleWeight(int selectedIndex) {
+<span class="fc" id="L63">		return temporaryListOfRules.get(selectedIndex).getWeight();</span>
+	}
+	
+	/** Apply a certain weight value to a rule **/
+	public void applyWeightValue(String selectedRule, Double value) {
+<span class="fc bfc" id="L68" title="All 2 branches covered.">		for (int i = 0; i &lt; temporaryListOfRules.size(); i++)</span>
+<span class="fc bfc" id="L69" title="All 2 branches covered.">			if (temporaryListOfRules.get(i).getName().equals(selectedRule))</span>
+<span class="fc" id="L70">				temporaryListOfRules.get(i).setWeight(value);</span>
+		
+<span class="fc" id="L72">		updateListOfNames();</span>
+<span class="fc" id="L73">		gui.refreshRulesList();</span>
+<span class="fc" id="L74">	}</span>
+	
+	/** Updates the list of rule's name with the temporary list **/
+	public void updateListOfNames() {
+<span class="fc" id="L78">		listOfNames = new ArrayList&lt;String&gt;();</span>
+
+<span class="fc bfc" id="L80" title="All 2 branches covered.">		for (int i = 0; i &lt; temporaryListOfRules.size(); i++)</span>
+<span class="fc bfc" id="L81" title="All 2 branches covered.">			if (temporaryListOfRules.get(i).getWeight() == mainListOfRules.get(i).getWeight())</span>
+<span class="fc" id="L82">				listOfNames.add(mainListOfRules.get(i).getName());</span>
+<span class="fc" id="L83">			else listOfNames.add(&quot;&gt; &quot; + mainListOfRules.get(i).getName());</span>
+<span class="fc" id="L84">	}</span>
+	
+	/** Resets a rule value to his original value **/
+	public void resetWeightValue(String name) {
+<span class="fc" id="L88">		name = name.substring(2);</span>
+		
+<span class="fc bfc" id="L90" title="All 2 branches covered.">		for (int i = 0; i &lt; temporaryListOfRules.size(); i++)</span>
+<span class="fc bfc" id="L91" title="All 2 branches covered.">			if (temporaryListOfRules.get(i).getName().contains(name))</span>
+<span class="fc" id="L92">				temporaryListOfRules.get(i).setWeight(mainListOfRules.get(i).getWeight());</span>
+
+<span class="fc" id="L94">		updateListOfNames();</span>
+<span class="fc" id="L95">		gui.refreshRulesList();</span>
+<span class="fc" id="L96">	}</span>
+
+	/** Apply a filter to the list of rules based in a text **/
+	public void filterRulesList(String text) {
+<span class="pc bpc" id="L100" title="1 of 2 branches missed.">		if (text.isEmpty()) updateListOfNames();</span>
+		else {
+<span class="fc" id="L102">			listOfNames = new ArrayList&lt;String&gt;();</span>
+
+<span class="fc bfc" id="L104" title="All 2 branches covered.">			for (int i = 0; i &lt; temporaryListOfRules.size(); i++)</span>
+<span class="fc bfc" id="L105" title="All 2 branches covered.">				if (temporaryListOfRules.get(i).getName().contains(text))</span>
+<span class="pc bpc" id="L106" title="1 of 2 branches missed.">					if (temporaryListOfRules.get(i).getWeight() == mainListOfRules.get(i).getWeight())</span>
+<span class="fc" id="L107">						listOfNames.add(mainListOfRules.get(i).getName());</span>
+<span class="nc" id="L108">					else listOfNames.add(&quot;&gt; &quot; + mainListOfRules.get(i).getName());</span>
+		}
+<span class="fc" id="L110">		gui.refreshRulesList();</span>
+<span class="fc" id="L111">	}</span>
+	
+	/** Save the temporary list of rules in the main class **/
+	public void saveMainListOfRules() {
+<span class="nc bnc" id="L115" title="All 2 branches missed.">		for (int i = 0; i &lt; mainListOfRules.size(); i++)</span>
+<span class="nc" id="L116">			mainListOfRules.get(i).setWeight(temporaryListOfRules.get(i).getWeight());</span>
+		
+<span class="nc" id="L118">		main.saveListOfRules(mainListOfRules);</span>
+<span class="nc" id="L119">	}</span>
+
+	/** Verifies if a list was changed **/
+	public boolean isListChanged() {
+<span class="fc bfc" id="L123" title="All 2 branches covered.">		for (int i = 0; i &lt; temporaryListOfRules.size(); i++)</span>
+<span class="fc bfc" id="L124" title="All 2 branches covered.">			if (temporaryListOfRules.get(i).getWeight() != mainListOfRules.get(i).getWeight())</span>
+<span class="fc" id="L125">				return true;</span>
+			
+<span class="fc" id="L127">		return false;</span>
+	}
+	
+	public ArrayList&lt;String&gt; getListOfNames() {
+<span class="fc" id="L131">		return listOfNames;</span>
+	}
+
+	/** Closes the window **/
+	public void setWindowClose() {
+<span class="nc" id="L136">		main.configureWindowClose();</span>
+<span class="nc" id="L137">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span>antiSpamFilter.tests (9/dez/2017 15:25:38)</div></body></html>

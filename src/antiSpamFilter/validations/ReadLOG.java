@@ -18,6 +18,7 @@ import antiSpamFilter.GUI.AntiSpamFilterStyles.AOptionPane;
 
 public class ReadLOG {
 	
+	/** Reads the email log file and validates it **/
 	public static boolean readFile(File f){
 		
 		
@@ -32,20 +33,14 @@ public class ReadLOG {
 				String []hamFileFields= nextLine.split("\t");
 				
 				//Validates the minimum number of line fields
-				if (hamFileFields.length<1){
-					s.close();
-					return false;
-				}
-					
-				
-				//Validates if the file is ham.log or spam.log
-				if (!f.getName().equals("ham.log") || !f.getName().equals("spam.log")){
+				if (hamFileFields.length<=1){
 					s.close();
 					return false;
 				}
 						
-				s.close();
 			}
+			s.close();
+			
 		} catch (FileNotFoundException e) {
 			AOptionPane.showMessageDialog(
 					null, "File not found. Confirm the link.", "Error", AOptionPane.ERROR_MESSAGE);

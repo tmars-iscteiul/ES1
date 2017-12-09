@@ -1,0 +1,425 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>AntiSpamFilterConfigurationGUI.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">antiSpamFilter.tests (9/dez/2017 15:25:38)</a> &gt; <a href="../../index.html" class="el_group">ES1-2017</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">antiSpamFilter.GUI</a> &gt; <span class="el_source">AntiSpamFilterConfigurationGUI.java</span></div><h1>AntiSpamFilterConfigurationGUI.java</h1><pre class="source lang-java linenums"><span class="fc" id="L1">package antiSpamFilter.GUI;</span>
+
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
+
+import javax.swing.BorderFactory;
+import javax.swing.DefaultListModel;
+import javax.swing.JFrame;
+import javax.swing.SpinnerModel;
+import javax.swing.SpinnerNumberModel;
+import javax.swing.SwingUtilities;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+
+import antiSpamFilter.AntiSpamFilterManualConfiguration;
+import antiSpamFilter.GUI.AntiSpamFilterStyles.*;
+
+/**
+ * &lt;p&gt;AntiSpamFilterConfigurationGUI - the configuration GUI class&lt;/br&gt;
+ * &lt;/br&gt;
+ * The Graphics User Interface for the AntiSpamFilter manual configuration window. 
+ * The default window has a 500x500 size and a modern design. 
+ * With a six panel system design, it is possible to check and search all the
+ * rules applied in the e-mails, change the weight of them manually and test the
+ * optimization comparing it with the previous values.&lt;/p&gt;
+ *
+ * @author ES1-2017-LIGE-PL-102
+ */
+
+public class AntiSpamFilterConfigurationGUI {
+<span class="fc" id="L41">	private JFrame antiSpamFilterFrame = new JFrame(&quot;AntiSpamFilter Configuration v1.0&quot;);</span>
+	private AntiSpamFilterManualConfiguration main;
+	
+<span class="fc" id="L44">	private final int WINDOW_HSIZE = 500;</span>
+<span class="fc" id="L45">	private final int WINDOW_VSIZE = 500;</span>
+<span class="fc" id="L46">	private final int COMPONENT_GAP = 10;</span>
+<span class="fc" id="L47">	private final int COMPONENT_MAX_WIDTH = WINDOW_HSIZE-(2*COMPONENT_GAP);</span>
+<span class="fc" id="L48">	private final int COMPONENT_MAX_HEIGHT = WINDOW_VSIZE-(2*COMPONENT_GAP);</span>
+	
+<span class="fc" id="L50">	private final double MIN_RULE = -5.0;</span>
+<span class="fc" id="L51">	private final double MAX_RULE = 5.0;</span>
+<span class="fc" id="L52">	private final double INT_RULE = 0.1;</span>
+<span class="fc" id="L53">	private final double INIC_RULE = 0.0;</span>
+	
+	//Panels initiation
+	APanel ruleslistPanel, principalPanel, searchPanel, configurationPanel, inputPanel, applyPanel,
+		testsPanel, conclusionPanel;
+	
+	AList&lt;String&gt; rulesList;
+	AScrollPane scroll;
+	ASpinner spinner;
+	ATextField searchField;
+	DefaultListModel&lt;String&gt; rulesListModel, resultsListModel;
+	int lastSelectedRule;
+
+<span class="fc" id="L66">	public AntiSpamFilterConfigurationGUI(</span>
+			AntiSpamFilterManualConfiguration main, boolean visible) {
+		//Dimension and position of the window
+<span class="fc" id="L69">		antiSpamFilterFrame.setSize(WINDOW_HSIZE, WINDOW_VSIZE);</span>
+<span class="fc" id="L70">		antiSpamFilterFrame.setLocationRelativeTo(null);</span>
+<span class="fc" id="L71">		antiSpamFilterFrame.setLocation(</span>
+<span class="fc" id="L72">				(int)antiSpamFilterFrame.getLocation().getX()+80,</span>
+<span class="fc" id="L73">				(int)antiSpamFilterFrame.getLocation().getY()+20);</span>
+		
+<span class="fc" id="L75">		antiSpamFilterFrame.setVisible(visible);</span>
+<span class="fc" id="L76">		this.main = main;</span>
+				
+<span class="fc" id="L78">		setRulesListPanel();</span>
+<span class="fc" id="L79">		setMainConfigurationPanel();		</span>
+<span class="fc" id="L80">		setSearchPanel();</span>
+<span class="fc" id="L81">		setRuleConfigurationPanel();		</span>
+<span class="fc" id="L82">		setInputPanel();</span>
+<span class="fc" id="L83">		setApplyTestButtons();		</span>
+<span class="fc" id="L84">		setTestResultsPanel();</span>
+		
+<span class="fc" id="L86">		configurationPanel.setLayout(new BorderLayout(COMPONENT_GAP,COMPONENT_GAP));</span>
+<span class="fc" id="L87">		configurationPanel.setPreferredSize(new Dimension(200,300));</span>
+<span class="fc" id="L88">		configurationPanel.setBorder(</span>
+<span class="fc" id="L89">				BorderFactory.createEmptyBorder(COMPONENT_GAP, 0, COMPONENT_GAP, 0));</span>
+		
+<span class="fc" id="L91">		configurationPanel.add(inputPanel, BorderLayout.PAGE_START);</span>
+<span class="fc" id="L92">		configurationPanel.add(applyPanel, BorderLayout.CENTER);</span>
+<span class="fc" id="L93">		configurationPanel.add(testsPanel, BorderLayout.PAGE_END);</span>
+		
+		//Implementation of back and save buttons
+<span class="fc" id="L96">		conclusionPanel = new AntiSpamFilterStyles().new APanel();</span>
+<span class="fc" id="L97">		conclusionPanel.setPreferredSize(new Dimension(COMPONENT_MAX_WIDTH,50));</span>
+<span class="fc" id="L98">		setConclusaoPanel();</span>
+		
+		//Inclusion of the panels in the application window
+<span class="fc" id="L101">		principalPanel.add(searchPanel, BorderLayout.NORTH);</span>
+<span class="fc" id="L102">		principalPanel.add(configurationPanel, BorderLayout.CENTER);</span>
+<span class="fc" id="L103">		principalPanel.add(conclusionPanel, BorderLayout.PAGE_END);</span>
+
+		
+		//Implementation of the environment
+<span class="fc" id="L107">		antiSpamFilterFrame.setLayout(new BorderLayout(2,2));</span>
+
+<span class="fc" id="L109">		antiSpamFilterFrame.getContentPane().add(ruleslistPanel,BorderLayout.WEST);</span>
+<span class="fc" id="L110">		antiSpamFilterFrame.getContentPane().add(principalPanel,BorderLayout.CENTER);</span>
+
+<span class="fc" id="L112">		antiSpamFilterFrame.setIconImage(Toolkit.getDefaultToolkit().getImage(&quot;Icon.png&quot;));</span>
+<span class="fc" id="L113">		antiSpamFilterFrame.setResizable(false);</span>
+<span class="fc" id="L114">		antiSpamFilterFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);</span>
+		
+<span class="fc" id="L116">		antiSpamFilterFrame.addWindowListener(new WindowListener() {</span>
+			
+			@Override
+<span class="fc" id="L119">			public void windowOpened(WindowEvent e) {}</span>
+			
+			@Override
+<span class="nc" id="L122">			public void windowIconified(WindowEvent e) {}</span>
+			
+			@Override
+<span class="nc" id="L125">			public void windowDeiconified(WindowEvent e) {}</span>
+			
+			@Override
+<span class="fc" id="L128">			public void windowDeactivated(WindowEvent e) {}</span>
+			
+			@Override
+			public void windowClosing(WindowEvent e) {
+<span class="nc" id="L132">				confirmCloseWindow();</span>
+<span class="nc" id="L133">			}</span>
+			
+			@Override
+<span class="nc" id="L136">			public void windowClosed(WindowEvent e) {}</span>
+			
+			@Override
+<span class="fc" id="L139">			public void windowActivated(WindowEvent e) {}</span>
+		});
+<span class="fc" id="L141">	}</span>
+
+	private void setRulesListPanel() {
+		//Implementation of rules list window
+<span class="fc" id="L145">		ruleslistPanel = new AntiSpamFilterStyles().new APanel();</span>
+<span class="fc" id="L146">		ruleslistPanel.setPreferredSize(new Dimension(200,COMPONENT_MAX_HEIGHT));</span>
+<span class="fc" id="L147">		ruleslistPanel.setLayout(new BorderLayout(10,10));</span>
+<span class="fc" id="L148">		ruleslistPanel.setBorder(</span>
+<span class="fc" id="L149">				BorderFactory.createEmptyBorder(COMPONENT_GAP,COMPONENT_GAP,COMPONENT_GAP,COMPONENT_GAP));</span>
+
+<span class="fc" id="L151">		ALabel spamLabel = new AntiSpamFilterStyles().new ALabel(&quot;Rules List&quot;);</span>
+<span class="fc" id="L152">		ruleslistPanel.add(spamLabel, BorderLayout.PAGE_START);</span>
+<span class="fc" id="L153">	}</span>
+
+	
+	private void setMainConfigurationPanel() {
+		//Implementation of main configuration window
+<span class="fc" id="L158">		principalPanel = new AntiSpamFilterStyles().new APanel();</span>
+<span class="fc" id="L159">		principalPanel.setLayout(new BorderLayout(COMPONENT_GAP,COMPONENT_GAP));</span>
+<span class="fc" id="L160">		principalPanel.setBorder(</span>
+<span class="fc" id="L161">				BorderFactory.createEmptyBorder(COMPONENT_GAP,COMPONENT_GAP,COMPONENT_GAP,COMPONENT_GAP));</span>
+<span class="fc" id="L162">	}</span>
+
+	
+	private void setSearchPanel() {
+		//Implementation of search window
+<span class="fc" id="L167">		searchPanel = new AntiSpamFilterStyles().new APanel();</span>
+<span class="fc" id="L168">		searchField = new AntiSpamFilterStyles().new ATextField(&quot;&quot;);</span>
+<span class="fc" id="L169">		searchField.setPlaceholder(&quot;Search field&quot;);</span>
+
+<span class="fc" id="L171">		AButton clearSearchButton = </span>
+<span class="fc" id="L172">				new AntiSpamFilterStyles().</span>
+<span class="fc" id="L173">				new AButton(&quot;Clear search&quot;, AntiSpamFilterStyles.BTN_DEFAULT);</span>
+		
+<span class="fc" id="L175">		searchField.getDocument().addDocumentListener(new DocumentListener() {</span>
+			
+			@Override
+			public void removeUpdate(DocumentEvent e) {
+<span class="nc" id="L179">				main.filterRulesList(searchField.getText().toUpperCase());</span>
+<span class="nc" id="L180">				rulesList.setSelectedIndex(0);</span>
+<span class="nc" id="L181">			}</span>
+			
+			@Override
+			public void insertUpdate(DocumentEvent e) {
+<span class="nc" id="L185">				main.filterRulesList(searchField.getText().toUpperCase());</span>
+<span class="nc" id="L186">				rulesList.setSelectedIndex(0);</span>
+<span class="nc" id="L187">			}</span>
+			
+			@Override
+			public void changedUpdate(DocumentEvent e) {
+					
+<span class="nc" id="L192">			}</span>
+		});
+		
+<span class="fc" id="L195">		clearSearchButton.addActionListener(new ActionListener() {</span>
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+<span class="nc" id="L199">				searchField.setText(&quot;&quot;);</span>
+<span class="nc" id="L200">			}</span>
+		});
+
+<span class="fc" id="L203">		searchPanel.setLayout(new BorderLayout(COMPONENT_GAP,5));</span>
+<span class="fc" id="L204">		searchPanel.setPreferredSize(new Dimension(200,75));</span>
+<span class="fc" id="L205">		searchPanel.add(searchField,BorderLayout.NORTH);</span>
+<span class="fc" id="L206">		searchPanel.add(clearSearchButton, BorderLayout.CENTER);</span>
+<span class="fc" id="L207">	}</span>
+
+	
+	private void setRuleConfigurationPanel() {
+		//Implementation of rule configuration window
+<span class="fc" id="L212">		configurationPanel = new AntiSpamFilterStyles().new APanel();</span>
+<span class="fc" id="L213">		inputPanel = new AntiSpamFilterStyles().new APanel();</span>
+<span class="fc" id="L214">		testsPanel = new AntiSpamFilterStyles().new APanel();</span>
+<span class="fc" id="L215">	}</span>
+
+	
+	private void setInputPanel() {
+		//Implementation of input window
+<span class="fc" id="L220">		inputPanel.setLayout(new BorderLayout(COMPONENT_GAP,COMPONENT_GAP));</span>
+<span class="fc" id="L221">		ALabel configurationLabel = new AntiSpamFilterStyles().new ALabel(&quot;Configuration Panel&quot;);</span>
+<span class="fc" id="L222">		ALabel weightLabel = new AntiSpamFilterStyles().new ALabel(&quot;Rule weight:&quot;, AntiSpamFilterStyles.TXT_SMALL);</span>
+
+<span class="fc" id="L224">		SpinnerModel spinnerModel = new SpinnerNumberModel(INIC_RULE, MIN_RULE, MAX_RULE, INT_RULE);</span>
+<span class="fc" id="L225">		spinner = new AntiSpamFilterStyles().new ASpinner(spinnerModel);</span>
+
+<span class="fc" id="L227">		inputPanel.add(configurationLabel, BorderLayout.PAGE_START);</span>
+<span class="fc" id="L228">		inputPanel.add(weightLabel, BorderLayout.LINE_START);</span>
+<span class="fc" id="L229">		inputPanel.add(spinner, BorderLayout.CENTER);</span>
+<span class="fc" id="L230">	}</span>
+
+	
+	private void setApplyTestButtons() {
+		//Implementation of apply and test buttons
+<span class="fc" id="L235">		applyPanel = new AntiSpamFilterStyles().new APanel();</span>
+<span class="fc" id="L236">		applyPanel.setPreferredSize(new Dimension(COMPONENT_MAX_WIDTH,40));</span>
+<span class="fc" id="L237">		setApplyPanel();</span>
+<span class="fc" id="L238">	}</span>
+
+	
+	private void setTestResultsPanel() {
+		//Implements the test results window
+<span class="fc" id="L243">		testsPanel.setLayout(new BorderLayout(COMPONENT_GAP,COMPONENT_GAP));</span>
+<span class="fc" id="L244">		ALabel testsLabel = new AntiSpamFilterStyles().new ALabel(&quot;Test results&quot;);</span>
+		
+<span class="fc" id="L246">		resultsListModel = new DefaultListModel&lt;String&gt;();</span>
+<span class="fc" id="L247">		resultsListModel.addElement(&quot;FP: &quot;);</span>
+<span class="fc" id="L248">		resultsListModel.addElement(&quot;FN: &quot;);</span>
+<span class="fc" id="L249">		resultsListModel.addElement(&quot;Compare results: &quot;);</span>
+<span class="fc" id="L250">		resultsListModel.addElement(&quot;Efficiency: &quot;);</span>
+<span class="fc" id="L251">		resultsListModel.addElement(&quot;Tip: &quot;);</span>
+		
+<span class="fc" id="L253">		AList&lt;String&gt; testResultsList = new AntiSpamFilterStyles().new AList&lt;String&gt;(resultsListModel);</span>
+<span class="fc" id="L254">		testResultsList.setFont(new Font(&quot;Arial&quot;, Font.PLAIN, 16));</span>
+<span class="fc" id="L255">		testsPanel.add(testsLabel, BorderLayout.PAGE_START);</span>
+<span class="fc" id="L256">		testsPanel.add(testResultsList, BorderLayout.CENTER);</span>
+<span class="fc" id="L257">	}</span>
+
+	
+	private void setApplyPanel() {
+<span class="fc" id="L261">		APanel buttonPanel = setButtonPanel();</span>
+
+<span class="fc" id="L263">		AButton applyButton = </span>
+<span class="fc" id="L264">				new AntiSpamFilterStyles().</span>
+<span class="fc" id="L265">				new AButton(&quot;&lt; Apply&quot;, AntiSpamFilterStyles.BTN_DEFAULT);</span>
+		
+<span class="fc" id="L267">		AButton testButton = </span>
+<span class="fc" id="L268">				new AntiSpamFilterStyles().</span>
+<span class="fc" id="L269">				new AButton(&quot;Test configuration&quot;, AntiSpamFilterStyles.BTN_DEFAULT);</span>
+
+<span class="fc" id="L271">		buttonPanel.add(applyButton, BorderLayout.LINE_START);</span>
+<span class="fc" id="L272">		buttonPanel.add(testButton, BorderLayout.CENTER);</span>
+<span class="fc" id="L273">		applyPanel.add(buttonPanel);</span>
+		
+<span class="fc" id="L275">		testButton.addActionListener(new ActionListener() {</span>
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {				
+<span class="nc" id="L279">				System.out.println(&quot;Test button test&quot;);</span>
+<span class="nc" id="L280">			}</span>
+		});
+		
+<span class="fc" id="L283">		applyButton.addActionListener(new ActionListener() {</span>
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {				
+<span class="nc bnc" id="L287" title="All 2 branches missed.">				if (spinner.isEnabled()) {</span>
+<span class="nc" id="L288">					main.applyWeightValue(rulesList.getSelectedValue(), (Double)spinner.getValue());</span>
+<span class="nc" id="L289">					main.filterRulesList(searchField.getText().toUpperCase());</span>
+				}
+<span class="nc" id="L291">			}</span>
+		});
+<span class="fc" id="L293">	}</span>
+	
+	private void setConclusaoPanel() {
+<span class="fc" id="L296">		APanel buttonPanel = setButtonPanel();</span>
+
+<span class="fc" id="L298">		AButton backButton = </span>
+<span class="fc" id="L299">				new AntiSpamFilterStyles().</span>
+<span class="fc" id="L300">				new AButton(&quot;Back&quot;, AntiSpamFilterStyles.BTN_DEFAULT);</span>
+		
+		
+<span class="fc" id="L303">		AButton saveButton = </span>
+<span class="fc" id="L304">				new AntiSpamFilterStyles().</span>
+<span class="fc" id="L305">				new AButton(&quot;Save configuration&quot;, AntiSpamFilterStyles.BTN_DEFAULT);</span>
+		
+<span class="fc" id="L307">		buttonPanel.add(backButton, BorderLayout.LINE_START);</span>
+<span class="fc" id="L308">		buttonPanel.add(saveButton, BorderLayout.CENTER);</span>
+<span class="fc" id="L309">		conclusionPanel.add(buttonPanel);</span>
+		
+<span class="fc" id="L311">		backButton.addActionListener(new ActionListener() {</span>
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {				
+<span class="nc" id="L315">				confirmCloseWindow();</span>
+<span class="nc" id="L316">			}</span>
+		});
+
+<span class="fc" id="L319">		saveButton.addActionListener(new ActionListener() {</span>
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {				
+<span class="nc" id="L323">				new AntiSpamFilterStyles().new AOptionPane();</span>
+<span class="nc" id="L324">				int result = AOptionPane.showConfirmDialog(null, </span>
+<span class="nc" id="L325">						&quot;Are you sure? The manual changes will be permanent&quot;,</span>
+<span class="nc" id="L326">						null, AOptionPane.YES_NO_OPTION);</span>
+				
+<span class="nc bnc" id="L328" title="All 2 branches missed.">				if (result == AOptionPane.OK_OPTION) {</span>
+<span class="nc" id="L329">					main.saveMainListOfRules();</span>
+<span class="nc" id="L330">					AOptionPane.showMessageDialog(null, &quot;Rules saved with success&quot;, </span>
+<span class="nc" id="L331">							&quot;Manual configuration&quot;, AOptionPane.INFORMATION_MESSAGE);</span>
+				}
+<span class="nc" id="L333">			}</span>
+		});
+<span class="fc" id="L335">	}</span>
+	
+	private APanel setButtonPanel() {
+<span class="fc" id="L338">		APanel buttonPanel = new AntiSpamFilterStyles().new APanel();</span>
+<span class="fc" id="L339">		buttonPanel.setPreferredSize(new Dimension(270,40));</span>
+<span class="fc" id="L340">		BorderLayout layout = new BorderLayout(COMPONENT_GAP,COMPONENT_GAP);</span>
+<span class="fc" id="L341">		buttonPanel.setLayout(layout);</span>
+<span class="fc" id="L342">		return buttonPanel;</span>
+	}
+
+	public void setVisible(boolean visible) {
+<span class="fc" id="L346">		antiSpamFilterFrame.setVisible(visible);</span>
+<span class="fc" id="L347">	}</span>
+	
+	private void confirmCloseWindow() {
+<span class="nc bnc" id="L350" title="All 2 branches missed.">		if (main.isListChanged()) {</span>
+<span class="nc" id="L351">			new AntiSpamFilterStyles().new AOptionPane();</span>
+<span class="nc" id="L352">			int result = AOptionPane.showConfirmDialog(null, </span>
+<span class="nc" id="L353">					&quot;Are you sure? All the changes will be lost&quot;,</span>
+<span class="nc" id="L354">					null, AOptionPane.YES_NO_OPTION);</span>
+
+<span class="nc bnc" id="L356" title="All 2 branches missed.">			if (result == AOptionPane.OK_OPTION) {</span>
+<span class="nc" id="L357">				antiSpamFilterFrame.setVisible(false);</span>
+<span class="nc" id="L358">				main.setWindowClose();</span>
+			}
+<span class="nc" id="L360">		}</span>
+		else {
+<span class="nc" id="L362">			antiSpamFilterFrame.setVisible(false);</span>
+<span class="nc" id="L363">			main.setWindowClose();</span>
+		}
+<span class="nc" id="L365">	}</span>
+
+	public void startConfiguration() {
+<span class="fc" id="L368">		rulesListModel = new DefaultListModel&lt;String&gt;();</span>
+		
+<span class="fc bfc" id="L370" title="All 2 branches covered.">		for (String rule : main.getListOfNames()) {</span>
+<span class="fc" id="L371">			rulesListModel.addElement(rule);</span>
+		}
+		
+<span class="fc" id="L374">		rulesList = new AntiSpamFilterStyles().new AList&lt;String&gt;(rulesListModel);</span>
+<span class="fc" id="L375">		scroll = new AntiSpamFilterStyles().new AScrollPane(rulesList,</span>
+<span class="fc" id="L376">				AScrollPane.VERTICAL_SCROLLBAR_ALWAYS,</span>
+<span class="fc" id="L377">	            AScrollPane.HORIZONTAL_SCROLLBAR_NEVER);</span>
+		
+<span class="fc" id="L379">		ruleslistPanel.add(scroll, BorderLayout.CENTER);</span>
+		
+<span class="fc" id="L381">		rulesList.addListSelectionListener(new ListSelectionListener() {</span>
+			
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+<span class="fc bfc" id="L385" title="All 2 branches covered.">				if (rulesList.getSelectedValue() == null)</span>
+<span class="fc" id="L386">					spinner.setEnabled(false);				</span>
+				else {
+<span class="pc bpc" id="L388" title="1 of 2 branches missed.">					if (searchField.getText().equals(&quot;&quot;))</span>
+<span class="fc" id="L389">						spinner.setValue(new Double(main.getRuleWeight(rulesList.getSelectedIndex())));</span>
+					else
+<span class="nc bnc" id="L391" title="All 2 branches missed.">						if (rulesList.getSelectedValue().charAt(0) == '&gt;')</span>
+<span class="nc" id="L392">							spinner.setValue(new Double(main.getRuleWeight(</span>
+<span class="nc" id="L393">								rulesList.getSelectedValue().substring(2))));</span>
+<span class="nc" id="L394">						else spinner.setValue(new Double(main.getRuleWeight(rulesList.getSelectedValue())));</span>
+					
+<span class="fc" id="L396">					spinner.setEnabled(true);</span>
+<span class="fc" id="L397">					lastSelectedRule = rulesList.getSelectedIndex();</span>
+				}
+<span class="fc" id="L399">			}</span>
+		});
+		
+<span class="fc" id="L402">		rulesList.addMouseListener(new MouseAdapter() {</span>
+			public void mousePressed(MouseEvent e) {
+<span class="nc bnc" id="L404" title="All 2 branches missed.">		        if ( SwingUtilities.isRightMouseButton(e) ) {</span>
+<span class="nc bnc" id="L405" title="All 2 branches missed.">		            if (rulesListModel.getElementAt(rulesList.locationToIndex(e.getPoint())).charAt(0) == '&gt;')</span>
+<span class="nc" id="L406">		            	main.resetWeightValue(rulesListModel.getElementAt(</span>
+<span class="nc" id="L407">		            		rulesList.locationToIndex(e.getPoint())));</span>
+		            
+<span class="nc bnc" id="L409" title="All 2 branches missed.">		            if (!searchField.getText().equals(&quot;&quot;))</span>
+<span class="nc" id="L410">		            	main.filterRulesList(searchField.getText().toUpperCase());</span>
+		        }
+<span class="nc" id="L412">		    }</span>
+		});
+<span class="fc" id="L414">	}</span>
+	
+	public void refreshRulesList() {
+<span class="fc" id="L417">		rulesListModel.removeAllElements();</span>
+<span class="fc bfc" id="L418" title="All 2 branches covered.">		for (String rule : main.getListOfNames())</span>
+<span class="fc" id="L419">			rulesListModel.addElement(rule);</span>
+		
+<span class="fc" id="L421">		rulesList.setSelectedIndex(lastSelectedRule);</span>
+<span class="fc" id="L422">	}</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span>antiSpamFilter.tests (9/dez/2017 15:25:38)</div></body></html>

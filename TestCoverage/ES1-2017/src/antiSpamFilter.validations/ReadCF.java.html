@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>ReadCF.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">antiSpamFilter.tests (9/dez/2017 15:25:38)</a> &gt; <a href="../../index.html" class="el_group">ES1-2017</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">antiSpamFilter.validations</a> &gt; <span class="el_source">ReadCF.java</span></div><h1>ReadCF.java</h1><pre class="source lang-java linenums">package antiSpamFilter.validations;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+
+import antiSpamFilter.GUI.AntiSpamFilterStyles.AOptionPane;
+
+/**
+ * &lt;p&gt;ReadCF - the rules file validation class&lt;/br&gt;
+ * &lt;/br&gt;
+ * This class tests if a .cf file is a valid rules file,
+ * checking if it has only a rule between lines or a rule
+ * and a weight.&lt;/p&gt;
+ * 
+ * @author ES1-2017-LIGE-PL-102
+ *
+ */
+
+<span class="nc" id="L20">public class ReadCF {</span>
+
+	/** Reads the rules file and validates it **/
+	public static boolean read(File file) {
+
+		String line;
+
+		try {
+			//Opens a scanner to read the file
+<span class="fc" id="L29">			Scanner scanner = new Scanner(file);</span>
+
+<span class="fc bfc" id="L31" title="All 2 branches covered.">			while (scanner.hasNextLine()) {</span>
+				
+				//Splits the line to check its fields
+<span class="fc" id="L34">				line = scanner.nextLine();</span>
+<span class="fc" id="L35">				String[] vetor = line.split(&quot;\t&quot;);</span>
+				
+				//Validates the minimum number of line fields
+<span class="fc bfc" id="L38" title="All 2 branches covered.">				if (vetor.length &gt; 2) {</span>
+<span class="fc" id="L39">					scanner.close();</span>
+<span class="fc" id="L40">					return false;</span>
+				}	
+				
+				//Validates if it has a weight and if it is a valid number
+<span class="fc bfc" id="L44" title="All 2 branches covered.">				if (vetor.length == 2) {</span>
+					try{
+<span class="fc" id="L46">				        Double.parseDouble(vetor[1]);</span>
+<span class="fc" id="L47">					} catch( Exception e ){</span>
+<span class="fc" id="L48">				    	scanner.close();</span>
+<span class="fc" id="L49">				    	return false;</span>
+				    }
+				}
+				
+				//Validates if the weight value is between -5 and 5
+<span class="fc bfc" id="L54" title="All 4 branches covered.">				if (vetor.length == 2 &amp;&amp; Math.abs(Double.parseDouble(vetor[1])) &gt; 5) {</span>
+<span class="fc" id="L55">					scanner.close();</span>
+<span class="fc" id="L56">					return false;</span>
+				}
+
+			}
+			
+<span class="fc" id="L61">			scanner.close();</span>
+
+<span class="fc" id="L63">		} catch (FileNotFoundException e) {</span>
+<span class="fc" id="L64">			AOptionPane.showMessageDialog(</span>
+<span class="fc" id="L65">					null, &quot;File not found. Confirm the link.&quot;, &quot;Error&quot;, AOptionPane.ERROR_MESSAGE);</span>
+<span class="fc" id="L66">			return false;</span>
+		}
+
+<span class="fc" id="L69">		return true;</span>
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span>antiSpamFilter.tests (9/dez/2017 15:25:38)</div></body></html>
