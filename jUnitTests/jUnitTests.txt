@@ -1,1 +1,2 @@
-The tests are ran with the minimum of 75% of line coverage.
+The tests are ran with the minimum of 75% of line coverage. 
+The GUI classes are not validated throw those tests.
