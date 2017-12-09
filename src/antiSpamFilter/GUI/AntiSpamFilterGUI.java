@@ -38,6 +38,7 @@ public class AntiSpamFilterGUI {
 	private final int WINDOW_VSIZE = 600;
 	private final int COMPONENT_GAP = 20;
 	private final int COMPONENT_MAX_WIDTH = WINDOW_HSIZE-(2*COMPONENT_GAP);
+	private boolean isValidated = false;
 	
 	private String SPAM_FILENAME, HAM_FILENAME, RULES_FILENAME;
 	private File SPAM_FILE, HAM_FILE, RULES_FILE;
@@ -247,8 +248,11 @@ public class AntiSpamFilterGUI {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				if (validFilesPath()) {
-					main.setConfigureWindowVisible(true);
-					antiSpamFilterFrame.setEnabled(false);
+					if (isValidated) {
+						main.setConfigureWindowVisible(true);
+						antiSpamFilterFrame.setEnabled(false);
+					}
+					else showCorruptFileMessage();
 				}
 			}
 		});
@@ -260,8 +264,12 @@ public class AntiSpamFilterGUI {
 		startButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				if (validFilesPath())
-					System.out.println("Teste inicio otimização");
+				if (validFilesPath()) {
+					if (isValidated) {
+						System.out.println("Teste inicio otimização");
+					}
+					else showCorruptFileMessage();
+				}					
 			}
 		});
 
@@ -397,11 +405,13 @@ public class AntiSpamFilterGUI {
 			if (main.validateFilesAndBuildRulesAndEmails(SPAM_FILE, HAM_FILE, RULES_FILE)) {
 				textBox.setText("");
 				textBox.append("The files were validated with success.\nYou can run the optimization.\n");
+				isValidated = true;
 				return true;
 			}
 			else {
 				textBox.setText("");
 				showCorruptFileMessage();
+				isValidated = false;
 				return false;
 			}
 		
