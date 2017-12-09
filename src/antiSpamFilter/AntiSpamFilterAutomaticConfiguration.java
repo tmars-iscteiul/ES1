@@ -35,10 +35,6 @@ public class AntiSpamFilterAutomaticConfiguration {
 		mainGUI = new AntiSpamFilterGUI(this);
 		manualConfigure = new AntiSpamFilterManualConfiguration(this);
 	}
-
-	public static void main(String[] args) {
-		new AntiSpamFilterAutomaticConfiguration();
-	}
  
 	/** Confirms if the log and rules files are validated and calls the optimization class **/
 	public void runOptimization() {
