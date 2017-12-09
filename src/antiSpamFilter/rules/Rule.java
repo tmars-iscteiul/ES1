@@ -1,7 +1,5 @@
 package antiSpamFilter.rules;
 
-import java.io.File;
-
 /**
  * 
  * Class Rule is the primary element in order to determine the right classification of an email as Spam or Ham.
@@ -63,8 +61,6 @@ public class Rule implements Comparable<Rule>{
 	public void setWeight(double weight) {
 		this.weight = weight;
 	}
-	
-	
 
 	@Override
 	public String toString() {
