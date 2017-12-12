@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.swing.JOptionPane;
+
 import org.uma.jmetal.algorithm.Algorithm;
 import org.uma.jmetal.algorithm.multiobjective.nsgaii.NSGAIIBuilder;
 import org.uma.jmetal.operator.impl.crossover.SBXCrossover;
@@ -21,6 +23,8 @@ import org.uma.jmetal.util.experiment.component.GenerateReferenceParetoSetAndFro
 import org.uma.jmetal.util.experiment.util.ExperimentAlgorithm;
 import org.uma.jmetal.util.experiment.util.ExperimentProblem;
 
+import antiSpamFilter.GUI.AntiSpamFilterStyles.AOptionPane;
+
 /**
  * <p>AntiSpamFilterOptimization - the rules optimization class</br>
  * </br>
@@ -33,11 +37,17 @@ import org.uma.jmetal.util.experiment.util.ExperimentProblem;
 public class AntiSpamFilterOptimization {
 
 	private static final int INDEPENDENT_RUNS = 5 ;
+	private static AntiSpamFilterAutomaticConfiguration main;
+	
+	public AntiSpamFilterOptimization (AntiSpamFilterAutomaticConfiguration main) {
+		this.main = main;
+	}
 	
 	public static void runOptimization() {
 		String experimentBaseDirectory = "experimentBaseDirectory";
 
 		List<ExperimentProblem<DoubleSolution>> problemList = new ArrayList<>();
+		AntiSpamFilterProblem mainFilterProblem = new AntiSpamFilterProblem(main.getNumberOfRules());
 		problemList.add(new ExperimentProblem<>(new AntiSpamFilterProblem()));
 
 		List<ExperimentAlgorithm<DoubleSolution, List<DoubleSolution>>> algorithmList =
@@ -63,7 +73,7 @@ public class AntiSpamFilterOptimization {
 			new GenerateLatexTablesWithStatistics(experiment).run();
 			new GenerateBoxplotsWithR<>(experiment).setRows(1).setColumns(1).run();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			AOptionPane.showMessageDialog(null, "Cannot run the optimizer. Please check the files.", "Error", JOptionPane.ERROR_MESSAGE);
 			e.printStackTrace();
 		}
 	}
