@@ -43,8 +43,8 @@ public class AntiSpamFilterAutomaticConfiguration {
 	 * class
 	 **/
 	public void runOptimization() {
-		if (!filesAreValidated)
-			AntiSpamFilterOptimization.runOptimization();
+		if (filesAreValidated)
+			new AntiSpamFilterOptimization(this).runOptimization();
 	}
 
 	/**

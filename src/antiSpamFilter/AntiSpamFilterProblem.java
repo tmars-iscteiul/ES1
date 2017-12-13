@@ -10,6 +10,10 @@ import antiSpamFilter.emails.Email;
 
 public class AntiSpamFilterProblem extends AbstractDoubleProblem {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private ArrayList<Email> listOfEmailsSpam, listOfEmailsHam;
 
 	public AntiSpamFilterProblem() {

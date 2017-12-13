@@ -37,18 +37,22 @@ import antiSpamFilter.GUI.AntiSpamFilterStyles.AOptionPane;
 public class AntiSpamFilterOptimization {
 
 	private static final int INDEPENDENT_RUNS = 5 ;
-	private static AntiSpamFilterAutomaticConfiguration main;
+	private AntiSpamFilterAutomaticConfiguration main;
 	
 	public AntiSpamFilterOptimization (AntiSpamFilterAutomaticConfiguration main) {
 		this.main = main;
 	}
 	
-	public static void runOptimization() {
+	public void runOptimization() {
 		String experimentBaseDirectory = "experimentBaseDirectory";
 
 		List<ExperimentProblem<DoubleSolution>> problemList = new ArrayList<>();
+		
 		AntiSpamFilterProblem mainFilterProblem = new AntiSpamFilterProblem(main.getNumberOfRules());
-		problemList.add(new ExperimentProblem<>(new AntiSpamFilterProblem()));
+		mainFilterProblem.setListOfHam(main.getListOfEmailsHam());
+		mainFilterProblem.setListOfSpam(main.getListOfEmailsSpam());
+		
+		problemList.add(new ExperimentProblem<>(mainFilterProblem));
 
 		List<ExperimentAlgorithm<DoubleSolution, List<DoubleSolution>>> algorithmList =
 				configureAlgorithmList(problemList);
@@ -73,7 +77,8 @@ public class AntiSpamFilterOptimization {
 			new GenerateLatexTablesWithStatistics(experiment).run();
 			new GenerateBoxplotsWithR<>(experiment).setRows(1).setColumns(1).run();
 		} catch (IOException e) {
-			AOptionPane.showMessageDialog(null, "Cannot run the optimizer. Please check the files.", "Error", JOptionPane.ERROR_MESSAGE);
+			AOptionPane.showMessageDialog(null, "Cannot run the optimizer. Please check the files.", 
+					"Error", JOptionPane.ERROR_MESSAGE);
 			e.printStackTrace();
 		}
 	}
@@ -87,7 +92,7 @@ public class AntiSpamFilterOptimization {
 					problemList.get(i).getProblem(),
 					new SBXCrossover(1.0, 5),
 					new PolynomialMutation(1.0 / problemList.get(i).getProblem().getNumberOfVariables(), 10.0))
-					.setMaxEvaluations(25000)
+					.setMaxEvaluations(2000)
 					.setPopulationSize(100)
 					.build();
 			algorithms.add(new ExperimentAlgorithm<>(algorithm, "NSGAII", problemList.get(i).getTag()));
@@ -95,5 +100,6 @@ public class AntiSpamFilterOptimization {
 
 		return algorithms;
 	}
+
 }
 

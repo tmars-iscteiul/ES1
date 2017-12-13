@@ -266,7 +266,7 @@ public class AntiSpamFilterGUI {
 			public void actionPerformed(ActionEvent arg0) {
 				if (validFilesPath()) {
 					if (isValidated) {
-						System.out.println("Teste inicio otimização");
+						main.runOptimization();
 					}
 					else showCorruptFileMessage();
 				}					
