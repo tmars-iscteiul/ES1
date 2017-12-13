@@ -417,4 +417,11 @@ public class AntiSpamFilterGUI {
 		
 		return false;
 	}
+	
+	protected void writeResultMessage(String message, Boolean clear) {
+		if (clear) textBox.setText("");
+		textBox.append(message);
+	}
+	
+	
 }
