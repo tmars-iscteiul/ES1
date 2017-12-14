@@ -62,17 +62,13 @@ public class ReadFilesOptimization {
 			}
 			s.close();
 		} catch (FileNotFoundException e) { }
-		
-		System.out.println(valueList);
 		chosenValueIndex= findMinIndex(valueList);
-		System.out.println("Indice escolhido: "+chosenValueIndex);
-		
 	}
 	
 	//read the file "AntiSpamFilterProblem.NSGAII.rf" and return the line that have the best configuration of the rules
 	public static ArrayList<String> readFileRS(File f){
 		int lineNumber=0;
-		ArrayList<String> pesosEscolhidos= new ArrayList<>();
+		ArrayList<String> chosenWeightsList= new ArrayList<>();
 		try {
 			Scanner s = new Scanner(f);
 			while (s.hasNextLine()) {
@@ -82,15 +78,13 @@ public class ReadFilesOptimization {
 				String [] lineVector= nextLine.split((" "));
 				if (lineNumber==bestLine){
 					for(int i=0; i<lineVector.length;i++){
-						pesosEscolhidos.add(lineVector[i]);
+						chosenWeightsList.add(lineVector[i]);
 					}
 				}
 			}
 			s.close();
 		} catch (FileNotFoundException e) { }
-		System.out.println("nº da linha escolhida: " + lineNumber);
-		System.out.println(pesosEscolhidos);
-		return pesosEscolhidos;
+		return chosenWeightsList;
 		
 	}
 	
