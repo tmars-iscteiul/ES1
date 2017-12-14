@@ -16,6 +16,7 @@ import javax.swing.JFrame;
 
 import antiSpamFilter.AntiSpamFilterAutomaticConfiguration;
 import antiSpamFilter.GUI.AntiSpamFilterStyles.*;
+import antiSpamFilter.validations.ReadFilesOptimization;
 
 /**
  * <p>AntiSpamFilterGUI - the main GUI panel class</br>
@@ -268,6 +269,8 @@ public class AntiSpamFilterGUI {
 					if (isValidated) {
 						textBox.setText("");
 						main.runOptimization();
+						String message = ReadFilesOptimization.readFileRS(new File("experimentBaseDirectory/referenceFronts/AntiSpamFilterProblem.NSGAII.rs"));
+						writeResultMessage(message, true);//perguntar ao tiago porque criou o argumento boolean
 					}
 					else showCorruptFileMessage();
 				}					
@@ -423,6 +426,7 @@ public class AntiSpamFilterGUI {
 		if (clear) textBox.setText("");
 		textBox.append(message);
 	}
+	
 	
 	
 }
