@@ -10,12 +10,14 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.File;
+import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 
 import antiSpamFilter.AntiSpamFilterAutomaticConfiguration;
 import antiSpamFilter.GUI.AntiSpamFilterStyles.*;
+import antiSpamFilter.validations.ReadFilesOptimization;
 
 /**
  * <p>AntiSpamFilterGUI - the main GUI panel class</br>
@@ -264,10 +266,15 @@ public class AntiSpamFilterGUI {
 		startButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
+				ArrayList<String> resultsList;
 				if (validFilesPath()) {
 					if (isValidated) {
 						textBox.setText("");
 						main.runOptimization();
+						resultsList = ReadFilesOptimization.readFileRS(new File("experimentBaseDirectory/referenceFronts/AntiSpamFilterProblem.NSGAII.rs"));
+						for(String message:resultsList){
+							textBox.append(message+ "\n");
+						}
 					}
 					else showCorruptFileMessage();
 				}					
@@ -418,11 +425,13 @@ public class AntiSpamFilterGUI {
 		
 		return false;
 	}
-	
+	/*
 	protected void writeResultMessage(String message, Boolean clear) {
 		if (clear) textBox.setText("");
 		textBox.append(message);
 	}
+	*/
+	
 	
 	
 }
