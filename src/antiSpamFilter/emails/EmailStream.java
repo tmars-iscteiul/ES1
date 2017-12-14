@@ -8,6 +8,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Scanner;
 
+import antiSpamFilter.AntiSpamFilterAutomaticConfiguration;
+import antiSpamFilter.GUI.AntiSpamFilterStyles;
 import antiSpamFilter.GUI.AntiSpamFilterStyles.AOptionPane;
 import antiSpamFilter.rules.Rule;
 
@@ -25,7 +27,8 @@ import antiSpamFilter.rules.Rule;
 
 public class EmailStream {
 
-	public static ArrayList<Email> getListOfEmailsFromFile (File file, ArrayList<Rule> listOfRules, int emailType) {
+	public static ArrayList<Email> getListOfEmailsFromFile (
+			AntiSpamFilterAutomaticConfiguration main, File file, ArrayList<Rule> listOfRules, int emailType) {
 		
 		ArrayList<Email> listOfAllEmails = new ArrayList<Email>();
 		int rulePosition;
@@ -58,13 +61,33 @@ public class EmailStream {
 								listOfRules, new Rule(fileLineList[i],0), compareName);
 						
 						if (rulePosition < 0) {
-							scanner.close();
-							return null;
-						}
-						emailRulesList.add(rulePosition);
+							new AntiSpamFilterStyles().new AOptionPane();
+							Object[] optionValues = { "Add rule", "Ignore rule", "Cancel" };
+							Object selectedValue = AOptionPane.showOptionDialog(null,
+							"Rule: " + fileLineList[i], "New rules detected in the emails log",
+							AOptionPane.DEFAULT_OPTION, AOptionPane.WARNING_MESSAGE,null,
+							optionValues, optionValues[0]);
+							
+							if (selectedValue != null) {
+								if (selectedValue.equals(optionValues[0])) {
+									main.addRuleToList(fileLineList[i], 0.0);
+									listOfRules.add(new Rule(fileLineList[i], 0.0));
+									Collections.sort(listOfRules);
 
+									rulePosition = Collections.binarySearch(
+											listOfRules, new Rule(fileLineList[i],0), compareName);
+
+									emailRulesList.add(rulePosition);
+
+								}
+								else if (selectedValue.equals(optionValues[2])) {
+									scanner.close();
+									return null;
+								}
+							}
+						}
 						//Increment of the final weight of the email
-						finalWeight += listOfRules.get(rulePosition).getWeight();
+						else finalWeight += listOfRules.get(rulePosition).getWeight();
 					}
 				}
 				

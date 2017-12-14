@@ -18,7 +18,7 @@ public class EmailStreamTest {
 	public final void testGetListOfEmailsFromFile() {
 		ArrayList<Rule> listOfRules = new RuleStream(new File("Files/rules.cf")).getRuleStream();
 		
-		ArrayList<Email> listOfEmails1 = EmailStream.getListOfEmailsFromFile(
+		ArrayList<Email> listOfEmails1 = EmailStream.getListOfEmailsFromFile(null, 
 				new File("Files/spam_test_valid.log"), listOfRules, Email.SPAM);
 		
 		assertTrue(listOfEmails1.size() == 2);

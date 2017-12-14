@@ -10,6 +10,7 @@ import antiSpamFilter.validations.ReadLOG;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * <p>
@@ -98,8 +99,8 @@ public class AntiSpamFilterAutomaticConfiguration {
 		listOfRules = new RuleStream(rulesFile).getRuleStream();
 
 		// Creation of the lists of email Spam and email Ham
-		listOfEmailsSpam = EmailStream.getListOfEmailsFromFile(spamFile, listOfRules, Email.SPAM);
-		listOfEmailsHam = EmailStream.getListOfEmailsFromFile(hamFile, listOfRules, Email.HAM);
+		listOfEmailsSpam = EmailStream.getListOfEmailsFromFile(this, spamFile, listOfRules, Email.SPAM);
+		listOfEmailsHam = EmailStream.getListOfEmailsFromFile(this, hamFile, listOfRules, Email.HAM);
 
 		if (listOfEmailsSpam == null || listOfEmailsHam == null)
 			return false;
@@ -140,5 +141,10 @@ public class AntiSpamFilterAutomaticConfiguration {
 
 	protected int getNumberOfRules() {
 		return listOfRules.size();
+	}
+
+	public void addRuleToList(String name, double weight) {
+		listOfRules.add(new Rule(name, weight));
+		Collections.sort(listOfRules);
 	}
 }
