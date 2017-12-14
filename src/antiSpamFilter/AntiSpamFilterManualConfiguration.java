@@ -3,6 +3,7 @@ package antiSpamFilter;
 import java.util.ArrayList;
 
 import antiSpamFilter.GUI.AntiSpamFilterConfigurationGUI;
+import antiSpamFilter.emails.Email;
 import antiSpamFilter.rules.Rule;
 
 /**
@@ -21,6 +22,7 @@ public class AntiSpamFilterManualConfiguration {
 	AntiSpamFilterAutomaticConfiguration main;
 	AntiSpamFilterConfigurationGUI gui;
 	ArrayList<Rule> mainListOfRules, temporaryListOfRules;
+	ArrayList<Email> listOfEmailsSpam, listOfEmailsHam;
 	ArrayList<String> listOfNames;
 	Boolean initiateGUI = false;
 	
@@ -34,6 +36,8 @@ public class AntiSpamFilterManualConfiguration {
 	public void startConfiguration() {
 		mainListOfRules = main.getListOfRules();
 		temporaryListOfRules = new ArrayList<Rule>();
+		listOfEmailsHam = main.getListOfEmailsHam();
+		listOfEmailsSpam = main.getListOfEmailsSpam();
 		
 		for (Rule rule : mainListOfRules)
 			temporaryListOfRules.add(new Rule(rule.getName(),rule.getWeight()));
@@ -134,5 +138,62 @@ public class AntiSpamFilterManualConfiguration {
 	/** Closes the window **/
 	public void setWindowClose() {
 		main.configureWindowClose();
+	}
+
+	public String[] getResultsList() {
+		String[] resultsList = new String[5];
+
+		// FP - ham que foi classificado spam
+		int FP = 0, mainFP = 0;
+		for (Email email : listOfEmailsHam) {
+			double ruleWeight = 0.0, mainRuleWeight = 0.0;
+			for (Integer rulePos : email.getRulesList()) {
+				ruleWeight += temporaryListOfRules.get(rulePos).getWeight();
+				mainRuleWeight += mainListOfRules.get(rulePos).getWeight();
+			}
+
+			if (ruleWeight >= 5)
+				FP++;
+			
+			if (mainRuleWeight >= 5)
+				mainFP++;
+		}
+
+		// FN - spam que foi classificado ham
+		int FN = 0, mainFN = 0;
+		for (Email email : listOfEmailsSpam) {
+			double ruleWeight = 0.0, mainRuleWeight = 0.0;
+			for (Integer rulePos : email.getRulesList()) {
+				ruleWeight += temporaryListOfRules.get(rulePos).getWeight();
+				mainRuleWeight += mainListOfRules.get(rulePos).getWeight();
+			}
+			
+			if (ruleWeight < 5)
+				FN++;
+			
+			if (mainRuleWeight < 5)
+				mainFN++;
+		}
+		
+		resultsList[0] = "FP new: " + FP + " / previous: " + mainFP;
+		resultsList[1] = "FN new: " + FN + " / previous: " + mainFN;
+		resultsList[2] = "Compare results: ";
+		
+		if (FP < mainFP) resultsList[2] += "FP + / ";
+		else resultsList[2] += "FP - / ";
+		
+		if (FN < mainFN) resultsList[2] += "FN +";
+		else resultsList[2] += "FN -";
+		
+		double efficiency = 1 - (double)(FN+FP)/(temporaryListOfRules.size()+mainListOfRules.size());
+		double mainEfficiency = 1 - (double)(mainFN+mainFP)/(temporaryListOfRules.size()+mainListOfRules.size());
+		
+		resultsList[3] = "Efficiency new: " + String.format("%.2f", efficiency) + 
+				" / previous: " + String.format("%.2f", mainEfficiency);
+		
+		if (efficiency > mainEfficiency) resultsList[4] = "Tip: Save the changes";
+		else resultsList[4] = "Tip: Discard the changes";
+		
+		return resultsList;
 	}
 }

@@ -244,11 +244,11 @@ public class AntiSpamFilterConfigurationGUI {
 		ALabel testsLabel = new AntiSpamFilterStyles().new ALabel("Test results");
 		
 		resultsListModel = new DefaultListModel<String>();
-		resultsListModel.addElement("FP: ");
-		resultsListModel.addElement("FN: ");
-		resultsListModel.addElement("Compare results: ");
-		resultsListModel.addElement("Efficiency: ");
-		resultsListModel.addElement("Tip: ");
+		resultsListModel.addElement(" ");
+		resultsListModel.addElement(" ");
+		resultsListModel.addElement(" ");
+		resultsListModel.addElement(" ");
+		resultsListModel.addElement(" ");
 		
 		AList<String> testResultsList = new AntiSpamFilterStyles().new AList<String>(resultsListModel);
 		testResultsList.setFont(new Font("Arial", Font.PLAIN, 16));
@@ -275,17 +275,27 @@ public class AntiSpamFilterConfigurationGUI {
 		testButton.addActionListener(new ActionListener() {
 
 			@Override
-			public void actionPerformed(ActionEvent arg0) {				
-				System.out.println("Test button test");
+			public void actionPerformed(ActionEvent arg0) {	
+				resultsListModel.clear();
+				String[] resultStings = main.getResultsList();
+				
+				resultsListModel.addElement(resultStings[0]);
+				resultsListModel.addElement(resultStings[1]);
+				resultsListModel.addElement(resultStings[2]);
+				resultsListModel.addElement(resultStings[3]);
+				resultsListModel.addElement(resultStings[4]);
 			}
 		});
 		
 		applyButton.addActionListener(new ActionListener() {
 
 			@Override
-			public void actionPerformed(ActionEvent arg0) {				
+			public void actionPerformed(ActionEvent arg0) {								
 				if (spinner.isEnabled()) {
-					main.applyWeightValue(rulesList.getSelectedValue(), (Double)spinner.getValue());
+					String ruleText = rulesList.getSelectedValue();
+					if (ruleText.charAt(0) == '>') ruleText = ruleText.substring(2);
+					
+					main.applyWeightValue(ruleText, (Double)spinner.getValue());
 					main.filterRulesList(searchField.getText().toUpperCase());
 				}
 			}
