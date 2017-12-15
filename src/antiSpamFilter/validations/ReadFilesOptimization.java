@@ -21,10 +21,12 @@ public class ReadFilesOptimization {
 	 *
 	 */
 	
-	static int chosenValueIndex;
+	int chosenValueIndex;
+	ArrayList<Double> FPList= new ArrayList<>();
+	ArrayList<Double> FNList= new ArrayList<>();
 	
 	//find value more smaller from the list
-	public static <T extends Comparable<Double>> int findMinIndex(ArrayList<Double> valueList){
+	public <T extends Comparable<Double>> int findMinIndex(ArrayList<Double> valueList){
 		int minIndex;
 		if (valueList.isEmpty()) {
 			minIndex = -1;
@@ -45,7 +47,7 @@ public class ReadFilesOptimization {
 	}
 	
 	//read the file "AntiSpamFilterProblem.NSGAII.rf" and find the index that which corresponds to the best set of FP and FN
-	public static void readFileRF(File f){
+	public void readFileRF(File f){
 		ArrayList<Double> valueList= new ArrayList<>() ;
 		try {
 			Scanner s = new Scanner(f);
@@ -54,7 +56,9 @@ public class ReadFilesOptimization {
 				String [] line= nextLine.split(" ");
 				double fp= Double.parseDouble(line[0]);
 				double fn= Double.parseDouble(line[1]);
-				
+				FPList.add(fp);
+				FNList.add(fn);
+
 				//value of the point closest to the center in order to fulfill the requirements of the mixed mail box
 				double value= Math.sqrt(Math.pow(fp, 2)+Math.pow(fn, 2) );
 				valueList.add(value);
@@ -66,7 +70,7 @@ public class ReadFilesOptimization {
 	}
 	
 	//read the file "AntiSpamFilterProblem.NSGAII.rf" and return the line that have the best configuration of the rules
-	public static ArrayList<String> readFileRS(File f){
+	public ArrayList<String> readFileRS(File f){
 		int lineNumber=0;
 		ArrayList<String> chosenWeightsList= new ArrayList<>();
 		try {
@@ -85,6 +89,25 @@ public class ReadFilesOptimization {
 			s.close();
 		} catch (FileNotFoundException e) { }
 		return chosenWeightsList;
+	}
+	
+	public String getBestFP(){
+		String bestFP = null;
+		
+		for(int i =0; i<FPList.size(); i++){
+			if (chosenValueIndex==i)
+				bestFP= FPList.get(i).toString();
+		}
+		
+		return bestFP;
+	}
+	public String getBestFN(){
+		String bestFN = null ;
+		for(int i =0; i<FNList.size(); i++){
+			if (chosenValueIndex==i)
+				bestFN= FNList.get(i).toString();
+		}
+		return bestFN;
 		
 	}
 	
