@@ -80,16 +80,19 @@ public class AntiSpamFilterManualConfiguration {
 	/** Updates the list of rule's name with the temporary list **/
 	public void updateListOfNames() {
 		listOfNames = new ArrayList<String>();
+		String intro = "";
 
-		for (int i = 0; i < temporaryListOfRules.size(); i++)
+		for (int i = 0; i < temporaryListOfRules.size(); i++) {
+			intro = String.format("%.2f", temporaryListOfRules.get(i).getWeight()) + " | ";
 			if (temporaryListOfRules.get(i).getWeight() == mainListOfRules.get(i).getWeight())
-				listOfNames.add(mainListOfRules.get(i).getName());
-			else listOfNames.add("> " + mainListOfRules.get(i).getName());
+				listOfNames.add(intro + mainListOfRules.get(i).getName());
+			else listOfNames.add(intro + "> " + mainListOfRules.get(i).getName());
+		}
 	}
 	
 	/** Resets a rule value to his original value **/
 	public void resetWeightValue(String name) {
-		name = name.substring(2);
+		name = name.substring(9);
 		
 		for (int i = 0; i < temporaryListOfRules.size(); i++)
 			if (temporaryListOfRules.get(i).getName().contains(name))
@@ -101,15 +104,19 @@ public class AntiSpamFilterManualConfiguration {
 
 	/** Apply a filter to the list of rules based in a text **/
 	public void filterRulesList(String text) {
+		String intro = "";
 		if (text.isEmpty()) updateListOfNames();
 		else {
 			listOfNames = new ArrayList<String>();
 
-			for (int i = 0; i < temporaryListOfRules.size(); i++)
-				if (temporaryListOfRules.get(i).getName().contains(text))
+			for (int i = 0; i < temporaryListOfRules.size(); i++) {
+				if (temporaryListOfRules.get(i).getName().contains(text)) {
+					intro = String.format("%.2f", temporaryListOfRules.get(i).getWeight()) + " | ";
 					if (temporaryListOfRules.get(i).getWeight() == mainListOfRules.get(i).getWeight())
-						listOfNames.add(mainListOfRules.get(i).getName());
-					else listOfNames.add("> " + mainListOfRules.get(i).getName());
+						listOfNames.add(intro + mainListOfRules.get(i).getName());
+					else listOfNames.add(intro + "> " + mainListOfRules.get(i).getName());
+				}
+			}
 		}
 		gui.refreshRulesList();
 	}

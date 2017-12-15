@@ -41,7 +41,7 @@ public class AntiSpamFilterConfigurationGUI {
 	private JFrame antiSpamFilterFrame = new JFrame("AntiSpamFilter Configuration v1.0");
 	private AntiSpamFilterManualConfiguration main;
 	
-	private final int WINDOW_HSIZE = 500;
+	private final int WINDOW_HSIZE = 560;
 	private final int WINDOW_VSIZE = 500;
 	private final int COMPONENT_GAP = 10;
 	private final int COMPONENT_MAX_WIDTH = WINDOW_HSIZE-(2*COMPONENT_GAP);
@@ -143,7 +143,7 @@ public class AntiSpamFilterConfigurationGUI {
 	private void setRulesListPanel() {
 		//Implementation of rules list window
 		ruleslistPanel = new AntiSpamFilterStyles().new APanel();
-		ruleslistPanel.setPreferredSize(new Dimension(200,COMPONENT_MAX_HEIGHT));
+		ruleslistPanel.setPreferredSize(new Dimension(260,COMPONENT_MAX_HEIGHT));
 		ruleslistPanel.setLayout(new BorderLayout(10,10));
 		ruleslistPanel.setBorder(
 				BorderFactory.createEmptyBorder(COMPONENT_GAP,COMPONENT_GAP,COMPONENT_GAP,COMPONENT_GAP));
@@ -293,7 +293,8 @@ public class AntiSpamFilterConfigurationGUI {
 			public void actionPerformed(ActionEvent arg0) {								
 				if (spinner.isEnabled()) {
 					String ruleText = rulesList.getSelectedValue();
-					if (ruleText.charAt(0) == '>') ruleText = ruleText.substring(2);
+					if (ruleText.charAt(7) == '>') ruleText = ruleText.substring(9);
+					else ruleText = ruleText.substring(7);
 					
 					main.applyWeightValue(ruleText, (Double)spinner.getValue());
 					main.filterRulesList(searchField.getText().toUpperCase());
@@ -398,10 +399,11 @@ public class AntiSpamFilterConfigurationGUI {
 					if (searchField.getText().equals(""))
 						spinner.setValue(new Double(main.getRuleWeight(rulesList.getSelectedIndex())));
 					else
-						if (rulesList.getSelectedValue().charAt(0) == '>')
+						if (rulesList.getSelectedValue().charAt(7) == '>')
 							spinner.setValue(new Double(main.getRuleWeight(
-								rulesList.getSelectedValue().substring(2))));
-						else spinner.setValue(new Double(main.getRuleWeight(rulesList.getSelectedValue())));
+								rulesList.getSelectedValue().substring(9))));
+						else spinner.setValue(new Double(main.getRuleWeight(
+								rulesList.getSelectedValue().substring(7))));
 					
 					spinner.setEnabled(true);
 					lastSelectedRule = rulesList.getSelectedIndex();
@@ -412,7 +414,7 @@ public class AntiSpamFilterConfigurationGUI {
 		rulesList.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
 		        if ( SwingUtilities.isRightMouseButton(e) ) {
-		            if (rulesListModel.getElementAt(rulesList.locationToIndex(e.getPoint())).charAt(0) == '>')
+		            if (rulesListModel.getElementAt(rulesList.locationToIndex(e.getPoint())).charAt(7) == '>')
 		            	main.resetWeightValue(rulesListModel.getElementAt(
 		            		rulesList.locationToIndex(e.getPoint())));
 		            
