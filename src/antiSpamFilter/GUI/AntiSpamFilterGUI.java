@@ -359,7 +359,19 @@ public class AntiSpamFilterGUI {
 		saveButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				main.saveRulesToFile();
+				if (main.isRulesChanged()) {
+					new AntiSpamFilterStyles().new AOptionPane();
+					int result = AOptionPane.showConfirmDialog(null, 
+							"Are you sure? This will overwrite the previous file",
+							null, AOptionPane.YES_NO_OPTION);
+
+					if (result == AOptionPane.OK_OPTION)
+						main.saveRulesToFile();
+				}
+				else {
+					textBox.setText("");
+					textBox.append("The rules were not modified.");
+				}
 			}
 		});
 

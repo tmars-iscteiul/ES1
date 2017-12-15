@@ -60,6 +60,7 @@ public class EmailStream {
 						rulePosition = Collections.binarySearch(
 								listOfRules, new Rule(fileLineList[i],0), compareName);
 						
+						//check if the rule exists and asks the user what to do
 						if (rulePosition < 0) {
 							new AntiSpamFilterStyles().new AOptionPane();
 							Object[] optionValues = { "Add rule", "Ignore rule", "Cancel" };
@@ -68,23 +69,26 @@ public class EmailStream {
 							AOptionPane.DEFAULT_OPTION, AOptionPane.WARNING_MESSAGE,null,
 							optionValues, optionValues[0]);
 							
-							if (selectedValue != null) {
-								if (selectedValue.equals(optionValues[0])) {
-									main.addRuleToList(fileLineList[i], 0.0);
-									listOfRules.add(new Rule(fileLineList[i], 0.0));
-									Collections.sort(listOfRules);
+							//if the user chooses to add the rule
+							if (selectedValue.equals(0)) {
+								main.addRuleToList(fileLineList[i], 0.0);
+								listOfRules.add(new Rule(fileLineList[i], 0.0));
+								Collections.sort(listOfRules);
+								
+								System.out.println("Entrei");
 
-									rulePosition = Collections.binarySearch(
-											listOfRules, new Rule(fileLineList[i],0), compareName);
+								rulePosition = Collections.binarySearch(
+										listOfRules, new Rule(fileLineList[i],0), compareName);
 
-									emailRulesList.add(rulePosition);
+								emailRulesList.add(rulePosition);
 
-								}
-								else if (selectedValue.equals(optionValues[2])) {
-									scanner.close();
-									return null;
-								}
 							}
+							//if the user chooses to cancel operation
+							else if (selectedValue.equals(2)) {
+								scanner.close();
+								return null;
+							}
+
 						}
 						//Increment of the final weight of the email
 						else finalWeight += listOfRules.get(rulePosition).getWeight();

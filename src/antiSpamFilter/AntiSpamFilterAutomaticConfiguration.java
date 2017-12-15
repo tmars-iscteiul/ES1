@@ -159,6 +159,7 @@ public class AntiSpamFilterAutomaticConfiguration {
 	
 	public void saveRulesToFile() {
 		WriteCF.writeCF(listOfRules, rulesFile);
+		isRulesChanged = false;
 	}
 
 	public ArrayList<String> getResultList() {
