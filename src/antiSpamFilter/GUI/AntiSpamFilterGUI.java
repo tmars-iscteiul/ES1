@@ -357,7 +357,7 @@ public class AntiSpamFilterGUI {
 		saveButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				System.out.println("Test Save optimization Button ");
+				main.saveRulesToFile();
 			}
 		});
 

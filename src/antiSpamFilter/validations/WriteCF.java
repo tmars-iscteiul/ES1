@@ -1,39 +1,30 @@
 package antiSpamFilter.validations;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 
-import antiSpamFilter.AntiSpamFilterAutomaticConfiguration;
+import antiSpamFilter.rules.Rule;
 
 public class WriteCF {
-
-
-	public static void writeCF() throws FileNotFoundException {
 	
-		ReadFilesOptimization a = new ReadFilesOptimization();
-		File file = new File("experimentBaseDirectory/referenceFronts/AntiSpamFilterProblem.NSGAII.rs");
-		
-		ArrayList<Double> pelDouble = new ArrayList<Double>();
-		
-		ArrayList<String> pesosEscolhidosLista = a.readFileRS(file);
-		
-		for(String foo: pesosEscolhidosLista) {
-			double foo1= Double.parseDouble(foo);
-			pelDouble.add(foo1);
-		}
+	public static void writeCF (ArrayList<Rule> listOfRules, File rulesCF) {
+	
+		FileWriter writer;
 
-		System.out.println(pelDouble);
-
-	}
-
-	public static void main(String[] args) {
 		try {
-			writeCF();
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		    writer = new FileWriter(rulesCF);
+		    
+		    for (Rule rule : listOfRules)
+		    	writer.write(rule.getName() + '\t' + rule.getWeight() + '\n');
+		    
+		    writer.close();
+		} catch (IOException e) {
+		        // TODO Auto-generated catch block
+		        e.printStackTrace();
+		}           
+	
+
 	}
 }

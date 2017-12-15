@@ -83,7 +83,10 @@ public class AntiSpamFilterManualConfiguration {
 		String intro = "";
 
 		for (int i = 0; i < temporaryListOfRules.size(); i++) {
-			intro = String.format("%.2f", temporaryListOfRules.get(i).getWeight()) + " | ";
+			if (temporaryListOfRules.get(i).getWeight() < 0)
+				intro = String.format("%.1f", temporaryListOfRules.get(i).getWeight()) + " | ";
+			else intro = String.format("%.2f", temporaryListOfRules.get(i).getWeight()) + " | ";
+			
 			if (temporaryListOfRules.get(i).getWeight() == mainListOfRules.get(i).getWeight())
 				listOfNames.add(intro + mainListOfRules.get(i).getName());
 			else listOfNames.add(intro + "> " + mainListOfRules.get(i).getName());
@@ -111,7 +114,10 @@ public class AntiSpamFilterManualConfiguration {
 
 			for (int i = 0; i < temporaryListOfRules.size(); i++) {
 				if (temporaryListOfRules.get(i).getName().contains(text)) {
-					intro = String.format("%.2f", temporaryListOfRules.get(i).getWeight()) + " | ";
+					if (temporaryListOfRules.get(i).getWeight() < 0)
+						intro = String.format("%.1f", temporaryListOfRules.get(i).getWeight()) + " | ";
+					else intro = String.format("%.2f", temporaryListOfRules.get(i).getWeight()) + " | ";
+					
 					if (temporaryListOfRules.get(i).getWeight() == mainListOfRules.get(i).getWeight())
 						listOfNames.add(intro + mainListOfRules.get(i).getName());
 					else listOfNames.add(intro + "> " + mainListOfRules.get(i).getName());
