@@ -6,6 +6,7 @@ import antiSpamFilter.emails.EmailStream;
 import antiSpamFilter.rules.Rule;
 import antiSpamFilter.rules.RuleStream;
 import antiSpamFilter.validations.ReadCF;
+import antiSpamFilter.validations.ReadFilesOptimization;
 import antiSpamFilter.validations.ReadLOG;
 
 import java.io.File;
@@ -33,6 +34,8 @@ public class AntiSpamFilterAutomaticConfiguration {
 	ArrayList<Rule> listOfRules;
 
 	File spamFile, hamFile, rulesFile;
+	
+	ReadFilesOptimization RFO= new ReadFilesOptimization();
 
 	public AntiSpamFilterAutomaticConfiguration() {
 		mainGUI = new AntiSpamFilterGUI(this);
@@ -47,7 +50,12 @@ public class AntiSpamFilterAutomaticConfiguration {
 		if (filesAreValidated) {
 			new AntiSpamFilterOptimization(this).runOptimization();
 			isRulesChanged = true;
+			funcao();
 		}
+	}
+	
+	public void funcao (){
+		getResultList();
 	}
 
 	/**
@@ -147,4 +155,15 @@ public class AntiSpamFilterAutomaticConfiguration {
 		listOfRules.add(new Rule(name, weight));
 		Collections.sort(listOfRules);
 	}
+	public ArrayList<String> getResultList() {
+		RFO.readFileRF(new File("experimentBaseDirectory/referenceFronts/AntiSpamFilterProblem.NSGAII.rf"));
+		return RFO.readFileRS(new File("experimentBaseDirectory/referenceFronts/AntiSpamFilterProblem.NSGAII.rs"));
+	}
+	public String getBestFP(){
+		return RFO.getBestFP();
+	}
+	public String getBestFN(){
+		return RFO.getBestFN();
+	}
+	
 }

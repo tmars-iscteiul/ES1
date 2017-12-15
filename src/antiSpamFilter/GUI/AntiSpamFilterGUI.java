@@ -266,15 +266,19 @@ public class AntiSpamFilterGUI {
 		startButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				ArrayList<String> resultsList;
+				//ArrayList<String> resultsList;
 				if (validFilesPath()) {
 					if (isValidated) {
 						textBox.setText("");
 						main.runOptimization();
-						resultsList = ReadFilesOptimization.readFileRS(new File("experimentBaseDirectory/referenceFronts/AntiSpamFilterProblem.NSGAII.rs"));
+						/*resultsList= main.getResultList();
 						for(String message:resultsList){
 							textBox.append(message+ "\n");
-						}
+						}*/
+						textBox.append("FP: "+main.getBestFP() + "\n");
+						textBox.append("FN: "+main.getBestFN() + "\n");
+						
+						
 					}
 					else showCorruptFileMessage();
 				}					
