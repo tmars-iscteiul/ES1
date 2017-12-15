@@ -340,6 +340,7 @@ public class AntiSpamFilterConfigurationGUI {
 					main.saveMainListOfRules();
 					AOptionPane.showMessageDialog(null, "Rules saved with success", 
 							"Manual configuration", AOptionPane.INFORMATION_MESSAGE);
+					confirmCloseWindow();
 				}
 			}
 		});

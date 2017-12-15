@@ -192,17 +192,17 @@ public class AntiSpamFilterManualConfiguration {
 		resultsList[1] = "FN new: " + FN + " / previous: " + mainFN;
 		resultsList[2] = "Compare results: ";
 		
-		if (FP < mainFP) resultsList[2] += "FP + / ";
-		else resultsList[2] += "FP - / ";
+		if (FP < mainFP) resultsList[2] += "Low FP / ";
+		else resultsList[2] += "High FP / ";
 		
-		if (FN < mainFN) resultsList[2] += "FN +";
-		else resultsList[2] += "FN -";
+		if (FN < mainFN) resultsList[2] += "Low FN";
+		else resultsList[2] += "High FN";
 		
-		double efficiency = 1 - (double)(FN+FP)/(temporaryListOfRules.size()+mainListOfRules.size());
-		double mainEfficiency = 1 - (double)(mainFN+mainFP)/(temporaryListOfRules.size()+mainListOfRules.size());
+		double efficiency = 100 * (1 - (double)(FN+FP)/(listOfEmailsSpam.size()+listOfEmailsHam.size()));
+		double mainEfficiency = 100 * (1 - (double)(mainFN+mainFP)/(listOfEmailsSpam.size()+listOfEmailsHam.size()));
 		
-		resultsList[3] = "Efficiency new: " + String.format("%.2f", efficiency) + 
-				" / previous: " + String.format("%.2f", mainEfficiency);
+		resultsList[3] = "Efficiency: " + String.format("%.1f", efficiency) + 
+				"% / previous: " + String.format("%.1f", mainEfficiency) + "%";
 		
 		if (efficiency > mainEfficiency) resultsList[4] = "Tip: Save the changes";
 		else resultsList[4] = "Tip: Discard the changes";

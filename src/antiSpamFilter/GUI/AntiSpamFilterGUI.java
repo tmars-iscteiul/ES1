@@ -1,6 +1,7 @@
 package antiSpamFilter.GUI;
 
 import java.awt.BorderLayout;
+import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.FileDialog;
 import java.awt.GridLayout;
@@ -10,6 +11,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.File;
+import java.io.IOException;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
@@ -273,21 +275,30 @@ public class AntiSpamFilterGUI {
 								null, AOptionPane.YES_NO_OPTION);
 						
 						if (result == AOptionPane.OK_OPTION) {
-							textBox.setText("");
-							main.runOptimization();
-							
-							textBox.append("Optimizer program ran with success.\n");
-							textBox.append("Results:\n");
-							textBox.append("FP: "+ main.getBestFP() + " | FN: "+ main.getBestFN() + "\n");
-							textBox.append("Spam emails: " + main.getListOfEmailsSpam().size()
-									+ " | Ham emails: " + main.getListOfEmailsHam().size() 
-									+ " | Total: " + (main.getListOfEmailsHam().size() + main.getListOfEmailsSpam().size()) 
-									+ "\n");
-
+							generateResults();
+							showOpenDirectory();
 						}
 					}
 					else showCorruptFileMessage();
 				}					
+			}
+
+			private void generateResults() {
+				textBox.setText("");
+				main.runOptimization();
+				
+				textBox.append("Optimizer program ran with success.\n");
+				textBox.append("Results:\n");
+				textBox.append("FP: "+ main.getBestFP() + " | FN: "+ main.getBestFN() + "\n");
+				textBox.append("Spam emails: " + main.getListOfEmailsSpam().size()
+						+ " | Ham emails: " + main.getListOfEmailsHam().size() 
+						+ " | Total: " + (main.getListOfEmailsHam().size() + main.getListOfEmailsSpam().size()) 
+						+ "\n");
+				
+				double totalFNFP = Double.parseDouble(main.getBestFN()) + Double.parseDouble(main.getBestFP());
+				double efficiency = 100 * (1 - totalFNFP/(main.getListOfEmailsHam().size() + main.getListOfEmailsSpam().size()));
+				
+				textBox.append("Efficiency: " + String.format("%.2f", efficiency) + "%\n");
 			}
 		});
 
@@ -295,6 +306,24 @@ public class AntiSpamFilterGUI {
 		buttonPanel.add(configurationButton);
 		buttonPanel.add(startButton);
 		initiationPanel.add(buttonPanel);
+	}
+
+	protected void showOpenDirectory() {
+		new AntiSpamFilterStyles().new AOptionPane();
+		int result = AOptionPane.showConfirmDialog(null, 
+				"Do you want to open the results folder?",
+				null, AOptionPane.YES_NO_OPTION);
+		
+		if (result == AOptionPane.OK_OPTION) {
+			File file = new File("./experimentBaseDirectory/");
+			Desktop desktop = Desktop.getDesktop();
+
+			try {
+				desktop.open(file);
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+		}
 	}
 
 	private void implementResultsPanel() {
@@ -447,12 +476,7 @@ public class AntiSpamFilterGUI {
 		
 		return false;
 	}
-	/*
-	protected void writeResultMessage(String message, Boolean clear) {
-		if (clear) textBox.setText("");
-		textBox.append(message);
-	}
-	*/
+
 	
 	
 	
