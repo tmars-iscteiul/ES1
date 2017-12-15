@@ -91,7 +91,10 @@ public class EmailStream {
 
 						}
 						//Increment of the final weight of the email
-						else finalWeight += listOfRules.get(rulePosition).getWeight();
+						else {
+							emailRulesList.add(rulePosition);
+							finalWeight += listOfRules.get(rulePosition).getWeight();
+						}
 					}
 				}
 				
