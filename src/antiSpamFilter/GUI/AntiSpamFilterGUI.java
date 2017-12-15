@@ -10,14 +10,12 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.File;
-import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 
 import antiSpamFilter.AntiSpamFilterAutomaticConfiguration;
 import antiSpamFilter.GUI.AntiSpamFilterStyles.*;
-import antiSpamFilter.validations.ReadFilesOptimization;
 
 /**
  * <p>AntiSpamFilterGUI - the main GUI panel class</br>
