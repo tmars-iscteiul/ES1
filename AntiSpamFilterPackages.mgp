@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PackageAnalysis>
+    <Package name="antiSpamFilter" x="463" y="131">
+        <DependencyLink destination="antiSpamFilter.GUI"/>
+        <DependencyLink destination="antiSpamFilter.validations"/>
+        <DependencyLink destination="antiSpamFilter.emails"/>
+        <DependencyLink destination="antiSpamFilter.rules"/>
+    </Package>
+    <Package name="antiSpamFilter.emails" x="259" y="198">
+        <DependencyLink destination="antiSpamFilter.GUI"/>
+        <DependencyLink destination="antiSpamFilter"/>
+        <DependencyLink destination="antiSpamFilter.rules"/>
+    </Package>
+    <Package name="antiSpamFilter.GUI" x="267" y="132">
+        <DependencyLink destination="antiSpamFilter"/>
+    </Package>
+    <Package name="antiSpamFilter.rules" x="45" y="62"/>
+    <Package name="antiSpamFilter.tests" x="300" y="361">
+        <DependencyLink destination="antiSpamFilter.validations"/>
+        <DependencyLink destination="antiSpamFilter"/>
+        <DependencyLink destination="antiSpamFilter.emails"/>
+        <DependencyLink destination="antiSpamFilter.rules"/>
+    </Package>
+    <Package name="antiSpamFilter.validations" x="569" y="61">
+        <DependencyLink destination="antiSpamFilter.rules"/>
+    </Package>
+</PackageAnalysis>

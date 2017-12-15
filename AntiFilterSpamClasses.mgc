@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ClassDiagram>
+    <Class name="antiSpamFilter.validations.WriteCF" x="39" y="289">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+    </Class>
+    <Class name="antiSpamFilter.AntiSpamFilterAutomaticConfiguration"
+        x="40" y="355">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Association
+            destinationClassName="antiSpamFilter.AntiSpamFilterManualConfiguration"
+            endpointName="manualConfigure" kind="Simple"/>
+        <Association destinationClassName="antiSpamFilter.emails.Email"
+            endpointName="listOfEmailsSpam" kind="Simple"/>
+        <Association destinationClassName="antiSpamFilter.rules.Rule"
+            endpointName="listOfRules" kind="Simple"/>
+        <Association
+            destinationClassName="antiSpamFilter.validations.ReadFilesOptimization"
+            endpointName="RFO" kind="Simple"/>
+        <Association
+            destinationClassName="antiSpamFilter.GUI.AntiSpamFilterGUI"
+            endpointName="mainGUI" kind="Simple"/>
+        <Communication destinationClassName="antiSpamFilter.validations.ReadLOG"/>
+        <Communication destinationClassName="antiSpamFilter.GUI.AntiSpamFilterGUI"/>
+        <Communication destinationClassName="antiSpamFilter.emails.EmailStream"/>
+        <Communication destinationClassName="antiSpamFilter.validations.ReadCF"/>
+        <Communication destinationClassName="antiSpamFilter.validations.WriteCF"/>
+        <Communication destinationClassName="antiSpamFilter.validations.ReadFilesOptimization"/>
+        <Communication destinationClassName="antiSpamFilter.AntiSpamFilterOptimization"/>
+        <Communication destinationClassName="antiSpamFilter.rules.RuleStream"/>
+        <Communication destinationClassName="antiSpamFilter.rules.Rule"/>
+        <Communication destinationClassName="antiSpamFilter.AntiSpamFilterManualConfiguration"/>
+    </Class>
+    <Class name="antiSpamFilter.AntiSpamFilterMain" x="37" y="237">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+    </Class>
+    <Class name="antiSpamFilter.rules.Rule" x="464" y="12">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+    </Class>
+    <Class name="antiSpamFilter.validations.ReadLOG" x="37" y="135">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+    </Class>
+    <Class name="antiSpamFilter.GUI.AntiSpamFilterGUI" x="432" y="478">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Association
+            destinationClassName="antiSpamFilter.AntiSpamFilterAutomaticConfiguration"
+            endpointName="main" kind="Simple"/>
+        <Communication destinationClassName="antiSpamFilter.AntiSpamFilterAutomaticConfiguration"/>
+    </Class>
+    <Class name="antiSpamFilter.rules.RuleStream" x="296" y="36">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Association destinationClassName="antiSpamFilter.rules.Rule"
+            endpointName="ruleStream" kind="Simple"/>
+        <Communication destinationClassName="antiSpamFilter.rules.Rule"/>
+    </Class>
+    <Class name="antiSpamFilter.emails.EmailStream" x="484" y="174">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Communication destinationClassName="antiSpamFilter.AntiSpamFilterAutomaticConfiguration"/>
+        <Communication destinationClassName="antiSpamFilter.rules.Rule"/>
+    </Class>
+    <Class name="antiSpamFilter.AntiSpamFilterProblem" x="709" y="124">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Association destinationClassName="antiSpamFilter.emails.Email"
+            endpointName="listOfEmailsSpam" kind="Simple"/>
+        <Communication destinationClassName="antiSpamFilter.emails.Email"/>
+    </Class>
+    <Class name="antiSpamFilter.validations.ReadFilesOptimization"
+        x="46" y="642">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+    </Class>
+    <Class name="antiSpamFilter.validations.ReadCF" x="35" y="185">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+    </Class>
+    <Class name="antiSpamFilter.emails.Email" x="410" y="242">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+    </Class>
+    <Class name="antiSpamFilter.GUI.AntiSpamFilterConfigurationGUI"
+        x="969" y="264">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Association
+            destinationClassName="antiSpamFilter.AntiSpamFilterManualConfiguration"
+            endpointName="main" kind="Simple"/>
+        <Communication destinationClassName="antiSpamFilter.AntiSpamFilterManualConfiguration"/>
+    </Class>
+    <Class name="antiSpamFilter.AntiSpamFilterOptimization" x="223" y="571">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Association
+            destinationClassName="antiSpamFilter.AntiSpamFilterAutomaticConfiguration"
+            endpointName="main" kind="Simple"/>
+        <Communication destinationClassName="antiSpamFilter.AntiSpamFilterAutomaticConfiguration"/>
+        <Communication destinationClassName="antiSpamFilter.AntiSpamFilterProblem"/>
+    </Class>
+    <Class name="antiSpamFilter.AntiSpamFilterManualConfiguration"
+        x="658" y="348">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Association destinationClassName="antiSpamFilter.emails.Email"
+            endpointName="listOfEmailsSpam" kind="Simple"/>
+        <Association
+            destinationClassName="antiSpamFilter.AntiSpamFilterAutomaticConfiguration"
+            endpointName="main" kind="Simple"/>
+        <Association
+            destinationClassName="antiSpamFilter.GUI.AntiSpamFilterConfigurationGUI"
+            endpointName="gui" kind="Simple"/>
+        <Association destinationClassName="antiSpamFilter.rules.Rule"
+            endpointName="mainListOfRules" kind="Simple"/>
+        <Communication destinationClassName="antiSpamFilter.emails.Email"/>
+        <Communication destinationClassName="antiSpamFilter.GUI.AntiSpamFilterConfigurationGUI"/>
+        <Communication destinationClassName="antiSpamFilter.AntiSpamFilterAutomaticConfiguration"/>
+        <Communication destinationClassName="antiSpamFilter.rules.Rule"/>
+    </Class>
+</ClassDiagram>
