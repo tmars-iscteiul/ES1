@@ -164,8 +164,6 @@ public class AntiSpamFilterManualConfiguration {
 				ruleWeight += temporaryListOfRules.get(rulePos).getWeight();
 				mainRuleWeight += mainListOfRules.get(rulePos).getWeight();
 			}
-			
-			System.out.println(email.getID() + " " + ruleWeight);
 
 			if (ruleWeight >= 5)
 				FP++;

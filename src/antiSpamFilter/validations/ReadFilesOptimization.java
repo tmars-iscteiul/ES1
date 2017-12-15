@@ -3,8 +3,9 @@ package antiSpamFilter.validations;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.ListIterator;
 import java.util.Scanner;
+
+import antiSpamFilter.GUI.AntiSpamFilterStyles.AOptionPane;
 
 
 public class ReadFilesOptimization {
@@ -26,24 +27,20 @@ public class ReadFilesOptimization {
 	ArrayList<Double> FNList= new ArrayList<>();
 	
 	//find value more smaller from the list
-	public <T extends Comparable<Double>> int findMinIndex(ArrayList<Double> valueList){
-		int minIndex;
+	public int findMinIndex(ArrayList<Double> valueList){
+		int minIndex = 0;
+		double value = valueList.get(0);
+		
 		if (valueList.isEmpty()) {
 			minIndex = -1;
 		} else {
-			final ListIterator<Double> itr = valueList.listIterator();
-			Double min = itr.next(); // first element as the current minimum
-			minIndex = itr.previousIndex();
-			while (itr.hasNext()) {
-				final Double curr = itr.next();
-				if (curr.compareTo(min) < 0) {
-					min = curr;
-					minIndex = itr.previousIndex();
+			for (int i = 0; i < valueList.size(); i++)
+				if (value > valueList.get(i)) {
+					value = valueList.get(i);
+					minIndex = i;
 				}
-			}
 		}
 		return minIndex;
-		
 	}
 	
 	//read the file "AntiSpamFilterProblem.NSGAII.rf" and find the index that which corresponds to the best set of FP and FN
@@ -65,30 +62,38 @@ public class ReadFilesOptimization {
 				
 			}
 			s.close();
-		} catch (FileNotFoundException e) { }
+		} catch (FileNotFoundException e) {
+			AOptionPane.showMessageDialog(
+					null, "File not found. Confirm the optimizer file.", "Error", AOptionPane.ERROR_MESSAGE);
+		}
+		
 		chosenValueIndex= findMinIndex(valueList);
 	}
 	
 	//read the file "AntiSpamFilterProblem.NSGAII.rf" and return the line that have the best configuration of the rules
-	public ArrayList<String> readFileRS(File f){
+	public String[] readFileRS(File f){
 		int lineNumber=0;
-		ArrayList<String> chosenWeightsList= new ArrayList<>();
+		
 		try {
 			Scanner s = new Scanner(f);
 			while (s.hasNextLine()) {
-				int bestLine= chosenValueIndex+1;
-				lineNumber=lineNumber+1;
 				String nextLine = s.nextLine();
-				String [] lineVector= nextLine.split((" "));
-				if (lineNumber==bestLine){
-					for(int i=0; i<lineVector.length;i++){
-						chosenWeightsList.add(lineVector[i]);
-					}
+				
+				if (lineNumber == chosenValueIndex) {
+					s.close();
+					return nextLine.split((" "));
 				}
+				
+				lineNumber++;
 			}
 			s.close();
-		} catch (FileNotFoundException e) { }
-		return chosenWeightsList;
+			
+		} catch (FileNotFoundException e) {
+			AOptionPane.showMessageDialog(
+					null, "File not found. Confirm the optimizer file.", "Error", AOptionPane.ERROR_MESSAGE);
+		}
+		
+		return null;
 	}
 	
 	public String getBestFP(){

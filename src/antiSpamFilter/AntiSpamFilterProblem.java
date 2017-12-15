@@ -68,7 +68,6 @@ public class AntiSpamFilterProblem extends AbstractDoubleProblem {
 				fx[1]++;
 		}
 
-		System.out.println(fx[0] + " " + fx[1]);
 		solution.setObjective(0, fx[0]);
 		solution.setObjective(1, fx[1]);
 	}

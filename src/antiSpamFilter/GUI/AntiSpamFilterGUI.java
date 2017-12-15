@@ -267,16 +267,24 @@ public class AntiSpamFilterGUI {
 				//ArrayList<String> resultsList;
 				if (validFilesPath()) {
 					if (isValidated) {
-						textBox.setText("");
-						main.runOptimization();
-						/*resultsList= main.getResultList();
-						for(String message:resultsList){
-							textBox.append(message+ "\n");
-						}*/
-						textBox.append("FP: "+main.getBestFP() + "\n");
-						textBox.append("FN: "+main.getBestFN() + "\n");
+						new AntiSpamFilterStyles().new AOptionPane();
+						int result = AOptionPane.showConfirmDialog(null, 
+								"This will generate new weights to the rules. Wish to continue?",
+								null, AOptionPane.YES_NO_OPTION);
 						
-						
+						if (result == AOptionPane.OK_OPTION) {
+							textBox.setText("");
+							main.runOptimization();
+							
+							textBox.append("Optimizer program ran with success.\n");
+							textBox.append("Results:\n");
+							textBox.append("FP: "+ main.getBestFP() + " | FN: "+ main.getBestFN() + "\n");
+							textBox.append("Spam emails: " + main.getListOfEmailsSpam().size()
+									+ " | Ham emails: " + main.getListOfEmailsHam().size() 
+									+ " | Total: " + (main.getListOfEmailsHam().size() + main.getListOfEmailsSpam().size()) 
+									+ "\n");
+
+						}
 					}
 					else showCorruptFileMessage();
 				}					

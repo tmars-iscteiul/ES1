@@ -51,12 +51,9 @@ public class AntiSpamFilterAutomaticConfiguration {
 		if (filesAreValidated) {
 			new AntiSpamFilterOptimization(this).runOptimization();
 			isRulesChanged = true;
-			funcao();
+			
+			getResultList();
 		}
-	}
-	
-	public void funcao (){
-		getResultList();
 	}
 
 	/**
@@ -162,13 +159,22 @@ public class AntiSpamFilterAutomaticConfiguration {
 		isRulesChanged = false;
 	}
 
-	public ArrayList<String> getResultList() {
+	public void getResultList() {
 		RFO.readFileRF(new File("experimentBaseDirectory/referenceFronts/AntiSpamFilterProblem.NSGAII.rf"));
-		return RFO.readFileRS(new File("experimentBaseDirectory/referenceFronts/AntiSpamFilterProblem.NSGAII.rs"));
+		String[] listOfWeights = RFO.readFileRS(new File("experimentBaseDirectory/referenceFronts/AntiSpamFilterProblem.NSGAII.rs"));
+	
+		updateRulesWeight(listOfWeights);
 	}
+	
+	private void updateRulesWeight(String[] listOfWeights) {
+		for (int i = 0; i < listOfWeights.length; i++)
+			listOfRules.get(i).setWeight(Double.parseDouble(listOfWeights[i]));
+	}
+
 	public String getBestFP(){
 		return RFO.getBestFP();
 	}
+	
 	public String getBestFN(){
 		return RFO.getBestFN();
 	}
