@@ -287,7 +287,7 @@ public class AntiSpamFilterGUI {
 				textBox.setText("");
 				main.runOptimization();
 				
-				textBox.append("Optimizer program ran with success.\n");
+				textBox.append("Optimizer program ran with success.\n\n");
 				textBox.append("Results:\n");
 				textBox.append("FP: "+ main.getBestFP() + " | FN: "+ main.getBestFN() + "\n");
 				textBox.append("Spam emails: " + main.getListOfEmailsSpam().size()
@@ -402,8 +402,12 @@ public class AntiSpamFilterGUI {
 							"Are you sure? This will overwrite the previous file",
 							null, AOptionPane.YES_NO_OPTION);
 
-					if (result == AOptionPane.OK_OPTION)
+					if (result == AOptionPane.OK_OPTION) {
 						main.saveRulesToFile();
+						AOptionPane.showMessageDialog(
+								null, "Rules saved with success in the file: " + RULES_FILENAME, 
+								"Manual configuration", AOptionPane.INFORMATION_MESSAGE);
+					}
 				}
 				else {
 					textBox.setText("");
