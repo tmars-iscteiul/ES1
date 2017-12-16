@@ -5,6 +5,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import antiSpamFilter.GUI.AntiSpamFilterStyles.AOptionPane;
 import antiSpamFilter.rules.Rule;
 
 public class WriteCF {
@@ -14,15 +15,18 @@ public class WriteCF {
 		FileWriter writer;
 
 		try {
-		    writer = new FileWriter(rulesCF);
-		    
-		    for (Rule rule : listOfRules)
-		    	writer.write(rule.getName() + '\t' + rule.getWeight() + '\n');
-		    
-		    writer.close();
+			rulesCF.getParentFile().mkdirs();
+			if (!rulesCF.exists()) rulesCF.createNewFile();
+
+			writer = new FileWriter(rulesCF);
+
+			for (Rule rule : listOfRules)
+				writer.write(rule.getName() + '\t' + rule.getWeight() + '\n');
+
+			writer.close();
 		} catch (IOException e) {
-		        // TODO Auto-generated catch block
-		        e.printStackTrace();
+			AOptionPane.showMessageDialog(
+					null, "File not found. Confirm the link.", "Error", AOptionPane.ERROR_MESSAGE);
 		}           
 	
 

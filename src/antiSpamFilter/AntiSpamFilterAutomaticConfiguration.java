@@ -155,7 +155,7 @@ public class AntiSpamFilterAutomaticConfiguration {
 	}
 	
 	public void saveRulesToFile() {
-		WriteCF.writeCF(listOfRules, rulesFile);
+		WriteCF.writeCF(listOfRules, new File("./AntiSpamConfigurationForBalancedProfessionalAndLeisureMailbox/rules.cf"));
 		isRulesChanged = false;
 	}
 
