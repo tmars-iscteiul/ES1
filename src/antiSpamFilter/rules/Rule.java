@@ -30,34 +30,18 @@ public class Rule implements Comparable<Rule>{
 		this.weight = weight;
 	}
 
-	/**
-	 * Getter with the purpose to obtain the Name attribute of the Rule
-	 * @return returns the String of the Rule
-	 */
 	public String getName() {
 		return name;
 	}
 
-	/**
-	 * Getter with the purpose to obtain the Weight attribute of the Rule
-	 * @return returns the weight of the Rule in a double variable
-	 */
 	public double getWeight() {
 		return weight;
 	}
 
-	/**
-	 * Setter with the purpose to define or redefine the Name attribute of the Rule
-	 * @param name String to define the Name of the Rule
-	 */
 	public void setName(String name) {
 		this.name = name;
 	}
 
-	/**
-	 * Setter with the purpose to define or redefine the Weight attribute of the Rule
-	 * @param weight Double to define the Weight of the Rule
-	 */
 	public void setWeight(double weight) {
 		this.weight = weight;
 	}

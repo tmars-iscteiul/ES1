@@ -9,8 +9,8 @@ import java.util.Scanner;
 import antiSpamFilter.GUI.AntiSpamFilterStyles.AOptionPane;
 
 /**
- * 
- * Class RuleStream represents a series of Rules to be used in the AntiSpam Filter in order to determine if an email must be classified as Spam or Ham.
+ * Class RuleStream represents a series of Rules to be used in the AntiSpam 
+ * Filter in order to determine if an email must be classified as Spam or Ham.
  * 
  * @author ES1-2017-LIGE-PL-102
  *

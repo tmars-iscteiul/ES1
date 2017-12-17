@@ -26,8 +26,8 @@ public class ReadFilesOptimization {
 	ArrayList<Double> FPList= new ArrayList<>();
 	ArrayList<Double> FNList= new ArrayList<>();
 	
-	//find value more smaller from the list
-	public int findMinIndex(ArrayList<Double> valueList){
+	/**Find value more smaller from the list*/
+	private int findMinIndex(ArrayList<Double> valueList){
 		int minIndex = 0;
 		double value = valueList.get(0);
 		
@@ -43,7 +43,10 @@ public class ReadFilesOptimization {
 		return minIndex;
 	}
 	
-	//read the file "AntiSpamFilterProblem.NSGAII.rf" and find the index that which corresponds to the best set of FP and FN
+	/**
+	 * Read the file "AntiSpamFilterProblem.NSGAII.rf" 
+	 * and find the index that which corresponds to the best set of FP and FN
+	 */
 	public void readFileRF(File f){
 		ArrayList<Double> valueList= new ArrayList<>() ;
 		try {
@@ -70,7 +73,9 @@ public class ReadFilesOptimization {
 		chosenValueIndex= findMinIndex(valueList);
 	}
 	
-	//read the file "AntiSpamFilterProblem.NSGAII.rf" and return the line that have the best configuration of the rules
+	/**Read the file "AntiSpamFilterProblem.NSGAII.rf" and return the line
+	 * that have the best configuration of the rules
+	 */
 	public String[] readFileRS(File f){
 		int lineNumber=0;
 		
@@ -96,24 +101,14 @@ public class ReadFilesOptimization {
 		return null;
 	}
 	
+	/** Returns the best FP */
 	public String getBestFP(){
-		String bestFP = null;
-		
-		for(int i =0; i<FPList.size(); i++){
-			if (chosenValueIndex==i)
-				bestFP= FPList.get(i).toString();
-		}
-		
-		return bestFP;
+		return FPList.get(chosenValueIndex).toString();
 	}
+	
+	/** Returns the best FN */
 	public String getBestFN(){
-		String bestFN = null ;
-		for(int i =0; i<FNList.size(); i++){
-			if (chosenValueIndex==i)
-				bestFN= FNList.get(i).toString();
-		}
-		return bestFN;
-		
+		return FNList.get(chosenValueIndex).toString();
 	}
 	
 }

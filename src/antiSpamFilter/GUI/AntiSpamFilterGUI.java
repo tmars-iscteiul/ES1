@@ -266,7 +266,6 @@ public class AntiSpamFilterGUI {
 		startButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				//ArrayList<String> resultsList;
 				if (validFilesPath()) {
 					if (isValidated) {
 						new AntiSpamFilterStyles().new AOptionPane();
