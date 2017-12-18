@@ -28,11 +28,11 @@ public class ReadFilesOptimization {
 	/**Find value more smaller from the list*/
 	private int findMinIndex(ArrayList<Double> valueList){
 		int minIndex = 0;
-		double value = valueList.get(0);
 		
 		if (valueList.isEmpty()) {
 			minIndex = -1;
 		} else {
+			double value = valueList.get(0);
 			for (int i = 0; i < valueList.size(); i++)
 				if (value > valueList.get(i)) {
 					value = valueList.get(i);

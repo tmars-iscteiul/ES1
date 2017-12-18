@@ -12,6 +12,7 @@ public class ReadLOGTest {
 
 	@Test
 	public final void testValidRead() {
+		new ReadLOG();
 		assertTrue(ReadLOG.readFile(new File("Files/spam_test_valid.log")));
 	}
 	
