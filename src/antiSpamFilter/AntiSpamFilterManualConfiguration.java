@@ -83,10 +83,12 @@ public class AntiSpamFilterManualConfiguration {
 		String intro = "";
 
 		for (int i = 0; i < temporaryListOfRules.size(); i++) {
+			//builds the header of each line with the rule weight
 			if (temporaryListOfRules.get(i).getWeight() < 0)
 				intro = String.format("%.1f", temporaryListOfRules.get(i).getWeight()) + " | ";
 			else intro = String.format("%.2f", temporaryListOfRules.get(i).getWeight()) + " | ";
 			
+			//increments the name of the rule in the line
 			if (temporaryListOfRules.get(i).getWeight() == mainListOfRules.get(i).getWeight())
 				listOfNames.add(intro + mainListOfRules.get(i).getName());
 			else listOfNames.add(intro + "> " + mainListOfRules.get(i).getName());
@@ -113,6 +115,7 @@ public class AntiSpamFilterManualConfiguration {
 			listOfNames = new ArrayList<String>();
 
 			for (int i = 0; i < temporaryListOfRules.size(); i++) {
+				// Checks for the search text in each rule name and adds the rule if it exists
 				if (temporaryListOfRules.get(i).getName().contains(text)) {
 					if (temporaryListOfRules.get(i).getWeight() < 0)
 						intro = String.format("%.1f", temporaryListOfRules.get(i).getWeight()) + " | ";
@@ -153,10 +156,11 @@ public class AntiSpamFilterManualConfiguration {
 		main.configureWindowClose();
 	}
 
+	/** Returns the result of the validation */
 	public String[] getResultsList() {
 		String[] resultsList = new String[5];
 
-		// FP - ham que foi classificado spam
+		//calculation of the False Positives
 		int FP = 0, mainFP = 0;
 		for (Email email : listOfEmailsHam) {
 			double ruleWeight = 0.0, mainRuleWeight = 0.0;
@@ -172,7 +176,7 @@ public class AntiSpamFilterManualConfiguration {
 				mainFP++;
 		}
 
-		// FN - spam que foi classificado ham
+		//calculation of the False Negatives
 		int FN = 0, mainFN = 0;
 		for (Email email : listOfEmailsSpam) {
 			double ruleWeight = 0.0, mainRuleWeight = 0.0;
@@ -188,6 +192,7 @@ public class AntiSpamFilterManualConfiguration {
 				mainFN++;
 		}
 		
+		//Write the results in the array resultsList
 		resultsList[0] = "FP new: " + FP + " / previous: " + mainFP;
 		resultsList[1] = "FN new: " + FN + " / previous: " + mainFN;
 		resultsList[2] = "Compare results: ";

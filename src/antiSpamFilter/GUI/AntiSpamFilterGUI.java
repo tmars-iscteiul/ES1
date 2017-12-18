@@ -434,6 +434,7 @@ public class AntiSpamFilterGUI {
 		antiSpamFilterFrame.setVisible(b);
 	}
 	
+	/** Confirms if the window wants to be closed */
 	private void confirmCloseWindow() {
 		new AntiSpamFilterStyles().new AOptionPane();
 		int result = AOptionPane.showConfirmDialog(null, 
@@ -444,7 +445,7 @@ public class AntiSpamFilterGUI {
 			System.exit(0);
 	}
 	
-	//Checks if the three files are loaded in the box
+	/** Checks if the three files are loaded in the box */
 	protected boolean validFilesPath() {
 		if (SPAM_FILE == null || HAM_FILE == null || RULES_FILE == null) {
 			new AntiSpamFilterStyles().new AOptionPane();
@@ -461,7 +462,7 @@ public class AntiSpamFilterGUI {
 				null, "The files are corrupted. Please confirm its content.", "Error", AOptionPane.ERROR_MESSAGE);
 	}
 	
-	//Validates the spam file, the ham file and the rules list
+	/** Validates the spam file, the ham file and the rules list */
 	protected boolean validateFiles() {
 		if (validFilesPath()) 
 			if (main.validateFilesAndBuildRulesAndEmails(SPAM_FILE, HAM_FILE, RULES_FILE)) {

@@ -2,5 +2,4 @@ antiSpamFilter
 antiSpamFilter.GUI
 antiSpamFilter.emails
 antiSpamFilter.rules
-antiSpamFilter.tests
 antiSpamFilter.validations

@@ -258,6 +258,7 @@ public class AntiSpamFilterConfigurationGUI {
 
 	
 	private void setApplyPanel() {
+		//Creation of the apply panel
 		APanel buttonPanel = setButtonPanel();
 
 		AButton applyButton = 
@@ -272,6 +273,7 @@ public class AntiSpamFilterConfigurationGUI {
 		buttonPanel.add(testButton, BorderLayout.CENTER);
 		applyPanel.add(buttonPanel);
 		
+		//Implementation of the user interface
 		testButton.addActionListener(new ActionListener() {
 
 			@Override
@@ -347,6 +349,7 @@ public class AntiSpamFilterConfigurationGUI {
 	}
 	
 	private APanel setButtonPanel() {
+		//Creation of a button panel
 		APanel buttonPanel = new AntiSpamFilterStyles().new APanel();
 		buttonPanel.setPreferredSize(new Dimension(270,40));
 		BorderLayout layout = new BorderLayout(COMPONENT_GAP,COMPONENT_GAP);
@@ -358,6 +361,7 @@ public class AntiSpamFilterConfigurationGUI {
 		antiSpamFilterFrame.setVisible(visible);
 	}
 	
+	/** Confirms if the window wants to be closed */
 	private void confirmCloseWindow() {
 		if (main.isListChanged()) {
 			new AntiSpamFilterStyles().new AOptionPane();
@@ -376,6 +380,7 @@ public class AntiSpamFilterConfigurationGUI {
 		}
 	}
 
+	/** Prepares the window for user interface and loads the information */
 	public void startConfiguration() {
 		rulesListModel = new DefaultListModel<String>();
 		
@@ -383,6 +388,7 @@ public class AntiSpamFilterConfigurationGUI {
 			rulesListModel.addElement(rule);
 		}
 		
+		//Creation of the list of rules
 		rulesList = new AntiSpamFilterStyles().new AList<String>(rulesListModel);
 		scroll = new AntiSpamFilterStyles().new AScrollPane(rulesList,
 				AScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
@@ -390,6 +396,7 @@ public class AntiSpamFilterConfigurationGUI {
 		
 		ruleslistPanel.add(scroll, BorderLayout.CENTER);
 		
+		//Adds the user interface
 		rulesList.addListSelectionListener(new ListSelectionListener() {
 			
 			@Override
@@ -426,6 +433,7 @@ public class AntiSpamFilterConfigurationGUI {
 		});
 	}
 	
+	/** Refresh the list of rules in the panel */
 	public void refreshRulesList() {
 		rulesListModel.removeAllElements();
 		for (String rule : main.getListOfNames())

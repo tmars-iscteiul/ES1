@@ -16,7 +16,7 @@ import java.util.Collections;
 
 /**
  * <p>
- * AntiSpamFilterAutomaticConfiguration - the main class</br>
+ * AntiSpamFilterAutomaticConfiguration - the automatic configuration class</br>
  * </br>
  * The AntiSpamFilter Automatic Configuration creates the main environment to
  * automatically configure and optimize the spam classification.
@@ -52,7 +52,7 @@ public class AntiSpamFilterAutomaticConfiguration {
 			new AntiSpamFilterOptimization(this).runOptimization();
 			isRulesChanged = true;
 			
-			getResultList();
+			showResultList();
 		}
 	}
 
@@ -128,14 +128,18 @@ public class AntiSpamFilterAutomaticConfiguration {
 		return listOfRules;
 	}
 
+	/** Shows the manual configuration window */
 	public void setConfigureWindowVisible(boolean b) {
 		manualConfigure.startConfiguration();
 	}
 
+	/** Informs that the manual configuration window is closed and
+	 *  activates the main window */
 	public void configureWindowClose() {
 		mainGUI.setEnable(true);
 	}
 
+	/** Saves a list of rules into the main list of rules in the program */
 	public void saveListOfRules(ArrayList<Rule> mainListOfRules) {
 		listOfRules = mainListOfRules;
 		isRulesChanged = true;
@@ -149,32 +153,38 @@ public class AntiSpamFilterAutomaticConfiguration {
 		return listOfRules.size();
 	}
 
+	/** Adds a rule to the main list of rules */
 	public void addRuleToList(String name, double weight) {
 		listOfRules.add(new Rule(name, weight));
 		Collections.sort(listOfRules);
 	}
 	
+	/** Saves the main list of rules to the external file rules.cf */
 	public void saveRulesToFile() {
 		WriteCF.writeCF(listOfRules, new File("./AntiSpamConfigurationForBalancedProfessionalAndLeisureMailbox/rules.cf"));
 		isRulesChanged = false;
 	}
 
-	public void getResultList() {
+	/** Shows the results of the last optimization */
+	public void showResultList() {
 		RFO.readFileRF(new File("experimentBaseDirectory/referenceFronts/AntiSpamFilterProblem.NSGAII.rf"));
 		String[] listOfWeights = RFO.readFileRS(new File("experimentBaseDirectory/referenceFronts/AntiSpamFilterProblem.NSGAII.rs"));
 	
 		updateRulesWeight(listOfWeights);
 	}
 	
+	/** Updates the weights of the list of rules */
 	private void updateRulesWeight(String[] listOfWeights) {
 		for (int i = 0; i < listOfWeights.length; i++)
 			listOfRules.get(i).setWeight(Double.parseDouble(listOfWeights[i]));
 	}
 
+	/** Returns the FP of the best sample */
 	public String getBestFP(){
 		return RFO.getBestFP();
 	}
 	
+	/** Returns the FN of the best sample */
 	public String getBestFN(){
 		return RFO.getBestFN();
 	}

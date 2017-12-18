@@ -7,21 +7,20 @@ import java.util.Scanner;
 
 import antiSpamFilter.GUI.AntiSpamFilterStyles.AOptionPane;
 
+/**
+ * <p>ReadFilesOptimization -  </br>
+ * </br>
+ * 
+ * Check the variables of the files "AntiSpamFilterProblem.NSGAII.rf" and "AntiSpamFilterProblem.NSGAII.rs" 
+ * relatively to the optimization, choose the results that are better for mixed-use email boxes and after 
+ * show that results on results window.
+ * </p>
+ * 
+ * @author ES1-2017-LIGE-PL-102
+ *
+ */
 
-public class ReadFilesOptimization {
-	/**
-	 * <p>ReadFilesOptimization -  </br>
-	 * </br>
-	 * 
-	 * Check the variables of the files "AntiSpamFilterProblem.NSGAII.rf" and "AntiSpamFilterProblem.NSGAII.rs" 
-	 * relatively to the optimization, choose the results that are better for mixed-use email boxes and after 
-	 * show that results on results window.
-	 * </p>
-	 * 
-	 * @author ES1-2017-LIGE-PL-102
-	 *
-	 */
-	
+public class ReadFilesOptimization {	
 	int chosenValueIndex;
 	ArrayList<Double> FPList= new ArrayList<>();
 	ArrayList<Double> FNList= new ArrayList<>();
