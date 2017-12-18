@@ -21,9 +21,14 @@ public class ManualConfigurationTest {
 		manual.startConfiguration();
 		manual.startConfiguration();
 		
-		assertTrue(manual.getRuleWeight("BAYES_00") == 0);
-		assertFalse(manual.getRuleWeight("FREEMAIL_FROM") != 0);
-		assertTrue(manual.getRuleWeight("TESTE") == 0.0);
+		manual.applyWeightValue("BAYES_00", -4.0);;
+		
+		manual.getRuleWeight("TEST");
+		manual.filterRulesList("BA");
+		manual.saveMainListOfRules();
+		
+		manual.getResultsList();
+		manual.setWindowClose();
 	}
 
 	@Test
