@@ -1,20 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>AntiSpamFilterAutomaticConfiguration.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">antiSpamFilter.tests (9/dez/2017 15:25:38)</a> &gt; <a href="../../index.html" class="el_group">ES1-2017</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">antiSpamFilter</a> &gt; <span class="el_source">AntiSpamFilterAutomaticConfiguration.java</span></div><h1>AntiSpamFilterAutomaticConfiguration.java</h1><pre class="source lang-java linenums">package antiSpamFilter;
-
-import org.uma.jmetal.algorithm.Algorithm;
-import org.uma.jmetal.algorithm.multiobjective.nsgaii.NSGAIIBuilder;
-import org.uma.jmetal.operator.impl.crossover.SBXCrossover;
-import org.uma.jmetal.operator.impl.mutation.PolynomialMutation;
-import org.uma.jmetal.problem.Problem;
-import org.uma.jmetal.problem.multiobjective.zdt.*;
-import org.uma.jmetal.qualityindicator.impl.*;
-import org.uma.jmetal.qualityindicator.impl.hypervolume.PISAHypervolume;
-import org.uma.jmetal.solution.DoubleSolution;
-import org.uma.jmetal.util.JMetalException;
-import org.uma.jmetal.util.experiment.Experiment;
-import org.uma.jmetal.util.experiment.ExperimentBuilder;
-import org.uma.jmetal.util.experiment.component.*;
-import org.uma.jmetal.util.experiment.util.ExperimentAlgorithm;
-import org.uma.jmetal.util.experiment.util.ExperimentProblem;
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>AntiSpamFilterAutomaticConfiguration.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">antiSpamFilter.tests (19/dez/2017 16:41:14)</a> &gt; <a href="../../index.html" class="el_group">ES1-2017</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">antiSpamFilter</a> &gt; <span class="el_source">AntiSpamFilterAutomaticConfiguration.java</span></div><h1>AntiSpamFilterAutomaticConfiguration.java</h1><pre class="source lang-java linenums">package antiSpamFilter;
 
 import antiSpamFilter.GUI.AntiSpamFilterGUI;
 import antiSpamFilter.emails.Email;
@@ -22,170 +6,187 @@ import antiSpamFilter.emails.EmailStream;
 import antiSpamFilter.rules.Rule;
 import antiSpamFilter.rules.RuleStream;
 import antiSpamFilter.validations.ReadCF;
+import antiSpamFilter.validations.ReadFilesOptimization;
 import antiSpamFilter.validations.ReadLOG;
+import antiSpamFilter.validations.WriteCF;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.Collections;
+
+/**
+ * &lt;p&gt;
+ * AntiSpamFilterAutomaticConfiguration - the automatic configuration class&lt;/br&gt;
+ * &lt;/br&gt;
+ * The AntiSpamFilter Automatic Configuration creates the main environment to
+ * automatically configure and optimize the spam classification.
+ * &lt;/p&gt;
+ *
+ * @author ES1-2017-LIGE-PL-102
+ */
 
 public class AntiSpamFilterAutomaticConfiguration {
-	private static final int INDEPENDENT_RUNS = 5 ;
-<span class="fc" id="L35">	private boolean filesAreValidated = false, isRulesChanged = false;</span>
-	
+<span class="fc" id="L29">	private boolean filesAreValidated = false, isRulesChanged = false;</span>
+
 	AntiSpamFilterGUI mainGUI;
 	AntiSpamFilterManualConfiguration manualConfigure;
-	
+
 	ArrayList&lt;Email&gt; listOfEmailsSpam, listOfEmailsHam;
 	ArrayList&lt;Rule&gt; listOfRules;
 
-	File spamFile, hamFile, rulesFile; 
+	File spamFile, hamFile, rulesFile;
+	
+<span class="fc" id="L39">	ReadFilesOptimization RFO= new ReadFilesOptimization();</span>
 
-<span class="fc" id="L45">	public AntiSpamFilterAutomaticConfiguration() {</span>
-<span class="fc" id="L46">		mainGUI = new AntiSpamFilterGUI(this);</span>
-<span class="fc" id="L47">		manualConfigure = new AntiSpamFilterManualConfiguration(this);</span>
-<span class="fc" id="L48">	}</span>
+<span class="fc" id="L41">	public AntiSpamFilterAutomaticConfiguration() {</span>
+<span class="fc" id="L42">		mainGUI = new AntiSpamFilterGUI(this);</span>
+<span class="fc" id="L43">		manualConfigure = new AntiSpamFilterManualConfiguration(this);</span>
+<span class="fc" id="L44">	}</span>
 
-	public static void main(String[] args) {
-<span class="nc" id="L51">		new AntiSpamFilterAutomaticConfiguration();</span>
-<span class="nc" id="L52">	}</span>
- 
+	/**
+	 * Confirms if the log and rules files are validated and calls the optimization
+	 * class
+	 **/
 	public void runOptimization() {
-		
-<span class="nc bnc" id="L56" title="All 2 branches missed.">		if (!filesAreValidated) {</span>
-<span class="nc" id="L57">			String experimentBaseDirectory = &quot;experimentBaseDirectory&quot;;</span>
-
-<span class="nc" id="L59">			List&lt;ExperimentProblem&lt;DoubleSolution&gt;&gt; problemList = new ArrayList&lt;&gt;();</span>
-<span class="nc" id="L60">			problemList.add(new ExperimentProblem&lt;&gt;(new AntiSpamFilterProblem()));</span>
-
-<span class="nc" id="L62">			List&lt;ExperimentAlgorithm&lt;DoubleSolution, List&lt;DoubleSolution&gt;&gt;&gt; algorithmList =</span>
-<span class="nc" id="L63">					configureAlgorithmList(problemList);</span>
-
-<span class="nc" id="L65">			Experiment&lt;DoubleSolution, List&lt;DoubleSolution&gt;&gt; experiment =</span>
-<span class="nc" id="L66">					new ExperimentBuilder&lt;DoubleSolution, List&lt;DoubleSolution&gt;&gt;(&quot;AntiSpamStudy&quot;)</span>
-<span class="nc" id="L67">					.setAlgorithmList(algorithmList)</span>
-<span class="nc" id="L68">					.setProblemList(problemList)</span>
-<span class="nc" id="L69">					.setExperimentBaseDirectory(experimentBaseDirectory)</span>
-<span class="nc" id="L70">					.setOutputParetoFrontFileName(&quot;FUN&quot;)</span>
-<span class="nc" id="L71">					.setOutputParetoSetFileName(&quot;VAR&quot;)</span>
-<span class="nc" id="L72">					.setReferenceFrontDirectory(experimentBaseDirectory+&quot;/referenceFronts&quot;)</span>
-<span class="nc" id="L73">					.setIndicatorList(Arrays.asList(new PISAHypervolume&lt;DoubleSolution&gt;()))</span>
-<span class="nc" id="L74">					.setIndependentRuns(INDEPENDENT_RUNS)</span>
-<span class="nc" id="L75">					.setNumberOfCores(8)</span>
-<span class="nc" id="L76">					.build();</span>
-
-<span class="nc" id="L78">			new ExecuteAlgorithms&lt;&gt;(experiment).run();</span>
-			try {
-<span class="nc" id="L80">				new GenerateReferenceParetoSetAndFrontFromDoubleSolutions(experiment).run();</span>
-<span class="nc" id="L81">				new ComputeQualityIndicators&lt;&gt;(experiment).run();</span>
-<span class="nc" id="L82">				new GenerateLatexTablesWithStatistics(experiment).run();</span>
-<span class="nc" id="L83">				new GenerateBoxplotsWithR&lt;&gt;(experiment).setRows(1).setColumns(1).run();</span>
-<span class="nc" id="L84">			} catch (IOException e) {</span>
-				// TODO Auto-generated catch block
-<span class="nc" id="L86">				e.printStackTrace();</span>
-			}
+<span class="fc bfc" id="L51" title="All 2 branches covered.">		if (filesAreValidated) {</span>
+<span class="fc" id="L52">			new AntiSpamFilterOptimization(this).runOptimization();</span>
+<span class="fc" id="L53">			isRulesChanged = true;</span>
+			
+<span class="fc" id="L55">			showResultList();</span>
 		}
-<span class="nc" id="L89">	}</span>
+<span class="fc" id="L57">	}</span>
 
-	static List&lt;ExperimentAlgorithm&lt;DoubleSolution, List&lt;DoubleSolution&gt;&gt;&gt; configureAlgorithmList(
-			List&lt;ExperimentProblem&lt;DoubleSolution&gt;&gt; problemList) {
-<span class="nc" id="L93">		List&lt;ExperimentAlgorithm&lt;DoubleSolution, List&lt;DoubleSolution&gt;&gt;&gt; algorithms = new ArrayList&lt;&gt;();</span>
-
-<span class="nc bnc" id="L95" title="All 2 branches missed.">		for (int i = 0; i &lt; problemList.size(); i++) {</span>
-<span class="nc" id="L96">			Algorithm&lt;List&lt;DoubleSolution&gt;&gt; algorithm = new NSGAIIBuilder&lt;&gt;(</span>
-<span class="nc" id="L97">					problemList.get(i).getProblem(),</span>
-<span class="nc" id="L98">					new SBXCrossover(1.0, 5),</span>
-<span class="nc" id="L99">					new PolynomialMutation(1.0 / problemList.get(i).getProblem().getNumberOfVariables(), 10.0))</span>
-<span class="nc" id="L100">					.setMaxEvaluations(25000)</span>
-<span class="nc" id="L101">					.setPopulationSize(100)</span>
-<span class="nc" id="L102">					.build();</span>
-<span class="nc" id="L103">			algorithms.add(new ExperimentAlgorithm&lt;&gt;(algorithm, &quot;NSGAII&quot;, problemList.get(i).getTag()));</span>
-		}
-
-<span class="nc" id="L106">		return algorithms;</span>
-	}
-
+	/**
+	 * Validates the three files that represent the spam log, ham log and rules list
+	 **/
 	public boolean validateFilesAndBuildRulesAndEmails(File spamFile, File hamFile, File rulesFile) {
-<span class="fc" id="L110">		boolean isSameFiles = false;</span>
-		
-		//Check if the files are the same since the last optimization
-<span class="pc bpc" id="L113" title="5 of 6 branches missed.">		if (this.spamFile == spamFile &amp;&amp; this.hamFile == hamFile &amp;&amp; this.rulesFile == rulesFile)</span>
-<span class="nc" id="L114">			isSameFiles = true;</span>
-		
-		//Check if the files were already validated before
-<span class="pc bpc" id="L117" title="3 of 4 branches missed.">		if (!filesAreValidated || !isSameFiles) {</span>
-<span class="fc" id="L118">			this.spamFile = spamFile;</span>
-<span class="fc" id="L119">			this.hamFile = hamFile;</span>
-<span class="fc" id="L120">			this.rulesFile = rulesFile;</span>
+<span class="fc" id="L63">		boolean isSameFiles = false;</span>
 
-			//Validation of the files
-<span class="pc bpc" id="L123" title="1 of 2 branches missed.">			if (!validateFiles()) {</span>
-<span class="nc" id="L124">				filesAreValidated = false; </span>
-<span class="nc" id="L125">				return false;</span>
+		// Check if the files are the same since the last optimization
+<span class="pc bpc" id="L66" title="2 of 6 branches missed.">		if (this.spamFile == spamFile &amp;&amp; this.hamFile == hamFile &amp;&amp; this.rulesFile == rulesFile)</span>
+<span class="fc" id="L67">			isSameFiles = true;</span>
+
+		// Check if the files were already validated before
+<span class="pc bpc" id="L70" title="1 of 4 branches missed.">		if (!filesAreValidated || !isSameFiles) {</span>
+<span class="fc" id="L71">			this.spamFile = spamFile;</span>
+<span class="fc" id="L72">			this.hamFile = hamFile;</span>
+<span class="fc" id="L73">			this.rulesFile = rulesFile;</span>
+
+			// Validation of the files
+<span class="fc bfc" id="L76" title="All 2 branches covered.">			if (!validateFiles()) {</span>
+<span class="fc" id="L77">				filesAreValidated = false;</span>
+<span class="fc" id="L78">				return false;</span>
 			}
 
-			//Creation of the list of rules and emails
-<span class="pc bpc" id="L129" title="1 of 2 branches missed.">			if (!buildRulesAndEmails()) {</span>
-<span class="fc" id="L130">				filesAreValidated = false; </span>
-<span class="fc" id="L131">				return false;</span>
+			// Creation of the list of rules and emails
+<span class="pc bpc" id="L82" title="1 of 2 branches missed.">			if (!buildRulesAndEmails()) {</span>
+<span class="nc" id="L83">				filesAreValidated = false;</span>
+<span class="nc" id="L84">				return false;</span>
 			}
 
-<span class="nc" id="L134">			filesAreValidated = true;</span>
+<span class="fc" id="L87">			filesAreValidated = true;</span>
 		}
-		
-<span class="nc" id="L137">		return true;</span>
+
+<span class="fc" id="L90">		return true;</span>
 	}
 
-	private boolean validateFiles() {		
-		//Call the validation classes and validate
-<span class="pc bpc" id="L142" title="1 of 2 branches missed.">		if(/*ReadLOG.readFile(hamFile) &amp;&amp; ReadLOG.readFile(spamFile)&amp;&amp;*/ ReadCF.read(rulesFile))</span>
-<span class="fc" id="L143">			return true;</span>
-	
-<span class="nc" id="L145">		return false;</span>
+	/** Calls the reading and validation classes **/
+	private boolean validateFiles() {
+		// Call the validation classes and validate
+<span class="fc bfc" id="L96" title="All 6 branches covered.">		if (ReadLOG.readFile(hamFile) &amp;&amp; ReadLOG.readFile(spamFile) &amp;&amp; ReadCF.read(rulesFile))</span>
+<span class="fc" id="L97">			return true;</span>
+
+<span class="fc" id="L99">		return false;</span>
 	}
 
+	/** Builds the list of rules and the list of emails **/
 	private boolean buildRulesAndEmails() {
-		//Creation of the list of rules
-<span class="fc" id="L150">		listOfRules = new RuleStream(rulesFile).getRuleStream();</span>
-		
-		//Creation of the lists of email Spam and email Ham
-<span class="fc" id="L153">		listOfEmailsSpam = EmailStream.getListOfEmailsFromFile(spamFile, listOfRules, Email.SPAM);</span>
-<span class="fc" id="L154">		listOfEmailsHam = EmailStream.getListOfEmailsFromFile(hamFile, listOfRules, Email.HAM);</span>
+		// Creation of the list of rules
+<span class="fc" id="L105">		listOfRules = new RuleStream(rulesFile).getRuleStream();</span>
 
-<span class="pc bpc" id="L156" title="3 of 4 branches missed.">		if (listOfEmailsSpam == null || listOfEmailsHam == null) return false;</span>
-<span class="nc bnc" id="L157" title="All 4 branches missed.">		if (listOfEmailsSpam.size() == 0 || listOfEmailsHam.size() == 0) return false;</span>
+		// Creation of the lists of email Spam and email Ham
+<span class="fc" id="L108">		listOfEmailsSpam = EmailStream.getListOfEmailsFromFile(this, spamFile, listOfRules, Email.SPAM);</span>
+<span class="fc" id="L109">		listOfEmailsHam = EmailStream.getListOfEmailsFromFile(this, hamFile, listOfRules, Email.HAM);</span>
 
-<span class="nc" id="L159">		return true;</span>
+<span class="pc bpc" id="L111" title="2 of 4 branches missed.">		if (listOfEmailsSpam == null || listOfEmailsHam == null)</span>
+<span class="nc" id="L112">			return false;</span>
+<span class="pc bpc" id="L113" title="2 of 4 branches missed.">		if (listOfEmailsSpam.size() == 0 || listOfEmailsHam.size() == 0)</span>
+<span class="nc" id="L114">			return false;</span>
+
+<span class="fc" id="L116">		return true;</span>
 	}
-	
+
 	public ArrayList&lt;Email&gt; getListOfEmailsSpam() {
-<span class="nc" id="L163">		return listOfEmailsSpam;</span>
+<span class="fc" id="L120">		return listOfEmailsSpam;</span>
 	}
 
 	public ArrayList&lt;Email&gt; getListOfEmailsHam() {
-<span class="nc" id="L167">		return listOfEmailsHam;</span>
+<span class="fc" id="L124">		return listOfEmailsHam;</span>
 	}
 
 	public ArrayList&lt;Rule&gt; getListOfRules() {
-<span class="fc" id="L171">		return listOfRules;</span>
+<span class="fc" id="L128">		return listOfRules;</span>
 	}
 
+	/** Shows the manual configuration window */
 	public void setConfigureWindowVisible(boolean b) {
-<span class="nc" id="L175">		manualConfigure.startConfiguration();</span>
-<span class="nc" id="L176">	}</span>
+<span class="fc" id="L133">		manualConfigure.startConfiguration();</span>
+<span class="fc" id="L134">	}</span>
 
+	/** Informs that the manual configuration window is closed and
+	 *  activates the main window */
 	public void configureWindowClose() {
-<span class="nc" id="L179">		mainGUI.setEnable(true);</span>
-<span class="nc" id="L180">	}</span>
+<span class="fc" id="L139">		mainGUI.setEnable(true);</span>
+<span class="fc" id="L140">	}</span>
 
+	/** Saves a list of rules into the main list of rules in the program */
 	public void saveListOfRules(ArrayList&lt;Rule&gt; mainListOfRules) {
-<span class="nc" id="L183">		listOfRules = mainListOfRules;</span>
-<span class="nc" id="L184">		isRulesChanged = true;</span>
-<span class="nc" id="L185">	}</span>
+<span class="fc" id="L144">		listOfRules = mainListOfRules;</span>
+<span class="fc" id="L145">		isRulesChanged = true;</span>
+<span class="fc" id="L146">	}</span>
 
 	public boolean isRulesChanged() {
-<span class="nc" id="L188">		return isRulesChanged;</span>
+<span class="fc" id="L149">		return isRulesChanged;</span>
+	}
+
+	protected int getNumberOfRules() {
+<span class="fc" id="L153">		return listOfRules.size();</span>
+	}
+
+	/** Adds a rule to the main list of rules */
+	public void addRuleToList(String name, double weight) {
+<span class="fc" id="L158">		listOfRules.add(new Rule(name, weight));</span>
+<span class="fc" id="L159">		Collections.sort(listOfRules);</span>
+<span class="fc" id="L160">	}</span>
+	
+	/** Saves the main list of rules to the external file rules.cf */
+	public void saveRulesToFile() {
+<span class="nc" id="L164">		WriteCF.writeCF(listOfRules, new File(&quot;./AntiSpamConfigurationForBalancedProfessionalAndLeisureMailbox/rules.cf&quot;));</span>
+<span class="nc" id="L165">		isRulesChanged = false;</span>
+<span class="nc" id="L166">	}</span>
+
+	/** Shows the results of the last optimization */
+	public void showResultList() {
+<span class="fc" id="L170">		RFO.readFileRF(new File(&quot;experimentBaseDirectory/referenceFronts/AntiSpamFilterProblem.NSGAII.rf&quot;));</span>
+<span class="fc" id="L171">		String[] listOfWeights = RFO.readFileRS(new File(&quot;experimentBaseDirectory/referenceFronts/AntiSpamFilterProblem.NSGAII.rs&quot;));</span>
+	
+<span class="fc" id="L173">		updateRulesWeight(listOfWeights);</span>
+<span class="fc" id="L174">	}</span>
+	
+	/** Updates the weights of the list of rules */
+	private void updateRulesWeight(String[] listOfWeights) {
+<span class="fc bfc" id="L178" title="All 2 branches covered.">		for (int i = 0; i &lt; listOfWeights.length; i++)</span>
+<span class="fc" id="L179">			listOfRules.get(i).setWeight(Double.parseDouble(listOfWeights[i]));</span>
+<span class="fc" id="L180">	}</span>
+
+	/** Returns the FP of the best sample */
+	public String getBestFP(){
+<span class="fc" id="L184">		return RFO.getBestFP();</span>
+	}
+	
+	/** Returns the FN of the best sample */
+	public String getBestFN(){
+<span class="fc" id="L189">		return RFO.getBestFN();</span>
 	}
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span>antiSpamFilter.tests (9/dez/2017 15:25:38)</div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span>antiSpamFilter.tests (19/dez/2017 16:41:14)</div></body></html>

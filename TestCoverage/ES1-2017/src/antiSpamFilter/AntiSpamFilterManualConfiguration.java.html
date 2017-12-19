@@ -1,8 +1,9 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>AntiSpamFilterManualConfiguration.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">antiSpamFilter.tests (9/dez/2017 15:25:38)</a> &gt; <a href="../../index.html" class="el_group">ES1-2017</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">antiSpamFilter</a> &gt; <span class="el_source">AntiSpamFilterManualConfiguration.java</span></div><h1>AntiSpamFilterManualConfiguration.java</h1><pre class="source lang-java linenums">package antiSpamFilter;
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>AntiSpamFilterManualConfiguration.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">antiSpamFilter.tests (19/dez/2017 16:41:14)</a> &gt; <a href="../../index.html" class="el_group">ES1-2017</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">antiSpamFilter</a> &gt; <span class="el_source">AntiSpamFilterManualConfiguration.java</span></div><h1>AntiSpamFilterManualConfiguration.java</h1><pre class="source lang-java linenums">package antiSpamFilter;
 
 import java.util.ArrayList;
 
 import antiSpamFilter.GUI.AntiSpamFilterConfigurationGUI;
+import antiSpamFilter.emails.Email;
 import antiSpamFilter.rules.Rule;
 
 /**
@@ -21,119 +22,197 @@ public class AntiSpamFilterManualConfiguration {
 	AntiSpamFilterAutomaticConfiguration main;
 	AntiSpamFilterConfigurationGUI gui;
 	ArrayList&lt;Rule&gt; mainListOfRules, temporaryListOfRules;
+	ArrayList&lt;Email&gt; listOfEmailsSpam, listOfEmailsHam;
 	ArrayList&lt;String&gt; listOfNames;
-<span class="fc" id="L25">	Boolean initiateGUI = false;</span>
+<span class="fc" id="L27">	Boolean initiateGUI = false;</span>
 	
-<span class="fc" id="L27">	public AntiSpamFilterManualConfiguration (</span>
+<span class="fc" id="L29">	public AntiSpamFilterManualConfiguration (</span>
 			AntiSpamFilterAutomaticConfiguration main) {
-<span class="fc" id="L29">		this.main = main;	</span>
-<span class="fc" id="L30">		gui = new AntiSpamFilterConfigurationGUI(this,false);</span>
-<span class="fc" id="L31">	}</span>
+<span class="fc" id="L31">		this.main = main;	</span>
+<span class="fc" id="L32">		gui = new AntiSpamFilterConfigurationGUI(this,false);</span>
+<span class="fc" id="L33">	}</span>
 
 	/**Creation of the main list and the temporary list of rules**/
 	public void startConfiguration() {
-<span class="fc" id="L35">		mainListOfRules = main.getListOfRules();</span>
-<span class="fc" id="L36">		temporaryListOfRules = new ArrayList&lt;Rule&gt;();</span>
+<span class="fc" id="L37">		mainListOfRules = main.getListOfRules();</span>
+<span class="fc" id="L38">		temporaryListOfRules = new ArrayList&lt;Rule&gt;();</span>
+<span class="fc" id="L39">		listOfEmailsHam = main.getListOfEmailsHam();</span>
+<span class="fc" id="L40">		listOfEmailsSpam = main.getListOfEmailsSpam();</span>
 		
-<span class="fc bfc" id="L38" title="All 2 branches covered.">		for (Rule rule : mainListOfRules)</span>
-<span class="fc" id="L39">			temporaryListOfRules.add(new Rule(rule.getName(),rule.getWeight()));</span>
+<span class="fc bfc" id="L42" title="All 2 branches covered.">		for (Rule rule : mainListOfRules)</span>
+<span class="fc" id="L43">			temporaryListOfRules.add(new Rule(rule.getName(),rule.getWeight()));</span>
 		
-<span class="fc" id="L41">		updateListOfNames();</span>
+<span class="fc" id="L45">		updateListOfNames();</span>
 		
 		//See if the window was already created before
-<span class="fc bfc" id="L44" title="All 2 branches covered.">		if (!initiateGUI) gui.startConfiguration();</span>
-<span class="fc" id="L45">		else gui.refreshRulesList();</span>
+<span class="fc bfc" id="L48" title="All 2 branches covered.">		if (!initiateGUI) gui.startConfiguration();</span>
+<span class="fc" id="L49">		else gui.refreshRulesList();</span>
 		
-<span class="fc" id="L47">		gui.setVisible(true);</span>
+<span class="fc" id="L51">		gui.setVisible(true);</span>
 		
-<span class="fc" id="L49">		initiateGUI = true;</span>
-<span class="fc" id="L50">	}</span>
+<span class="fc" id="L53">		initiateGUI = true;</span>
+<span class="fc" id="L54">	}</span>
 	
 	/** Returns the weight of a rule by the name **/
 	public Double getRuleWeight(String name) {
-<span class="fc bfc" id="L54" title="All 2 branches covered.">		for (int i = 0; i &lt; temporaryListOfRules.size(); i++)</span>
-<span class="fc bfc" id="L55" title="All 2 branches covered.">			if (temporaryListOfRules.get(i).getName().equals(name))</span>
-<span class="fc" id="L56">				return temporaryListOfRules.get(i).getWeight();</span>
+<span class="fc bfc" id="L58" title="All 2 branches covered.">		for (int i = 0; i &lt; temporaryListOfRules.size(); i++)</span>
+<span class="fc bfc" id="L59" title="All 2 branches covered.">			if (temporaryListOfRules.get(i).getName().equals(name))</span>
+<span class="fc" id="L60">				return temporaryListOfRules.get(i).getWeight();</span>
 		
-<span class="fc" id="L58">		return 0.0;</span>
+<span class="fc" id="L62">		return 0.0;</span>
 	}
 	
 	/** Returns the weight of a rule by the index **/
 	public Double getRuleWeight(int selectedIndex) {
-<span class="fc" id="L63">		return temporaryListOfRules.get(selectedIndex).getWeight();</span>
+<span class="fc" id="L67">		return temporaryListOfRules.get(selectedIndex).getWeight();</span>
 	}
 	
 	/** Apply a certain weight value to a rule **/
 	public void applyWeightValue(String selectedRule, Double value) {
-<span class="fc bfc" id="L68" title="All 2 branches covered.">		for (int i = 0; i &lt; temporaryListOfRules.size(); i++)</span>
-<span class="fc bfc" id="L69" title="All 2 branches covered.">			if (temporaryListOfRules.get(i).getName().equals(selectedRule))</span>
-<span class="fc" id="L70">				temporaryListOfRules.get(i).setWeight(value);</span>
+<span class="fc bfc" id="L72" title="All 2 branches covered.">		for (int i = 0; i &lt; temporaryListOfRules.size(); i++)</span>
+<span class="fc bfc" id="L73" title="All 2 branches covered.">			if (temporaryListOfRules.get(i).getName().equals(selectedRule))</span>
+<span class="fc" id="L74">				temporaryListOfRules.get(i).setWeight(value);</span>
 		
-<span class="fc" id="L72">		updateListOfNames();</span>
-<span class="fc" id="L73">		gui.refreshRulesList();</span>
-<span class="fc" id="L74">	}</span>
+<span class="fc" id="L76">		updateListOfNames();</span>
+<span class="fc" id="L77">		gui.refreshRulesList();</span>
+<span class="fc" id="L78">	}</span>
 	
 	/** Updates the list of rule's name with the temporary list **/
 	public void updateListOfNames() {
-<span class="fc" id="L78">		listOfNames = new ArrayList&lt;String&gt;();</span>
+<span class="fc" id="L82">		listOfNames = new ArrayList&lt;String&gt;();</span>
+<span class="fc" id="L83">		String intro = &quot;&quot;;</span>
 
-<span class="fc bfc" id="L80" title="All 2 branches covered.">		for (int i = 0; i &lt; temporaryListOfRules.size(); i++)</span>
-<span class="fc bfc" id="L81" title="All 2 branches covered.">			if (temporaryListOfRules.get(i).getWeight() == mainListOfRules.get(i).getWeight())</span>
-<span class="fc" id="L82">				listOfNames.add(mainListOfRules.get(i).getName());</span>
-<span class="fc" id="L83">			else listOfNames.add(&quot;&gt; &quot; + mainListOfRules.get(i).getName());</span>
-<span class="fc" id="L84">	}</span>
+<span class="fc bfc" id="L85" title="All 2 branches covered.">		for (int i = 0; i &lt; temporaryListOfRules.size(); i++) {</span>
+			//builds the header of each line with the rule weight
+<span class="fc bfc" id="L87" title="All 2 branches covered.">			if (temporaryListOfRules.get(i).getWeight() &lt; 0)</span>
+<span class="fc" id="L88">				intro = String.format(&quot;%.1f&quot;, temporaryListOfRules.get(i).getWeight()) + &quot; | &quot;;</span>
+<span class="fc" id="L89">			else intro = String.format(&quot;%.2f&quot;, temporaryListOfRules.get(i).getWeight()) + &quot; | &quot;;</span>
+			
+			//increments the name of the rule in the line
+<span class="fc bfc" id="L92" title="All 2 branches covered.">			if (temporaryListOfRules.get(i).getWeight() == mainListOfRules.get(i).getWeight())</span>
+<span class="fc" id="L93">				listOfNames.add(intro + mainListOfRules.get(i).getName());</span>
+<span class="fc" id="L94">			else listOfNames.add(intro + &quot;&gt; &quot; + mainListOfRules.get(i).getName());</span>
+		}
+<span class="fc" id="L96">	}</span>
 	
 	/** Resets a rule value to his original value **/
 	public void resetWeightValue(String name) {
-<span class="fc" id="L88">		name = name.substring(2);</span>
+<span class="fc" id="L100">		name = name.substring(9);</span>
 		
-<span class="fc bfc" id="L90" title="All 2 branches covered.">		for (int i = 0; i &lt; temporaryListOfRules.size(); i++)</span>
-<span class="fc bfc" id="L91" title="All 2 branches covered.">			if (temporaryListOfRules.get(i).getName().contains(name))</span>
-<span class="fc" id="L92">				temporaryListOfRules.get(i).setWeight(mainListOfRules.get(i).getWeight());</span>
+<span class="fc bfc" id="L102" title="All 2 branches covered.">		for (int i = 0; i &lt; temporaryListOfRules.size(); i++)</span>
+<span class="fc bfc" id="L103" title="All 2 branches covered.">			if (temporaryListOfRules.get(i).getName().contains(name))</span>
+<span class="fc" id="L104">				temporaryListOfRules.get(i).setWeight(mainListOfRules.get(i).getWeight());</span>
 
-<span class="fc" id="L94">		updateListOfNames();</span>
-<span class="fc" id="L95">		gui.refreshRulesList();</span>
-<span class="fc" id="L96">	}</span>
+<span class="fc" id="L106">		updateListOfNames();</span>
+<span class="fc" id="L107">		gui.refreshRulesList();</span>
+<span class="fc" id="L108">	}</span>
 
 	/** Apply a filter to the list of rules based in a text **/
 	public void filterRulesList(String text) {
-<span class="pc bpc" id="L100" title="1 of 2 branches missed.">		if (text.isEmpty()) updateListOfNames();</span>
+<span class="fc" id="L112">		String intro = &quot;&quot;;</span>
+<span class="pc bpc" id="L113" title="1 of 2 branches missed.">		if (text.isEmpty()) updateListOfNames();</span>
 		else {
-<span class="fc" id="L102">			listOfNames = new ArrayList&lt;String&gt;();</span>
+<span class="fc" id="L115">			listOfNames = new ArrayList&lt;String&gt;();</span>
 
-<span class="fc bfc" id="L104" title="All 2 branches covered.">			for (int i = 0; i &lt; temporaryListOfRules.size(); i++)</span>
-<span class="fc bfc" id="L105" title="All 2 branches covered.">				if (temporaryListOfRules.get(i).getName().contains(text))</span>
-<span class="pc bpc" id="L106" title="1 of 2 branches missed.">					if (temporaryListOfRules.get(i).getWeight() == mainListOfRules.get(i).getWeight())</span>
-<span class="fc" id="L107">						listOfNames.add(mainListOfRules.get(i).getName());</span>
-<span class="nc" id="L108">					else listOfNames.add(&quot;&gt; &quot; + mainListOfRules.get(i).getName());</span>
+<span class="fc bfc" id="L117" title="All 2 branches covered.">			for (int i = 0; i &lt; temporaryListOfRules.size(); i++) {</span>
+				// Checks for the search text in each rule name and adds the rule if it exists
+<span class="fc bfc" id="L119" title="All 2 branches covered.">				if (temporaryListOfRules.get(i).getName().contains(text)) {</span>
+<span class="fc bfc" id="L120" title="All 2 branches covered.">					if (temporaryListOfRules.get(i).getWeight() &lt; 0)</span>
+<span class="fc" id="L121">						intro = String.format(&quot;%.1f&quot;, temporaryListOfRules.get(i).getWeight()) + &quot; | &quot;;</span>
+<span class="fc" id="L122">					else intro = String.format(&quot;%.2f&quot;, temporaryListOfRules.get(i).getWeight()) + &quot; | &quot;;</span>
+					
+<span class="fc bfc" id="L124" title="All 2 branches covered.">					if (temporaryListOfRules.get(i).getWeight() == mainListOfRules.get(i).getWeight())</span>
+<span class="fc" id="L125">						listOfNames.add(intro + mainListOfRules.get(i).getName());</span>
+<span class="fc" id="L126">					else listOfNames.add(intro + &quot;&gt; &quot; + mainListOfRules.get(i).getName());</span>
+				}
+			}
 		}
-<span class="fc" id="L110">		gui.refreshRulesList();</span>
-<span class="fc" id="L111">	}</span>
+<span class="fc" id="L130">		gui.refreshRulesList();</span>
+<span class="fc" id="L131">	}</span>
 	
 	/** Save the temporary list of rules in the main class **/
 	public void saveMainListOfRules() {
-<span class="nc bnc" id="L115" title="All 2 branches missed.">		for (int i = 0; i &lt; mainListOfRules.size(); i++)</span>
-<span class="nc" id="L116">			mainListOfRules.get(i).setWeight(temporaryListOfRules.get(i).getWeight());</span>
+<span class="fc bfc" id="L135" title="All 2 branches covered.">		for (int i = 0; i &lt; mainListOfRules.size(); i++)</span>
+<span class="fc" id="L136">			mainListOfRules.get(i).setWeight(temporaryListOfRules.get(i).getWeight());</span>
 		
-<span class="nc" id="L118">		main.saveListOfRules(mainListOfRules);</span>
-<span class="nc" id="L119">	}</span>
+<span class="fc" id="L138">		main.saveListOfRules(mainListOfRules);</span>
+<span class="fc" id="L139">	}</span>
 
 	/** Verifies if a list was changed **/
 	public boolean isListChanged() {
-<span class="fc bfc" id="L123" title="All 2 branches covered.">		for (int i = 0; i &lt; temporaryListOfRules.size(); i++)</span>
-<span class="fc bfc" id="L124" title="All 2 branches covered.">			if (temporaryListOfRules.get(i).getWeight() != mainListOfRules.get(i).getWeight())</span>
-<span class="fc" id="L125">				return true;</span>
+<span class="fc bfc" id="L143" title="All 2 branches covered.">		for (int i = 0; i &lt; temporaryListOfRules.size(); i++)</span>
+<span class="fc bfc" id="L144" title="All 2 branches covered.">			if (temporaryListOfRules.get(i).getWeight() != mainListOfRules.get(i).getWeight())</span>
+<span class="fc" id="L145">				return true;</span>
 			
-<span class="fc" id="L127">		return false;</span>
+<span class="fc" id="L147">		return false;</span>
 	}
 	
 	public ArrayList&lt;String&gt; getListOfNames() {
-<span class="fc" id="L131">		return listOfNames;</span>
+<span class="fc" id="L151">		return listOfNames;</span>
 	}
 
 	/** Closes the window **/
 	public void setWindowClose() {
-<span class="nc" id="L136">		main.configureWindowClose();</span>
-<span class="nc" id="L137">	}</span>
+<span class="fc" id="L156">		main.configureWindowClose();</span>
+<span class="fc" id="L157">	}</span>
+
+	/** Returns the result of the validation */
+	public String[] getResultsList() {
+<span class="fc" id="L161">		String[] resultsList = new String[5];</span>
+
+		//calculation of the False Positives
+<span class="fc" id="L164">		int FP = 0, mainFP = 0;</span>
+<span class="fc bfc" id="L165" title="All 2 branches covered.">		for (Email email : listOfEmailsHam) {</span>
+<span class="fc" id="L166">			double ruleWeight = 0.0, mainRuleWeight = 0.0;</span>
+<span class="fc bfc" id="L167" title="All 2 branches covered.">			for (Integer rulePos : email.getRulesList()) {</span>
+<span class="fc" id="L168">				ruleWeight += temporaryListOfRules.get(rulePos).getWeight();</span>
+<span class="fc" id="L169">				mainRuleWeight += mainListOfRules.get(rulePos).getWeight();</span>
+			}
+
+<span class="pc bpc" id="L172" title="1 of 2 branches missed.">			if (ruleWeight &gt;= 5)</span>
+<span class="nc" id="L173">				FP++;</span>
+			
+<span class="pc bpc" id="L175" title="1 of 2 branches missed.">			if (mainRuleWeight &gt;= 5)</span>
+<span class="nc" id="L176">				mainFP++;</span>
+		}
+
+		//calculation of the False Negatives
+<span class="fc" id="L180">		int FN = 0, mainFN = 0;</span>
+<span class="fc bfc" id="L181" title="All 2 branches covered.">		for (Email email : listOfEmailsSpam) {</span>
+<span class="fc" id="L182">			double ruleWeight = 0.0, mainRuleWeight = 0.0;</span>
+<span class="fc bfc" id="L183" title="All 2 branches covered.">			for (Integer rulePos : email.getRulesList()) {</span>
+<span class="fc" id="L184">				ruleWeight += temporaryListOfRules.get(rulePos).getWeight();</span>
+<span class="fc" id="L185">				mainRuleWeight += mainListOfRules.get(rulePos).getWeight();</span>
+			}
+			
+<span class="pc bpc" id="L188" title="1 of 2 branches missed.">			if (ruleWeight &lt; 5)</span>
+<span class="fc" id="L189">				FN++;</span>
+			
+<span class="pc bpc" id="L191" title="1 of 2 branches missed.">			if (mainRuleWeight &lt; 5)</span>
+<span class="fc" id="L192">				mainFN++;</span>
+		}
+		
+		//Write the results in the array resultsList
+<span class="fc" id="L196">		resultsList[0] = &quot;FP new: &quot; + FP + &quot; / previous: &quot; + mainFP;</span>
+<span class="fc" id="L197">		resultsList[1] = &quot;FN new: &quot; + FN + &quot; / previous: &quot; + mainFN;</span>
+<span class="fc" id="L198">		resultsList[2] = &quot;Compare results: &quot;;</span>
+		
+<span class="pc bpc" id="L200" title="1 of 2 branches missed.">		if (FP &lt; mainFP) resultsList[2] += &quot;Low FP / &quot;;</span>
+<span class="fc" id="L201">		else resultsList[2] += &quot;High FP / &quot;;</span>
+		
+<span class="pc bpc" id="L203" title="1 of 2 branches missed.">		if (FN &lt; mainFN) resultsList[2] += &quot;Low FN&quot;;</span>
+<span class="fc" id="L204">		else resultsList[2] += &quot;High FN&quot;;</span>
+		
+<span class="fc" id="L206">		double efficiency = 100 * (1 - (double)(FN+FP)/(listOfEmailsSpam.size()+listOfEmailsHam.size()));</span>
+<span class="fc" id="L207">		double mainEfficiency = 100 * (1 - (double)(mainFN+mainFP)/(listOfEmailsSpam.size()+listOfEmailsHam.size()));</span>
+		
+<span class="fc" id="L209">		resultsList[3] = &quot;Efficiency: &quot; + String.format(&quot;%.1f&quot;, efficiency) + </span>
+<span class="fc" id="L210">				&quot;% / previous: &quot; + String.format(&quot;%.1f&quot;, mainEfficiency) + &quot;%&quot;;</span>
+		
+<span class="pc bpc" id="L212" title="1 of 2 branches missed.">		if (efficiency &gt; mainEfficiency) resultsList[4] = &quot;Tip: Save the changes&quot;;</span>
+<span class="fc" id="L213">		else resultsList[4] = &quot;Tip: Discard the changes&quot;;</span>
+		
+<span class="fc" id="L215">		return resultsList;</span>
+	}
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span>antiSpamFilter.tests (9/dez/2017 15:25:38)</div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span>antiSpamFilter.tests (19/dez/2017 16:41:14)</div></body></html>

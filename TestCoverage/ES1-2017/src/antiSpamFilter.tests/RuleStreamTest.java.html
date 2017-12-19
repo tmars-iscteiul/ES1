@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>RuleStreamTest.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">antiSpamFilter.tests (9/dez/2017 15:25:38)</a> &gt; <a href="../../index.html" class="el_group">ES1-2017</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">antiSpamFilter.tests</a> &gt; <span class="el_source">RuleStreamTest.java</span></div><h1>RuleStreamTest.java</h1><pre class="source lang-java linenums">package antiSpamFilter.tests;
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>RuleStreamTest.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">antiSpamFilter.tests (19/dez/2017 16:41:14)</a> &gt; <a href="../../index.html" class="el_group">ES1-2017</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">antiSpamFilter.tests</a> &gt; <span class="el_source">RuleStreamTest.java</span></div><h1>RuleStreamTest.java</h1><pre class="source lang-java linenums">package antiSpamFilter.tests;
 
 import static org.junit.Assert.*;
 
@@ -16,16 +16,17 @@ import antiSpamFilter.rules.RuleStream;
 <span class="fc" id="L16">		RuleStream rs = new RuleStream(new File(&quot;Files/rules_test_valid.cf&quot;));</span>
 <span class="fc" id="L17">		assertEquals(rs.getRuleStream().get(0).getName(), &quot;BAYES_00&quot;);</span>
 <span class="fc" id="L18">		assertEquals(rs.getRuleStream().get(0).getWeight(), 0.0, 0.0);</span>
+<span class="fc" id="L19">		assertEquals(rs.getRuleStream().get(1).getWeight(), 2, 0.0);</span>
 		
-<span class="fc" id="L20">		RuleStream rs1 = new RuleStream(new File(&quot;Files/rules_invalid_double.cf&quot;));</span>
-<span class="fc" id="L21">		assertEquals(rs1.getRuleStream().size(), 0);</span>
-<span class="fc" id="L22">	}</span>
+<span class="fc" id="L21">		RuleStream rs1 = new RuleStream(new File(&quot;Files/rules_invalid_double.cf&quot;));</span>
+<span class="fc" id="L22">		assertEquals(rs1.getRuleStream().size(), 0);</span>
+<span class="fc" id="L23">	}</span>
 
 	@Test
 	public void testGetRuleStream() {
-<span class="fc" id="L26">		RuleStream rs = new RuleStream(new File(&quot;Files/rules_test_valid.cf&quot;));</span>
-<span class="fc" id="L27">		assertTrue(rs.getRuleStream().get(0) instanceof Rule);</span>
-<span class="fc" id="L28">	}</span>
+<span class="fc" id="L27">		RuleStream rs = new RuleStream(new File(&quot;Files/rules_test_valid.cf&quot;));</span>
+<span class="fc" id="L28">		assertTrue(rs.getRuleStream().get(0) instanceof Rule);</span>
+<span class="fc" id="L29">	}</span>
 
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span>antiSpamFilter.tests (9/dez/2017 15:25:38)</div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span>antiSpamFilter.tests (19/dez/2017 16:41:14)</div></body></html>

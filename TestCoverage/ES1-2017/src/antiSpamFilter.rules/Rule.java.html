@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>Rule.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">antiSpamFilter.tests (9/dez/2017 15:25:38)</a> &gt; <a href="../../index.html" class="el_group">ES1-2017</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">antiSpamFilter.rules</a> &gt; <span class="el_source">Rule.java</span></div><h1>Rule.java</h1><pre class="source lang-java linenums">package antiSpamFilter.rules;
-
-import java.io.File;
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>Rule.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">antiSpamFilter.tests (19/dez/2017 16:41:14)</a> &gt; <a href="../../index.html" class="el_group">ES1-2017</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">antiSpamFilter.rules</a> &gt; <span class="el_source">Rule.java</span></div><h1>Rule.java</h1><pre class="source lang-java linenums">package antiSpamFilter.rules;
 
 /**
  * 
@@ -27,56 +25,38 @@ public class Rule implements Comparable&lt;Rule&gt;{
 	 * @param name string of the preposition to be compared in every email
 	 * @param weight amount of change in the score of an email who triggers the respective rule
 	 */
-<span class="fc" id="L30">	public Rule(String name, double weight) {</span>
-<span class="fc" id="L31">		this.name = name;</span>
-<span class="fc" id="L32">		this.weight = weight;</span>
-<span class="fc" id="L33">	}</span>
+<span class="fc" id="L28">	public Rule(String name, double weight) {</span>
+<span class="fc" id="L29">		this.name = name;</span>
+<span class="fc" id="L30">		this.weight = weight;</span>
+<span class="fc" id="L31">	}</span>
 
-	/**
-	 * Getter with the purpose to obtain the Name attribute of the Rule
-	 * @return returns the String of the Rule
-	 */
 	public String getName() {
-<span class="fc" id="L40">		return name;</span>
+<span class="fc" id="L34">		return name;</span>
 	}
 
-	/**
-	 * Getter with the purpose to obtain the Weight attribute of the Rule
-	 * @return returns the weight of the Rule in a double variable
-	 */
 	public double getWeight() {
-<span class="fc" id="L48">		return weight;</span>
+<span class="fc" id="L38">		return weight;</span>
 	}
 
-	/**
-	 * Setter with the purpose to define or redefine the Name attribute of the Rule
-	 * @param name String to define the Name of the Rule
-	 */
 	public void setName(String name) {
-<span class="fc" id="L56">		this.name = name;</span>
-<span class="fc" id="L57">	}</span>
+<span class="fc" id="L42">		this.name = name;</span>
+<span class="fc" id="L43">	}</span>
 
-	/**
-	 * Setter with the purpose to define or redefine the Weight attribute of the Rule
-	 * @param weight Double to define the Weight of the Rule
-	 */
 	public void setWeight(double weight) {
-<span class="fc" id="L64">		this.weight = weight;</span>
-<span class="fc" id="L65">	}</span>
-	
-	
+<span class="fc" id="L46">		this.weight = weight;</span>
+<span class="fc" id="L47">	}</span>
 
 	@Override
 	public String toString() {
-<span class="fc" id="L71">		return (&quot;Rule name: &quot;+name+&quot; Peso: &quot;+weight);</span>
+<span class="fc" id="L51">		return (&quot;Rule name: &quot;+name+&quot; Peso: &quot;+weight);</span>
 	}
 
 	@Override
 	public int compareTo(Rule other) {
-<span class="fc" id="L76">		return this.getName().compareTo(other.getName());</span>
+<span class="fc" id="L56">		return this.getName().compareTo(other.getName());</span>
 	}
 	
 	
 
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span>antiSpamFilter.tests (9/dez/2017 15:25:38)</div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span>antiSpamFilter.tests (19/dez/2017 16:41:14)</div></body></html>

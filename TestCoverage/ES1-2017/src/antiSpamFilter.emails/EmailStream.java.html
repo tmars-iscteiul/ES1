@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>EmailStream.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">antiSpamFilter.tests (9/dez/2017 15:25:38)</a> &gt; <a href="../../index.html" class="el_group">ES1-2017</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">antiSpamFilter.emails</a> &gt; <span class="el_source">EmailStream.java</span></div><h1>EmailStream.java</h1><pre class="source lang-java linenums"><span class="fc" id="L1">package antiSpamFilter.emails;</span>
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>EmailStream.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">antiSpamFilter.tests (19/dez/2017 16:41:14)</a> &gt; <a href="../../index.html" class="el_group">ES1-2017</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">antiSpamFilter.emails</a> &gt; <span class="el_source">EmailStream.java</span></div><h1>EmailStream.java</h1><pre class="source lang-java linenums"><span class="fc" id="L1">package antiSpamFilter.emails;</span>
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -8,6 +8,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Scanner;
 
+import antiSpamFilter.AntiSpamFilterAutomaticConfiguration;
+import antiSpamFilter.GUI.AntiSpamFilterStyles;
 import antiSpamFilter.GUI.AntiSpamFilterStyles.AOptionPane;
 import antiSpamFilter.rules.Rule;
 
@@ -23,65 +25,93 @@ import antiSpamFilter.rules.Rule;
  *
  */
 
-<span class="nc" id="L26">public class EmailStream {</span>
+<span class="nc" id="L28">public class EmailStream {</span>
 
-	public static ArrayList&lt;Email&gt; getListOfEmailsFromFile (File file, ArrayList&lt;Rule&gt; listOfRules, int emailType) {
+	public static ArrayList&lt;Email&gt; getListOfEmailsFromFile (
+			AntiSpamFilterAutomaticConfiguration main, File file, ArrayList&lt;Rule&gt; listOfRules, int emailType) {
 		
-<span class="fc" id="L30">		ArrayList&lt;Email&gt; listOfAllEmails = new ArrayList&lt;Email&gt;();</span>
+<span class="fc" id="L33">		ArrayList&lt;Email&gt; listOfAllEmails = new ArrayList&lt;Email&gt;();</span>
 		int rulePosition;
-<span class="fc" id="L32">		double finalWeight = 0;</span>
+<span class="fc" id="L35">		double finalWeight = 0;</span>
 		String[] fileLineList;
 		 
 		//Implementation of the comparator of objects Rule
-<span class="fc" id="L36">		Comparator&lt;Rule&gt; compareName = new Comparator&lt;Rule&gt;() {</span>
+<span class="fc" id="L39">		Comparator&lt;Rule&gt; compareName = new Comparator&lt;Rule&gt;() {</span>
 			public int compare(Rule r1, Rule r2) {
-<span class="fc" id="L38">				return r1.getName().compareTo(r2.getName());</span>
+<span class="fc" id="L41">				return r1.getName().compareTo(r2.getName());</span>
 			}
 		};
 		
 		//Start the reading		
 		try {
-<span class="fc" id="L44">			Scanner scanner = new Scanner(new FileReader(file));</span>
+<span class="fc" id="L47">			Scanner scanner = new Scanner(new FileReader(file));</span>
 
-<span class="fc bfc" id="L46" title="All 2 branches covered.">			while (scanner.hasNextLine()) {</span>
+<span class="fc bfc" id="L49" title="All 2 branches covered.">			while (scanner.hasNextLine()) {</span>
 				
 				//Separation of the line fields
-<span class="fc" id="L49">				fileLineList = scanner.nextLine().split(&quot;\t&quot;);</span>
+<span class="fc" id="L52">				fileLineList = scanner.nextLine().split(&quot;\t&quot;);</span>
 
-<span class="fc" id="L51">				ArrayList&lt;Integer&gt; emailRulesList = new ArrayList&lt;Integer&gt;();</span>
+<span class="fc" id="L54">				ArrayList&lt;Integer&gt; emailRulesList = new ArrayList&lt;Integer&gt;();</span>
 
 				//List of rules if exists
-<span class="pc bpc" id="L54" title="1 of 2 branches missed.">				if (fileLineList.length &gt; 1) {</span>
-<span class="fc bfc" id="L55" title="All 2 branches covered.">					for (int i = 1; i &lt; fileLineList.length; i++) {</span>
+<span class="fc bfc" id="L57" title="All 2 branches covered.">				if (fileLineList.length &gt; 1) {</span>
+<span class="fc bfc" id="L58" title="All 2 branches covered.">					for (int i = 1; i &lt; fileLineList.length; i++) {</span>
 						//Creation of the list of rules for the e-mail
-<span class="fc" id="L57">						rulePosition = Collections.binarySearch(</span>
-<span class="fc" id="L58">								listOfRules, new Rule(fileLineList[i],0), compareName);</span>
+<span class="fc" id="L60">						rulePosition = Collections.binarySearch(</span>
+<span class="fc" id="L61">								listOfRules, new Rule(fileLineList[i],0), compareName);</span>
 						
-<span class="fc bfc" id="L60" title="All 2 branches covered.">						if (rulePosition &lt; 0) {</span>
-<span class="fc" id="L61">							scanner.close();</span>
-<span class="fc" id="L62">							return null;</span>
-						}
-<span class="fc" id="L64">						emailRulesList.add(rulePosition);</span>
+						//check if the rule exists and asks the user what to do
+<span class="pc bpc" id="L64" title="1 of 2 branches missed.">						if (rulePosition &lt; 0) {</span>
+<span class="nc" id="L65">							new AntiSpamFilterStyles().new AOptionPane();</span>
+<span class="nc" id="L66">							Object[] optionValues = { &quot;Add rule&quot;, &quot;Ignore rule&quot;, &quot;Cancel&quot; };</span>
+<span class="nc" id="L67">							Object selectedValue = AOptionPane.showOptionDialog(null,</span>
+<span class="nc" id="L68">							&quot;Rule: &quot; + fileLineList[i], &quot;New rules detected in the emails log&quot;,</span>
+<span class="nc" id="L69">							AOptionPane.DEFAULT_OPTION, AOptionPane.WARNING_MESSAGE,null,</span>
+<span class="nc" id="L70">							optionValues, optionValues[0]);</span>
+							
+							//if the user chooses to add the rule
+<span class="nc bnc" id="L73" title="All 2 branches missed.">							if (selectedValue.equals(0)) {</span>
+<span class="nc" id="L74">								main.addRuleToList(fileLineList[i], 0.0);</span>
+<span class="nc" id="L75">								listOfRules.add(new Rule(fileLineList[i], 0.0));</span>
+<span class="nc" id="L76">								Collections.sort(listOfRules);</span>
+								
+<span class="nc" id="L78">								System.out.println(&quot;Entrei&quot;);</span>
 
+<span class="nc" id="L80">								rulePosition = Collections.binarySearch(</span>
+<span class="nc" id="L81">										listOfRules, new Rule(fileLineList[i],0), compareName);</span>
+
+<span class="nc" id="L83">								emailRulesList.add(rulePosition);</span>
+
+<span class="nc" id="L85">							}</span>
+							//if the user chooses to cancel operation
+<span class="nc bnc" id="L87" title="All 2 branches missed.">							else if (selectedValue.equals(2)) {</span>
+<span class="nc" id="L88">								scanner.close();</span>
+<span class="nc" id="L89">								return null;</span>
+							}
+
+						}
 						//Increment of the final weight of the email
-<span class="fc" id="L67">						finalWeight += listOfRules.get(rulePosition).getWeight();</span>
+						else {
+<span class="fc" id="L95">							emailRulesList.add(rulePosition);</span>
+<span class="fc" id="L96">							finalWeight += listOfRules.get(rulePosition).getWeight();</span>
+						}
 					}
 				}
 				
 				//Creation of the object Email and the addition to the list
-<span class="fc" id="L72">				listOfAllEmails.add(new Email(fileLineList[0], emailRulesList, emailType, finalWeight));</span>
+<span class="fc" id="L102">				listOfAllEmails.add(new Email(fileLineList[0], emailRulesList, emailType, finalWeight));</span>
 			}
 
-<span class="fc" id="L75">			scanner.close();</span>
+<span class="fc" id="L105">			scanner.close();</span>
 
-<span class="fc" id="L77">		} catch (FileNotFoundException e) {</span>
-<span class="fc" id="L78">			AOptionPane.showMessageDialog(</span>
-<span class="fc" id="L79">					null, &quot;File not found. Confirm the link.&quot;, &quot;Error&quot;, AOptionPane.ERROR_MESSAGE);</span>
-<span class="fc" id="L80">			return null;</span>
+<span class="fc" id="L107">		} catch (FileNotFoundException e) {</span>
+<span class="fc" id="L108">			AOptionPane.showMessageDialog(</span>
+<span class="fc" id="L109">					null, &quot;File not found. Confirm the link.&quot;, &quot;Error&quot;, AOptionPane.ERROR_MESSAGE);</span>
+<span class="fc" id="L110">			return null;</span>
 		}
 		
-<span class="fc" id="L83">		return listOfAllEmails;</span>
+<span class="fc" id="L113">		return listOfAllEmails;</span>
 	}
 	
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span>antiSpamFilter.tests (9/dez/2017 15:25:38)</div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span>antiSpamFilter.tests (19/dez/2017 16:41:14)</div></body></html>

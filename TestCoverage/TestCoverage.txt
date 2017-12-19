@@ -1,2 +1,0 @@
-The tests are ran with the minimum of 75% of line coverage.
-To check the TestCoverge Report go to index.html.

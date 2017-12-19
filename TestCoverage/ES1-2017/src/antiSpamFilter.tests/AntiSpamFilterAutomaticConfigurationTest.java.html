@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>AntiSpamFilterAutomaticConfigurationTest.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">antiSpamFilter.tests (19/dez/2017 16:41:14)</a> &gt; <a href="../../index.html" class="el_group">ES1-2017</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">antiSpamFilter.tests</a> &gt; <span class="el_source">AntiSpamFilterAutomaticConfigurationTest.java</span></div><h1>AntiSpamFilterAutomaticConfigurationTest.java</h1><pre class="source lang-java linenums">package antiSpamFilter.tests;
+
+import java.io.File;
+import java.util.ArrayList;
+
+import org.junit.Test;
+
+import antiSpamFilter.AntiSpamFilterAutomaticConfiguration;
+import antiSpamFilter.rules.Rule;
+
+<span class="fc" id="L11">public class AntiSpamFilterAutomaticConfigurationTest {</span>
+
+	@Test
+	public final void testAntiSpamFilterAutomaticConfiguration() {
+<span class="fc" id="L15">		File spamFile = new File(&quot;./Files/spam.log&quot;);</span>
+<span class="fc" id="L16">		File hamFile = new File(&quot;./Files/ham.log&quot;);</span>
+<span class="fc" id="L17">		File rulesFile = new File(&quot;./Files/rules.cf&quot;);</span>
+		
+<span class="fc" id="L19">		AntiSpamFilterAutomaticConfiguration main1 = new AntiSpamFilterAutomaticConfiguration();</span>
+<span class="fc" id="L20">		main1.runOptimization();</span>
+<span class="fc" id="L21">		main1.validateFilesAndBuildRulesAndEmails(spamFile, hamFile, rulesFile);</span>
+<span class="fc" id="L22">		main1.validateFilesAndBuildRulesAndEmails(spamFile, hamFile, rulesFile);</span>
+		
+<span class="fc" id="L24">		main1.runOptimization();</span>
+<span class="fc" id="L25">		main1.addRuleToList(&quot;TEST&quot;,	0.0);</span>
+<span class="fc" id="L26">		main1.setConfigureWindowVisible(true);</span>
+<span class="fc" id="L27">		main1.getListOfRules();</span>
+<span class="fc" id="L28">		main1.isRulesChanged();</span>
+<span class="fc" id="L29">		main1.getBestFN();</span>
+<span class="fc" id="L30">		main1.getBestFP();</span>
+<span class="fc" id="L31">		main1.saveListOfRules(new ArrayList&lt;Rule&gt;());</span>
+		
+<span class="fc" id="L33">		main1.configureWindowClose();</span>
+		
+<span class="fc" id="L35">		AntiSpamFilterAutomaticConfiguration main2 = new AntiSpamFilterAutomaticConfiguration();</span>
+<span class="fc" id="L36">		main2.validateFilesAndBuildRulesAndEmails(</span>
+<span class="fc" id="L37">				new File(&quot;./Files/spam.log&quot;), new File(&quot;./Files/ham.log&quot;), new File(&quot;fake.cf&quot;));</span>
+<span class="fc" id="L38">		main2.validateFilesAndBuildRulesAndEmails(</span>
+<span class="fc" id="L39">				new File(&quot;./Files/spam.log&quot;), new File(&quot;fake.log&quot;), new File(&quot;rules.cf&quot;));</span>
+<span class="fc" id="L40">		main2.validateFilesAndBuildRulesAndEmails(</span>
+<span class="fc" id="L41">				new File(&quot;fake.log&quot;), new File(&quot;./Files/ham.log&quot;), new File(&quot;rules.cf&quot;));</span>
+		
+<span class="fc" id="L43">	}</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span>antiSpamFilter.tests (19/dez/2017 16:41:14)</div></body></html>

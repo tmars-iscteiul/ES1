@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>AntiSpamFilterOptimization.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">antiSpamFilter.tests (19/dez/2017 16:41:14)</a> &gt; <a href="../../index.html" class="el_group">ES1-2017</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">antiSpamFilter</a> &gt; <span class="el_source">AntiSpamFilterOptimization.java</span></div><h1>AntiSpamFilterOptimization.java</h1><pre class="source lang-java linenums">package antiSpamFilter;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import javax.swing.JOptionPane;
+
+import org.uma.jmetal.algorithm.Algorithm;
+import org.uma.jmetal.algorithm.multiobjective.nsgaii.NSGAIIBuilder;
+import org.uma.jmetal.operator.impl.crossover.SBXCrossover;
+import org.uma.jmetal.operator.impl.mutation.PolynomialMutation;
+import org.uma.jmetal.qualityindicator.impl.hypervolume.PISAHypervolume;
+import org.uma.jmetal.solution.DoubleSolution;
+import org.uma.jmetal.util.experiment.Experiment;
+import org.uma.jmetal.util.experiment.ExperimentBuilder;
+import org.uma.jmetal.util.experiment.component.ComputeQualityIndicators;
+import org.uma.jmetal.util.experiment.component.ExecuteAlgorithms;
+import org.uma.jmetal.util.experiment.component.GenerateBoxplotsWithR;
+import org.uma.jmetal.util.experiment.component.GenerateLatexTablesWithStatistics;
+import org.uma.jmetal.util.experiment.component.GenerateReferenceParetoSetAndFrontFromDoubleSolutions;
+import org.uma.jmetal.util.experiment.util.ExperimentAlgorithm;
+import org.uma.jmetal.util.experiment.util.ExperimentProblem;
+
+import antiSpamFilter.GUI.AntiSpamFilterStyles.AOptionPane;
+
+/**
+ * &lt;p&gt;AntiSpamFilterOptimization - the rules optimization class&lt;/br&gt;
+ * &lt;/br&gt;
+ * The AntiSpamFilter Optimization is the class that interacts with the jMetal
+ * framework, configuring the parameters and running the optimization processes.&lt;/p&gt;
+ *
+ * @author ES1-2017-LIGE-PL-102
+ */
+
+public class AntiSpamFilterOptimization {
+
+	private static final int INDEPENDENT_RUNS = 5 ;
+	private AntiSpamFilterAutomaticConfiguration main;
+	
+<span class="fc" id="L42">	public AntiSpamFilterOptimization (AntiSpamFilterAutomaticConfiguration main) {</span>
+<span class="fc" id="L43">		this.main = main;</span>
+<span class="fc" id="L44">	}</span>
+	
+	public void runOptimization() {
+<span class="fc" id="L47">		String experimentBaseDirectory = &quot;experimentBaseDirectory&quot;;</span>
+
+<span class="fc" id="L49">		List&lt;ExperimentProblem&lt;DoubleSolution&gt;&gt; problemList = new ArrayList&lt;&gt;();</span>
+		
+<span class="fc" id="L51">		AntiSpamFilterProblem mainFilterProblem = new AntiSpamFilterProblem(main.getNumberOfRules());</span>
+<span class="fc" id="L52">		mainFilterProblem.setListOfHam(main.getListOfEmailsHam());</span>
+<span class="fc" id="L53">		mainFilterProblem.setListOfSpam(main.getListOfEmailsSpam());</span>
+		
+<span class="fc" id="L55">		problemList.add(new ExperimentProblem&lt;&gt;(mainFilterProblem));</span>
+
+<span class="fc" id="L57">		List&lt;ExperimentAlgorithm&lt;DoubleSolution, List&lt;DoubleSolution&gt;&gt;&gt; algorithmList =</span>
+<span class="fc" id="L58">				configureAlgorithmList(problemList);</span>
+
+<span class="fc" id="L60">		Experiment&lt;DoubleSolution, List&lt;DoubleSolution&gt;&gt; experiment =</span>
+<span class="fc" id="L61">				new ExperimentBuilder&lt;DoubleSolution, List&lt;DoubleSolution&gt;&gt;(&quot;AntiSpamStudy&quot;)</span>
+<span class="fc" id="L62">				.setAlgorithmList(algorithmList)</span>
+<span class="fc" id="L63">				.setProblemList(problemList)</span>
+<span class="fc" id="L64">				.setExperimentBaseDirectory(experimentBaseDirectory)</span>
+<span class="fc" id="L65">				.setOutputParetoFrontFileName(&quot;FUN&quot;)</span>
+<span class="fc" id="L66">				.setOutputParetoSetFileName(&quot;VAR&quot;)</span>
+<span class="fc" id="L67">				.setReferenceFrontDirectory(experimentBaseDirectory+&quot;/referenceFronts&quot;)</span>
+<span class="fc" id="L68">				.setIndicatorList(Arrays.asList(new PISAHypervolume&lt;DoubleSolution&gt;()))</span>
+<span class="fc" id="L69">				.setIndependentRuns(INDEPENDENT_RUNS)</span>
+<span class="fc" id="L70">				.setNumberOfCores(8)</span>
+<span class="fc" id="L71">				.build();</span>
+
+<span class="fc" id="L73">		new ExecuteAlgorithms&lt;&gt;(experiment).run();</span>
+		try {
+<span class="fc" id="L75">			new GenerateReferenceParetoSetAndFrontFromDoubleSolutions(experiment).run();</span>
+<span class="fc" id="L76">			new ComputeQualityIndicators&lt;&gt;(experiment).run();</span>
+<span class="fc" id="L77">			new GenerateLatexTablesWithStatistics(experiment).run();</span>
+<span class="fc" id="L78">			new GenerateBoxplotsWithR&lt;&gt;(experiment).setRows(1).setColumns(1).run();</span>
+<span class="pc" id="L79">		} catch (IOException e) {</span>
+<span class="nc" id="L80">			AOptionPane.showMessageDialog(null, &quot;Cannot run the optimizer. Please check the files.&quot;, </span>
+<span class="nc" id="L81">					&quot;Error&quot;, JOptionPane.ERROR_MESSAGE);</span>
+<span class="nc" id="L82">			e.printStackTrace();</span>
+		}
+<span class="fc" id="L84">	}</span>
+
+	static List&lt;ExperimentAlgorithm&lt;DoubleSolution, List&lt;DoubleSolution&gt;&gt;&gt; configureAlgorithmList(
+			List&lt;ExperimentProblem&lt;DoubleSolution&gt;&gt; problemList) {
+<span class="fc" id="L88">		List&lt;ExperimentAlgorithm&lt;DoubleSolution, List&lt;DoubleSolution&gt;&gt;&gt; algorithms = new ArrayList&lt;&gt;();</span>
+
+<span class="fc bfc" id="L90" title="All 2 branches covered.">		for (int i = 0; i &lt; problemList.size(); i++) {</span>
+<span class="fc" id="L91">			Algorithm&lt;List&lt;DoubleSolution&gt;&gt; algorithm = new NSGAIIBuilder&lt;&gt;(</span>
+<span class="fc" id="L92">					problemList.get(i).getProblem(),</span>
+<span class="fc" id="L93">					new SBXCrossover(1.0, 5),</span>
+<span class="fc" id="L94">					new PolynomialMutation(1.0 / problemList.get(i).getProblem().getNumberOfVariables(), 10.0))</span>
+<span class="fc" id="L95">					.setMaxEvaluations(2000)</span>
+<span class="fc" id="L96">					.setPopulationSize(100)</span>
+<span class="fc" id="L97">					.build();</span>
+<span class="fc" id="L98">			algorithms.add(new ExperimentAlgorithm&lt;&gt;(algorithm, &quot;NSGAII&quot;, problemList.get(i).getTag()));</span>
+		}
+
+<span class="fc" id="L101">		return algorithms;</span>
+	}
+
+}
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span>antiSpamFilter.tests (19/dez/2017 16:41:14)</div></body></html>

@@ -1,6 +1,7 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>AntiSpamFilterGUI.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">antiSpamFilter.tests (9/dez/2017 15:25:38)</a> &gt; <a href="../../index.html" class="el_group">ES1-2017</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">antiSpamFilter.GUI</a> &gt; <span class="el_source">AntiSpamFilterGUI.java</span></div><h1>AntiSpamFilterGUI.java</h1><pre class="source lang-java linenums"><span class="fc" id="L1">package antiSpamFilter.GUI;</span>
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>AntiSpamFilterGUI.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">antiSpamFilter.tests (19/dez/2017 16:41:14)</a> &gt; <a href="../../index.html" class="el_group">ES1-2017</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">antiSpamFilter.GUI</a> &gt; <span class="el_source">AntiSpamFilterGUI.java</span></div><h1>AntiSpamFilterGUI.java</h1><pre class="source lang-java linenums"><span class="fc" id="L1">package antiSpamFilter.GUI;</span>
 
 import java.awt.BorderLayout;
+import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.FileDialog;
 import java.awt.GridLayout;
@@ -10,6 +11,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.File;
+import java.io.IOException;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
@@ -32,144 +34,142 @@ import antiSpamFilter.GUI.AntiSpamFilterStyles.*;
 
 public class AntiSpamFilterGUI {
 	
-	
-	private static final long serialVersionUID = 1L;
 <span class="fc" id="L37">	private JFrame antiSpamFilterFrame = new JFrame(&quot;AntiSpamFilter Optimizer v1.0&quot;);</span>
 	
 <span class="fc" id="L39">	private final int WINDOW_HSIZE = 500;</span>
 <span class="fc" id="L40">	private final int WINDOW_VSIZE = 600;</span>
 <span class="fc" id="L41">	private final int COMPONENT_GAP = 20;</span>
 <span class="fc" id="L42">	private final int COMPONENT_MAX_WIDTH = WINDOW_HSIZE-(2*COMPONENT_GAP);</span>
+<span class="fc" id="L43">	private boolean isValidated = false;</span>
 	
-	private String SPAM_FILENAME;
-	private File SPAM_FILE;
-	
-	private String HAM_FILENAME;
-	private File HAM_FILE;
-	
-	private String RULES_FILENAME;
-	private File RULES_FILE;
+	private String SPAM_FILENAME, HAM_FILENAME, RULES_FILENAME;
+	private File SPAM_FILE, HAM_FILE, RULES_FILE;
 	
 	private AntiSpamFilterAutomaticConfiguration main;
+	ATextArea textBox;
 	
 	//Panels initiation
 	APanel loadingPanel, initiationPanel, resultsPanel, conclusionPanel, resultsAndConclusionPanel;
 		
 
-<span class="fc" id="L59">	public AntiSpamFilterGUI(AntiSpamFilterAutomaticConfiguration main) {</span>
-<span class="fc" id="L60">		this.main = main;</span>
+<span class="fc" id="L55">	public AntiSpamFilterGUI(AntiSpamFilterAutomaticConfiguration main) {</span>
+<span class="fc" id="L56">		this.main = main;</span>
 		
 		//Window dimension
-<span class="fc" id="L63">		antiSpamFilterFrame.setSize(WINDOW_HSIZE, WINDOW_VSIZE);</span>
-<span class="fc" id="L64">		antiSpamFilterFrame.setLocationRelativeTo(null);</span>
+<span class="fc" id="L59">		antiSpamFilterFrame.setSize(WINDOW_HSIZE, WINDOW_VSIZE);</span>
+<span class="fc" id="L60">		antiSpamFilterFrame.setLocationRelativeTo(null);</span>
 		
-<span class="fc" id="L66">		implementLoadingPanel();</span>
-<span class="fc" id="L67">		implementIniciationPanel();</span>
-<span class="fc" id="L68">		implementResultsPanel();</span>
-<span class="fc" id="L69">		implementResultsAndConclusionPanel();		</span>
+<span class="fc" id="L62">		implementLoadingPanel();</span>
+<span class="fc" id="L63">		implementIniciationPanel();</span>
+<span class="fc" id="L64">		implementResultsPanel();</span>
+<span class="fc" id="L65">		implementResultsAndConclusionPanel();		</span>
 		
-<span class="fc" id="L71">		antiSpamFilterFrame.setLayout(new BorderLayout());</span>
+<span class="fc" id="L67">		antiSpamFilterFrame.setLayout(new BorderLayout());</span>
 
-<span class="fc" id="L73">		antiSpamFilterFrame.getContentPane().add(loadingPanel,BorderLayout.PAGE_START);</span>
-<span class="fc" id="L74">		antiSpamFilterFrame.getContentPane().add(initiationPanel,BorderLayout.CENTER);</span>
-<span class="fc" id="L75">		antiSpamFilterFrame.getContentPane().add(resultsAndConclusionPanel,BorderLayout.PAGE_END);</span>
+<span class="fc" id="L69">		antiSpamFilterFrame.getContentPane().add(loadingPanel,BorderLayout.PAGE_START);</span>
+<span class="fc" id="L70">		antiSpamFilterFrame.getContentPane().add(initiationPanel,BorderLayout.CENTER);</span>
+<span class="fc" id="L71">		antiSpamFilterFrame.getContentPane().add(resultsAndConclusionPanel,BorderLayout.PAGE_END);</span>
 
-<span class="fc" id="L77">		antiSpamFilterFrame.setIconImage(Toolkit.getDefaultToolkit().getImage(&quot;Icon.png&quot;));</span>
-<span class="fc" id="L78">		antiSpamFilterFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);</span>
-<span class="fc" id="L79">		antiSpamFilterFrame.setResizable(false);</span>
-<span class="fc" id="L80">		antiSpamFilterFrame.setVisible(true);</span>
+<span class="fc" id="L73">		antiSpamFilterFrame.setIconImage(Toolkit.getDefaultToolkit().getImage(&quot;Icon.png&quot;));</span>
+<span class="fc" id="L74">		antiSpamFilterFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);</span>
+<span class="fc" id="L75">		antiSpamFilterFrame.setResizable(false);</span>
+<span class="fc" id="L76">		antiSpamFilterFrame.setVisible(true);</span>
 
-<span class="fc" id="L82">		antiSpamFilterFrame.addWindowListener(new WindowListener() {</span>
-
-			@Override
-<span class="fc" id="L85">			public void windowOpened(WindowEvent e) {}</span>
+<span class="fc" id="L78">		antiSpamFilterFrame.addWindowListener(new WindowListener() {</span>
 
 			@Override
-<span class="nc" id="L88">			public void windowIconified(WindowEvent e) {}</span>
+<span class="fc" id="L81">			public void windowOpened(WindowEvent e) {}</span>
 
 			@Override
-<span class="nc" id="L91">			public void windowDeiconified(WindowEvent e) {}</span>
+<span class="nc" id="L84">			public void windowIconified(WindowEvent e) {}</span>
 
 			@Override
-<span class="fc" id="L94">			public void windowDeactivated(WindowEvent e) {}</span>
+<span class="nc" id="L87">			public void windowDeiconified(WindowEvent e) {}</span>
+
+			@Override
+<span class="fc" id="L90">			public void windowDeactivated(WindowEvent e) {}</span>
 
 			@Override
 			public void windowClosing(WindowEvent e) {
-<span class="nc bnc" id="L98" title="All 2 branches missed.">				if (main.isRulesChanged())</span>
-<span class="nc" id="L99">					confirmCloseWindow();</span>
-<span class="nc" id="L100">				else System.exit(0);</span>
-<span class="nc" id="L101">			}</span>
+<span class="nc bnc" id="L94" title="All 2 branches missed.">				if (main.isRulesChanged())</span>
+<span class="nc" id="L95">					confirmCloseWindow();</span>
+<span class="nc" id="L96">				else System.exit(0);</span>
+<span class="nc" id="L97">			}</span>
 
 			@Override
-<span class="nc" id="L104">			public void windowClosed(WindowEvent e) {}</span>
+<span class="nc" id="L100">			public void windowClosed(WindowEvent e) {}</span>
 
 			@Override
-<span class="fc" id="L107">			public void windowActivated(WindowEvent e) {}</span>
+<span class="fc" id="L103">			public void windowActivated(WindowEvent e) {}</span>
 		});
-<span class="fc" id="L109">	}</span>
+<span class="fc" id="L105">	}</span>
 
 	private void implementLoadingPanel() {
-<span class="fc" id="L112">		loadingPanel = new AntiSpamFilterStyles().new APanel();</span>
-<span class="fc" id="L113">		loadingPanel.setPreferredSize(new Dimension(COMPONENT_MAX_WIDTH,250));		</span>
+<span class="fc" id="L108">		loadingPanel = new AntiSpamFilterStyles().new APanel();</span>
+<span class="fc" id="L109">		loadingPanel.setPreferredSize(new Dimension(COMPONENT_MAX_WIDTH,250));		</span>
 		
 		//Implementation of the loading panel
 		//Labels
-<span class="fc" id="L117">		ALabel windowLabel = new AntiSpamFilterStyles().new ALabel(&quot;File Loading Window&quot;);</span>
-<span class="fc" id="L118">		windowLabel.setHorizontalAlignment(ALabel.CENTER);</span>
-<span class="fc" id="L119">		ALabel spamLabel = new AntiSpamFilterStyles().new ALabel(&quot;SPAM Log&quot;);</span>
-<span class="fc" id="L120">		spamLabel.setHorizontalAlignment(ALabel.CENTER);</span>
-<span class="fc" id="L121">		spamLabel.setPreferredSize(new Dimension(100, 30));</span>
-<span class="fc" id="L122">		ALabel hamLabel = new AntiSpamFilterStyles().new ALabel(&quot;HAM Log&quot;);</span>
-<span class="fc" id="L123">		hamLabel.setHorizontalAlignment(ALabel.CENTER);</span>
-<span class="fc" id="L124">		hamLabel.setPreferredSize(new Dimension(100, 30));</span>
-<span class="fc" id="L125">		ALabel rulesLabel = new AntiSpamFilterStyles().new ALabel(&quot;RULES File&quot;);</span>
-<span class="fc" id="L126">		rulesLabel.setHorizontalAlignment(ALabel.CENTER);</span>
-<span class="fc" id="L127">		rulesLabel.setPreferredSize(new Dimension(100, 30));</span>
+<span class="fc" id="L113">		ALabel windowLabel = new AntiSpamFilterStyles().new ALabel(&quot;File Loading Window&quot;);</span>
+<span class="fc" id="L114">		windowLabel.setHorizontalAlignment(ALabel.CENTER);</span>
+<span class="fc" id="L115">		ALabel spamLabel = new AntiSpamFilterStyles().new ALabel(&quot;SPAM Log&quot;);</span>
+<span class="fc" id="L116">		spamLabel.setHorizontalAlignment(ALabel.CENTER);</span>
+<span class="fc" id="L117">		spamLabel.setPreferredSize(new Dimension(100, 30));</span>
+<span class="fc" id="L118">		ALabel hamLabel = new AntiSpamFilterStyles().new ALabel(&quot;HAM Log&quot;);</span>
+<span class="fc" id="L119">		hamLabel.setHorizontalAlignment(ALabel.CENTER);</span>
+<span class="fc" id="L120">		hamLabel.setPreferredSize(new Dimension(100, 30));</span>
+<span class="fc" id="L121">		ALabel rulesLabel = new AntiSpamFilterStyles().new ALabel(&quot;RULES File&quot;);</span>
+<span class="fc" id="L122">		rulesLabel.setHorizontalAlignment(ALabel.CENTER);</span>
+<span class="fc" id="L123">		rulesLabel.setPreferredSize(new Dimension(100, 30));</span>
 		
 		
 		//JTextAreas
-<span class="fc" id="L131">		ATextField spamArea = new AntiSpamFilterStyles().new ATextField(&quot;&quot;);</span>
-<span class="fc" id="L132">		spamArea.setPreferredSize(new Dimension(300,30));</span>
-<span class="fc" id="L133">		spamArea.setEditable(false);</span>
+<span class="fc" id="L127">		ATextField spamArea = new AntiSpamFilterStyles().new ATextField(&quot;&quot;);</span>
+<span class="fc" id="L128">		spamArea.setPreferredSize(new Dimension(300,30));</span>
+<span class="fc" id="L129">		spamArea.setEditable(false);</span>
 		
-<span class="fc" id="L135">		ATextField hamArea = new AntiSpamFilterStyles().new ATextField(&quot;&quot;);</span>
-<span class="fc" id="L136">		hamArea.setEditable(false);</span>
+<span class="fc" id="L131">		ATextField hamArea = new AntiSpamFilterStyles().new ATextField(&quot;&quot;);</span>
+<span class="fc" id="L132">		hamArea.setEditable(false);</span>
 		
-<span class="fc" id="L138">		ATextField rulesArea = new AntiSpamFilterStyles().new ATextField(&quot;&quot;);</span>
-<span class="fc" id="L139">		rulesArea.setEditable(false);</span>
+<span class="fc" id="L134">		ATextField rulesArea = new AntiSpamFilterStyles().new ATextField(&quot;&quot;);</span>
+<span class="fc" id="L135">		rulesArea.setEditable(false);</span>
 		
 		
 		//Buttons
-<span class="fc" id="L143">		AButton spamButton = new AntiSpamFilterStyles().new AButton(&quot;Select path&quot;, AntiSpamFilterStyles.BTN_DEFAULT);</span>
-<span class="fc" id="L144">		spamButton.addActionListener(new ActionListener() {</span>
+<span class="fc" id="L139">		AButton spamButton = new AntiSpamFilterStyles().new AButton(&quot;Select path&quot;, AntiSpamFilterStyles.BTN_DEFAULT);</span>
+<span class="fc" id="L140">		spamButton.addActionListener(new ActionListener() {</span>
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-<span class="nc" id="L147">				FileDialog spamFile = new FileDialog(antiSpamFilterFrame, &quot;SPAM log&quot;);</span>
-<span class="nc" id="L148">				spamFile.setMode(FileDialog.LOAD);</span>
-<span class="nc" id="L149">				spamFile.setFile(&quot;*.log&quot;);</span>
-<span class="nc" id="L150">				spamFile.setVisible(true);</span>
-<span class="nc" id="L151">				SPAM_FILENAME = spamFile.getFile();</span>
+<span class="nc" id="L143">				FileDialog spamFile = new FileDialog(antiSpamFilterFrame, &quot;SPAM log&quot;);</span>
+<span class="nc" id="L144">				spamFile.setMode(FileDialog.LOAD);</span>
+<span class="nc" id="L145">				spamFile.setFile(&quot;*.log&quot;);</span>
+<span class="nc" id="L146">				spamFile.setVisible(true);</span>
+<span class="nc" id="L147">				SPAM_FILENAME = spamFile.getFile();</span>
 				
-<span class="nc bnc" id="L153" title="All 2 branches missed.">				if (SPAM_FILENAME != null) {</span>
-<span class="nc" id="L154">					SPAM_FILE = new File(spamFile.getDirectory() + SPAM_FILENAME);</span>
-<span class="nc" id="L155">					spamArea.setText(SPAM_FILENAME);</span>
+<span class="nc bnc" id="L149" title="All 2 branches missed.">				if (SPAM_FILENAME != null) {</span>
+<span class="nc" id="L150">					SPAM_FILE = new File(spamFile.getDirectory() + SPAM_FILENAME);</span>
+<span class="nc" id="L151">					spamArea.setText(SPAM_FILENAME);</span>
+<span class="nc bnc" id="L152" title="All 6 branches missed.">					if (SPAM_FILE != null &amp;&amp; HAM_FILE != null &amp;&amp; RULES_FILE != null) </span>
+<span class="nc" id="L153">						validateFiles();</span>
 				}
-<span class="nc" id="L157">			}</span>
+<span class="nc" id="L155">			}</span>
 		});
 		
-<span class="fc" id="L160">		AButton hamButton = new AntiSpamFilterStyles().new AButton(&quot;Select path&quot;, AntiSpamFilterStyles.BTN_DEFAULT);</span>
-<span class="fc" id="L161">		hamButton.addActionListener(new ActionListener() {</span>
+<span class="fc" id="L158">		AButton hamButton = new AntiSpamFilterStyles().new AButton(&quot;Select path&quot;, AntiSpamFilterStyles.BTN_DEFAULT);</span>
+<span class="fc" id="L159">		hamButton.addActionListener(new ActionListener() {</span>
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-<span class="nc" id="L164">				FileDialog hamFile = new FileDialog(antiSpamFilterFrame, &quot;HAM log&quot;);</span>
-<span class="nc" id="L165">				hamFile.setMode(FileDialog.LOAD);</span>
-<span class="nc" id="L166">				hamFile.setFile(&quot;*.log&quot;);</span>
-<span class="nc" id="L167">				hamFile.setVisible(true);</span>
-<span class="nc" id="L168">				HAM_FILENAME = hamFile.getFile();</span>
+<span class="nc" id="L162">				FileDialog hamFile = new FileDialog(antiSpamFilterFrame, &quot;HAM log&quot;);</span>
+<span class="nc" id="L163">				hamFile.setMode(FileDialog.LOAD);</span>
+<span class="nc" id="L164">				hamFile.setFile(&quot;*.log&quot;);</span>
+<span class="nc" id="L165">				hamFile.setVisible(true);</span>
+<span class="nc" id="L166">				HAM_FILENAME = hamFile.getFile();</span>
 				
-<span class="nc bnc" id="L170" title="All 2 branches missed.">				if (HAM_FILENAME != null) {</span>
-<span class="nc" id="L171">					HAM_FILE = new File(hamFile.getDirectory() + HAM_FILENAME);</span>
-<span class="nc" id="L172">					hamArea.setText(HAM_FILENAME);</span>
+<span class="nc bnc" id="L168" title="All 2 branches missed.">				if (HAM_FILENAME != null) {</span>
+<span class="nc" id="L169">					HAM_FILE = new File(hamFile.getDirectory() + HAM_FILENAME);</span>
+<span class="nc" id="L170">					hamArea.setText(HAM_FILENAME);</span>
+<span class="nc bnc" id="L171" title="All 6 branches missed.">					if (SPAM_FILE != null &amp;&amp; HAM_FILE != null &amp;&amp; RULES_FILE != null) </span>
+<span class="nc" id="L172">						validateFiles();</span>
 				}
 <span class="nc" id="L174">			}</span>
 		});
@@ -187,225 +187,302 @@ public class AntiSpamFilterGUI {
 <span class="nc bnc" id="L187" title="All 2 branches missed.">				if (RULES_FILENAME != null) {</span>
 <span class="nc" id="L188">					RULES_FILE = new File(rulesFile.getDirectory() + RULES_FILENAME);</span>
 <span class="nc" id="L189">					rulesArea.setText(RULES_FILENAME);</span>
+<span class="nc bnc" id="L190" title="All 6 branches missed.">					if (SPAM_FILE != null &amp;&amp; HAM_FILE != null &amp;&amp; RULES_FILE != null) </span>
+<span class="nc" id="L191">						validateFiles();</span>
 				}
-<span class="nc" id="L191">			}</span>
+<span class="nc" id="L193">			}</span>
 		});
 		
 		
 		//Panels
-<span class="fc" id="L196">		APanel spamPanel = new AntiSpamFilterStyles().new APanel();</span>
-<span class="fc" id="L197">		APanel spamPanelIn = new AntiSpamFilterStyles().new APanel();</span>
-<span class="fc" id="L198">		spamPanelIn.setLayout(new BorderLayout());</span>
-<span class="fc" id="L199">		spamPanelIn.add(spamArea, BorderLayout.CENTER);</span>
-<span class="fc" id="L200">		spamPanelIn.add(spamButton, BorderLayout.LINE_END);</span>
-<span class="fc" id="L201">		spamPanel.setLayout(new BorderLayout(10,0));</span>
-<span class="fc" id="L202">		spamPanel.add(spamLabel, BorderLayout.LINE_START);</span>
-<span class="fc" id="L203">		spamPanel.add(spamPanelIn, BorderLayout.CENTER);</span>
+<span class="fc" id="L198">		APanel spamPanel = new AntiSpamFilterStyles().new APanel();</span>
+<span class="fc" id="L199">		APanel spamPanelIn = new AntiSpamFilterStyles().new APanel();</span>
+<span class="fc" id="L200">		spamPanelIn.setLayout(new BorderLayout());</span>
+<span class="fc" id="L201">		spamPanelIn.add(spamArea, BorderLayout.CENTER);</span>
+<span class="fc" id="L202">		spamPanelIn.add(spamButton, BorderLayout.LINE_END);</span>
+<span class="fc" id="L203">		spamPanel.setLayout(new BorderLayout(10,0));</span>
+<span class="fc" id="L204">		spamPanel.add(spamLabel, BorderLayout.LINE_START);</span>
+<span class="fc" id="L205">		spamPanel.add(spamPanelIn, BorderLayout.CENTER);</span>
 		
-<span class="fc" id="L205">		APanel hamPanel = new AntiSpamFilterStyles().new APanel();</span>
-<span class="fc" id="L206">		APanel hamPanelIn = new AntiSpamFilterStyles().new APanel();</span>
-<span class="fc" id="L207">		hamPanelIn.setLayout(new BorderLayout());</span>
-<span class="fc" id="L208">		hamPanelIn.add(hamArea, BorderLayout.CENTER);</span>
-<span class="fc" id="L209">		hamPanelIn.add(hamButton, BorderLayout.LINE_END);</span>
-<span class="fc" id="L210">		hamPanel.setLayout(new BorderLayout(10,0));</span>
-<span class="fc" id="L211">		hamPanel.add(hamLabel, BorderLayout.LINE_START);</span>
-<span class="fc" id="L212">		hamPanel.add(hamPanelIn, BorderLayout.CENTER);</span>
+<span class="fc" id="L207">		APanel hamPanel = new AntiSpamFilterStyles().new APanel();</span>
+<span class="fc" id="L208">		APanel hamPanelIn = new AntiSpamFilterStyles().new APanel();</span>
+<span class="fc" id="L209">		hamPanelIn.setLayout(new BorderLayout());</span>
+<span class="fc" id="L210">		hamPanelIn.add(hamArea, BorderLayout.CENTER);</span>
+<span class="fc" id="L211">		hamPanelIn.add(hamButton, BorderLayout.LINE_END);</span>
+<span class="fc" id="L212">		hamPanel.setLayout(new BorderLayout(10,0));</span>
+<span class="fc" id="L213">		hamPanel.add(hamLabel, BorderLayout.LINE_START);</span>
+<span class="fc" id="L214">		hamPanel.add(hamPanelIn, BorderLayout.CENTER);</span>
 		
-<span class="fc" id="L214">		APanel rulesPanel = new AntiSpamFilterStyles().new APanel();</span>
-<span class="fc" id="L215">		APanel rulesPanelIn = new AntiSpamFilterStyles().new APanel();</span>
-<span class="fc" id="L216">		rulesPanelIn.setLayout(new BorderLayout());</span>
-<span class="fc" id="L217">		rulesPanelIn.add(rulesArea, BorderLayout.CENTER);</span>
-<span class="fc" id="L218">		rulesPanelIn.add(rulesButton, BorderLayout.LINE_END);</span>
-<span class="fc" id="L219">		rulesPanel.setLayout(new BorderLayout(10,0));</span>
-<span class="fc" id="L220">		rulesPanel.add(rulesLabel, BorderLayout.LINE_START);</span>
-<span class="fc" id="L221">		rulesPanel.add(rulesPanelIn, BorderLayout.CENTER);</span>
+<span class="fc" id="L216">		APanel rulesPanel = new AntiSpamFilterStyles().new APanel();</span>
+<span class="fc" id="L217">		APanel rulesPanelIn = new AntiSpamFilterStyles().new APanel();</span>
+<span class="fc" id="L218">		rulesPanelIn.setLayout(new BorderLayout());</span>
+<span class="fc" id="L219">		rulesPanelIn.add(rulesArea, BorderLayout.CENTER);</span>
+<span class="fc" id="L220">		rulesPanelIn.add(rulesButton, BorderLayout.LINE_END);</span>
+<span class="fc" id="L221">		rulesPanel.setLayout(new BorderLayout(10,0));</span>
+<span class="fc" id="L222">		rulesPanel.add(rulesLabel, BorderLayout.LINE_START);</span>
+<span class="fc" id="L223">		rulesPanel.add(rulesPanelIn, BorderLayout.CENTER);</span>
 		
-<span class="fc" id="L223">		GridLayout border = new GridLayout(4, 1);</span>
-<span class="fc" id="L224">		border.setHgap(COMPONENT_GAP);</span>
-<span class="fc" id="L225">		border.setVgap(COMPONENT_GAP);</span>
-<span class="fc" id="L226">		loadingPanel.setLayout(border);</span>
-<span class="fc" id="L227">		loadingPanel.setBorder(</span>
-<span class="fc" id="L228">				BorderFactory.createEmptyBorder(0,COMPONENT_GAP,COMPONENT_GAP,COMPONENT_GAP));</span>
-<span class="fc" id="L229">		loadingPanel.add(windowLabel);</span>
-<span class="fc" id="L230">		loadingPanel.add(spamPanel);</span>
-<span class="fc" id="L231">		loadingPanel.add(hamPanel);</span>
-<span class="fc" id="L232">		loadingPanel.add(rulesPanel);</span>
-<span class="fc" id="L233">	}</span>
+<span class="fc" id="L225">		GridLayout border = new GridLayout(4, 1);</span>
+<span class="fc" id="L226">		border.setHgap(COMPONENT_GAP);</span>
+<span class="fc" id="L227">		border.setVgap(COMPONENT_GAP);</span>
+<span class="fc" id="L228">		loadingPanel.setLayout(border);</span>
+<span class="fc" id="L229">		loadingPanel.setBorder(</span>
+<span class="fc" id="L230">				BorderFactory.createEmptyBorder(0,COMPONENT_GAP,COMPONENT_GAP,COMPONENT_GAP));</span>
+<span class="fc" id="L231">		loadingPanel.add(windowLabel);</span>
+<span class="fc" id="L232">		loadingPanel.add(spamPanel);</span>
+<span class="fc" id="L233">		loadingPanel.add(hamPanel);</span>
+<span class="fc" id="L234">		loadingPanel.add(rulesPanel);</span>
+<span class="fc" id="L235">	}</span>
 	
 	
 	private void implementIniciationPanel() {
-<span class="fc" id="L237">		initiationPanel = new AntiSpamFilterStyles().new APanel();</span>
-<span class="fc" id="L238">		initiationPanel.setPreferredSize(new Dimension(COMPONENT_MAX_WIDTH,50));</span>
+<span class="fc" id="L239">		initiationPanel = new AntiSpamFilterStyles().new APanel();</span>
+<span class="fc" id="L240">		initiationPanel.setPreferredSize(new Dimension(COMPONENT_MAX_WIDTH,50));</span>
 		
 		//Implementation of the button panel Clear e Start
-<span class="fc" id="L241">		APanel buttonPanel = setButtonPanel(2);</span>
+<span class="fc" id="L243">		APanel buttonPanel = setButtonPanel(2);</span>
 
-<span class="fc" id="L243">		AButton configurationButton = </span>
-<span class="fc" id="L244">				new AntiSpamFilterStyles().</span>
-<span class="fc" id="L245">				new AButton(&quot;Configure rules&quot;, AntiSpamFilterStyles.BTN_DEFAULT);</span>
+<span class="fc" id="L245">		AButton configurationButton = </span>
+<span class="fc" id="L246">				new AntiSpamFilterStyles().</span>
+<span class="fc" id="L247">				new AButton(&quot;Configure rules&quot;, AntiSpamFilterStyles.BTN_DEFAULT);</span>
 
-<span class="fc" id="L247">		configurationButton.addActionListener(new ActionListener() {</span>
+<span class="fc" id="L249">		configurationButton.addActionListener(new ActionListener() {</span>
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-<span class="nc bnc" id="L250" title="All 2 branches missed.">				if (validFilesPath()) </span>
-<span class="nc bnc" id="L251" title="All 2 branches missed.">					if (main.validateFilesAndBuildRulesAndEmails(SPAM_FILE, HAM_FILE, RULES_FILE)) {</span>
-<span class="nc" id="L252">						main.setConfigureWindowVisible(true);</span>
-<span class="nc" id="L253">						antiSpamFilterFrame.setEnabled(false);</span>
-<span class="nc" id="L254">					}</span>
-<span class="nc" id="L255">					else showCorruptFileMessage();</span>
-<span class="nc" id="L256">			}</span>
+<span class="nc bnc" id="L252" title="All 2 branches missed.">				if (validFilesPath()) {</span>
+<span class="nc bnc" id="L253" title="All 2 branches missed.">					if (isValidated) {</span>
+<span class="nc" id="L254">						main.setConfigureWindowVisible(true);</span>
+<span class="nc" id="L255">						antiSpamFilterFrame.setEnabled(false);</span>
+<span class="nc" id="L256">					}</span>
+<span class="nc" id="L257">					else showCorruptFileMessage();</span>
+				}
+<span class="nc" id="L259">			}</span>
 		});
 
-<span class="fc" id="L259">		AButton startButton = </span>
-<span class="fc" id="L260">				new AntiSpamFilterStyles().</span>
-<span class="fc" id="L261">				new AButton(&quot;Start optimization&quot;, AntiSpamFilterStyles.BTN_DEFAULT);</span>
+<span class="fc" id="L262">		AButton startButton = </span>
+<span class="fc" id="L263">				new AntiSpamFilterStyles().</span>
+<span class="fc" id="L264">				new AButton(&quot;Start optimization&quot;, AntiSpamFilterStyles.BTN_DEFAULT);</span>
 
-<span class="fc" id="L263">		startButton.addActionListener(new ActionListener() {</span>
+<span class="fc" id="L266">		startButton.addActionListener(new ActionListener() {</span>
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-<span class="nc bnc" id="L266" title="All 2 branches missed.">				if (validFilesPath()) </span>
-<span class="nc bnc" id="L267" title="All 2 branches missed.">					if (main.validateFilesAndBuildRulesAndEmails(SPAM_FILE, HAM_FILE, RULES_FILE)) {</span>
-<span class="nc" id="L268">						System.out.println(&quot;Test Start optimization Button &quot;);</span>
-<span class="nc" id="L269">						main.runOptimization();</span>
-<span class="nc" id="L270">					}</span>
-<span class="nc" id="L271">					else showCorruptFileMessage();</span>
-<span class="nc" id="L272">			}</span>
+<span class="nc bnc" id="L269" title="All 2 branches missed.">				if (validFilesPath()) {</span>
+<span class="nc bnc" id="L270" title="All 2 branches missed.">					if (isValidated) {</span>
+<span class="nc" id="L271">						new AntiSpamFilterStyles().new AOptionPane();</span>
+<span class="nc" id="L272">						int result = AOptionPane.showConfirmDialog(null, </span>
+<span class="nc" id="L273">								&quot;This will generate new weights to the rules. Wish to continue?&quot;,</span>
+<span class="nc" id="L274">								null, AOptionPane.YES_NO_OPTION);</span>
+						
+<span class="nc bnc" id="L276" title="All 2 branches missed.">						if (result == AOptionPane.OK_OPTION) {</span>
+<span class="nc" id="L277">							generateResults();</span>
+<span class="nc" id="L278">							showOpenDirectory();</span>
+						}
+<span class="nc" id="L280">					}</span>
+<span class="nc" id="L281">					else showCorruptFileMessage();</span>
+				}					
+<span class="nc" id="L283">			}</span>
+
+			private void generateResults() {
+<span class="nc" id="L286">				textBox.setText(&quot;&quot;);</span>
+<span class="nc" id="L287">				main.runOptimization();</span>
+				
+<span class="nc" id="L289">				textBox.append(&quot;Optimizer program ran with success.\n\n&quot;);</span>
+<span class="nc" id="L290">				textBox.append(&quot;Results:\n&quot;);</span>
+<span class="nc" id="L291">				textBox.append(&quot;FP: &quot;+ main.getBestFP() + &quot; | FN: &quot;+ main.getBestFN() + &quot;\n&quot;);</span>
+<span class="nc" id="L292">				textBox.append(&quot;Spam emails: &quot; + main.getListOfEmailsSpam().size()</span>
+<span class="nc" id="L293">						+ &quot; | Ham emails: &quot; + main.getListOfEmailsHam().size() </span>
+<span class="nc" id="L294">						+ &quot; | Total: &quot; + (main.getListOfEmailsHam().size() + main.getListOfEmailsSpam().size()) </span>
+<span class="nc" id="L295">						+ &quot;\n&quot;);</span>
+				
+<span class="nc" id="L297">				double totalFNFP = Double.parseDouble(main.getBestFN()) + Double.parseDouble(main.getBestFP());</span>
+<span class="nc" id="L298">				double efficiency = 100 * (1 - totalFNFP/(main.getListOfEmailsHam().size() + main.getListOfEmailsSpam().size()));</span>
+				
+<span class="nc" id="L300">				textBox.append(&quot;Efficiency: &quot; + String.format(&quot;%.2f&quot;, efficiency) + &quot;%\n&quot;);</span>
+<span class="nc" id="L301">			}</span>
 		});
 
 
-<span class="fc" id="L276">		buttonPanel.add(configurationButton);</span>
-<span class="fc" id="L277">		buttonPanel.add(startButton);</span>
-<span class="fc" id="L278">		initiationPanel.add(buttonPanel);</span>
-<span class="fc" id="L279">	}</span>
+<span class="fc" id="L305">		buttonPanel.add(configurationButton);</span>
+<span class="fc" id="L306">		buttonPanel.add(startButton);</span>
+<span class="fc" id="L307">		initiationPanel.add(buttonPanel);</span>
+<span class="fc" id="L308">	}</span>
+
+	protected void showOpenDirectory() {
+<span class="nc" id="L311">		new AntiSpamFilterStyles().new AOptionPane();</span>
+<span class="nc" id="L312">		int result = AOptionPane.showConfirmDialog(null, </span>
+<span class="nc" id="L313">				&quot;Do you want to open the results folder?&quot;,</span>
+<span class="nc" id="L314">				null, AOptionPane.YES_NO_OPTION);</span>
+		
+<span class="nc bnc" id="L316" title="All 2 branches missed.">		if (result == AOptionPane.OK_OPTION) {</span>
+<span class="nc" id="L317">			File file = new File(&quot;./experimentBaseDirectory/&quot;);</span>
+<span class="nc" id="L318">			Desktop desktop = Desktop.getDesktop();</span>
+
+			try {
+<span class="nc" id="L321">				desktop.open(file);</span>
+<span class="nc" id="L322">			} catch (IOException e1) {</span>
+<span class="nc" id="L323">				e1.printStackTrace();</span>
+			}
+		}
+<span class="nc" id="L326">	}</span>
 
 	private void implementResultsPanel() {
-<span class="fc" id="L282">		resultsPanel = new AntiSpamFilterStyles().new APanel();</span>
-<span class="fc" id="L283">		resultsPanel.setPreferredSize(new Dimension(COMPONENT_MAX_WIDTH,200));</span>
-<span class="fc" id="L284">		resultsPanel.setLayout(new BorderLayout());</span>
+<span class="fc" id="L329">		resultsPanel = new AntiSpamFilterStyles().new APanel();</span>
+<span class="fc" id="L330">		resultsPanel.setPreferredSize(new Dimension(COMPONENT_MAX_WIDTH,200));</span>
+<span class="fc" id="L331">		resultsPanel.setLayout(new BorderLayout());</span>
 
-<span class="fc" id="L286">		resultsPanel = new AntiSpamFilterStyles().new APanel();</span>
-<span class="fc" id="L287">		resultsPanel.setPreferredSize(new Dimension(COMPONENT_MAX_WIDTH,200));</span>
-<span class="fc" id="L288">		resultsPanel.setLayout(new BorderLayout());</span>
+<span class="fc" id="L333">		resultsPanel = new AntiSpamFilterStyles().new APanel();</span>
+<span class="fc" id="L334">		resultsPanel.setPreferredSize(new Dimension(COMPONENT_MAX_WIDTH,200));</span>
+<span class="fc" id="L335">		resultsPanel.setLayout(new BorderLayout());</span>
 
-<span class="fc" id="L290">		ALabel resultadoslabel = new AntiSpamFilterStyles().new ALabel(&quot;RESULTS WINDOW&quot;);</span>
-<span class="fc" id="L291">		resultadoslabel.setHorizontalAlignment(ALabel.CENTER);		</span>
+<span class="fc" id="L337">		ALabel resultadoslabel = new AntiSpamFilterStyles().new ALabel(&quot;RESULTS WINDOW&quot;);</span>
+<span class="fc" id="L338">		resultadoslabel.setHorizontalAlignment(ALabel.CENTER);		</span>
 		
 		//Sprint Item
 		//Implementation of results panel
-<span class="fc" id="L295">		ALabel resultsLabel = new AntiSpamFilterStyles().new ALabel(&quot;Results Window&quot;);</span>
-<span class="fc" id="L296">		resultsLabel.setHorizontalAlignment(ALabel.CENTER);</span>
-<span class="fc" id="L297">		resultsLabel.setPreferredSize(new Dimension(500, 30));</span>
-<span class="fc" id="L298">		ATextArea textBox= new AntiSpamFilterStyles().new ATextArea();</span>
-<span class="fc" id="L299">		textBox.setEditable(false);</span>
+<span class="fc" id="L342">		ALabel resultsLabel = new AntiSpamFilterStyles().new ALabel(&quot;Results Window&quot;);</span>
+<span class="fc" id="L343">		resultsLabel.setHorizontalAlignment(ALabel.CENTER);</span>
+<span class="fc" id="L344">		resultsLabel.setPreferredSize(new Dimension(500, 30));</span>
+<span class="fc" id="L345">		textBox= new AntiSpamFilterStyles().new ATextArea();</span>
+<span class="fc" id="L346">		textBox.setEditable(false);</span>
 		
-<span class="fc" id="L301">		resultsPanel.add(resultsLabel, BorderLayout.NORTH);</span>
-<span class="fc" id="L302">		resultsPanel.add(textBox, BorderLayout.CENTER);</span>
-<span class="fc" id="L303">		resultsPanel.setBorder(</span>
-<span class="fc" id="L304">				BorderFactory.createEmptyBorder(0,COMPONENT_GAP,COMPONENT_GAP,COMPONENT_GAP));</span>
+<span class="fc" id="L348">		resultsPanel.add(resultsLabel, BorderLayout.NORTH);</span>
+<span class="fc" id="L349">		resultsPanel.add(textBox, BorderLayout.CENTER);</span>
+<span class="fc" id="L350">		resultsPanel.setBorder(</span>
+<span class="fc" id="L351">				BorderFactory.createEmptyBorder(0,COMPONENT_GAP,COMPONENT_GAP,COMPONENT_GAP));</span>
 			
-<span class="fc" id="L306">		AScrollPane scrollArea = new AntiSpamFilterStyles().new AScrollPane(textBox);</span>
-<span class="fc" id="L307">		resultsPanel.add(scrollArea);</span>
-
-		
-		//futuramente iremos colocar os FP, FN e efficiency que vêm da configuração como variaveis
-<span class="fc" id="L311">		String title= new String(&quot;Optimizing Process Result:&quot;);</span>
-<span class="fc" id="L312">		String fp= new String(&quot; Final count of FP: X&quot;);</span>
-<span class="fc" id="L313">		String fn= new String(&quot; Final count of FN: Y&quot;);</span>
-<span class="fc" id="L314">		String efficiency= new String(&quot; Optimizing efficiency: W&quot;);</span>
-<span class="fc" id="L315">		textBox.append(title + &quot;\n&quot;);</span>
-<span class="fc" id="L316">		textBox.append(fp + &quot;\n&quot; );</span>
-<span class="fc" id="L317">		textBox.append(fn + &quot;\n&quot;);</span>
-<span class="fc" id="L318">		textBox.append(efficiency + &quot;\n&quot;);</span>
-<span class="fc" id="L319">	}</span>
+<span class="fc" id="L353">		AScrollPane scrollArea = new AntiSpamFilterStyles().new AScrollPane(textBox);</span>
+<span class="fc" id="L354">		resultsPanel.add(scrollArea);</span>
+<span class="fc" id="L355">	}</span>
 	
 	
 	private void implementResultsAndConclusionPanel() {
-<span class="fc" id="L323">		conclusionPanel = new AntiSpamFilterStyles().new APanel();</span>
-<span class="fc" id="L324">		conclusionPanel.setPreferredSize(new Dimension(COMPONENT_MAX_WIDTH,60));</span>
+<span class="fc" id="L359">		conclusionPanel = new AntiSpamFilterStyles().new APanel();</span>
+<span class="fc" id="L360">		conclusionPanel.setPreferredSize(new Dimension(COMPONENT_MAX_WIDTH,60));</span>
 
 		//Implementation of results panel
-<span class="fc" id="L327">		implementConclusionPanel();</span>
+<span class="fc" id="L363">		implementConclusionPanel();</span>
 
 		//Implementation of the environment
-<span class="fc" id="L330">		resultsAndConclusionPanel = new AntiSpamFilterStyles().new APanel();</span>
+<span class="fc" id="L366">		resultsAndConclusionPanel = new AntiSpamFilterStyles().new APanel();</span>
 		
-<span class="fc" id="L332">		resultsAndConclusionPanel.setLayout(new BorderLayout());</span>
-<span class="fc" id="L333">		resultsAndConclusionPanel.add(resultsPanel,BorderLayout.CENTER);</span>
-<span class="fc" id="L334">		resultsAndConclusionPanel.add(conclusionPanel,BorderLayout.PAGE_END);</span>
-<span class="fc" id="L335">	}</span>
+<span class="fc" id="L368">		resultsAndConclusionPanel.setLayout(new BorderLayout());</span>
+<span class="fc" id="L369">		resultsAndConclusionPanel.add(resultsPanel,BorderLayout.CENTER);</span>
+<span class="fc" id="L370">		resultsAndConclusionPanel.add(conclusionPanel,BorderLayout.PAGE_END);</span>
+<span class="fc" id="L371">	}</span>
 
 	
 	private void implementConclusionPanel() {
 		//Implementation of the button panel ExitWithout e SaveExit
-<span class="fc" id="L340">		APanel buttonPanel = setButtonPanel(2);</span>
+<span class="fc" id="L376">		APanel buttonPanel = setButtonPanel(2);</span>
 
-<span class="fc" id="L342">		AButton withoutSaveButton = </span>
-<span class="fc" id="L343">				new AntiSpamFilterStyles().</span>
-<span class="fc" id="L344">				new AButton(&quot;Exit without saving&quot;, AntiSpamFilterStyles.BTN_DEFAULT);</span>
+<span class="fc" id="L378">		AButton withoutSaveButton = </span>
+<span class="fc" id="L379">				new AntiSpamFilterStyles().</span>
+<span class="fc" id="L380">				new AButton(&quot;Exit without saving&quot;, AntiSpamFilterStyles.BTN_DEFAULT);</span>
 		
-<span class="fc" id="L346">		withoutSaveButton.addActionListener(new ActionListener() {</span>
+<span class="fc" id="L382">		withoutSaveButton.addActionListener(new ActionListener() {</span>
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-<span class="nc bnc" id="L349" title="All 2 branches missed.">				if (main.isRulesChanged())</span>
-<span class="nc" id="L350">					confirmCloseWindow();</span>
-<span class="nc" id="L351">				else System.exit(0);</span>
-<span class="nc" id="L352">			}</span>
+<span class="nc bnc" id="L385" title="All 2 branches missed.">				if (main.isRulesChanged())</span>
+<span class="nc" id="L386">					confirmCloseWindow();</span>
+<span class="nc" id="L387">				else System.exit(0);</span>
+<span class="nc" id="L388">			}</span>
 		});
 		
-<span class="fc" id="L355">		AButton saveButton = </span>
-<span class="fc" id="L356">				new AntiSpamFilterStyles().</span>
-<span class="fc" id="L357">				new AButton(&quot;Save optimization&quot;, AntiSpamFilterStyles.BTN_DEFAULT);</span>
+<span class="fc" id="L391">		AButton saveButton = </span>
+<span class="fc" id="L392">				new AntiSpamFilterStyles().</span>
+<span class="fc" id="L393">				new AButton(&quot;Save optimization&quot;, AntiSpamFilterStyles.BTN_DEFAULT);</span>
 		
-<span class="fc" id="L359">		saveButton.addActionListener(new ActionListener() {</span>
+<span class="fc" id="L395">		saveButton.addActionListener(new ActionListener() {</span>
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-<span class="nc" id="L362">				System.out.println(&quot;Test Save optimization Button &quot;);</span>
-<span class="nc" id="L363">			}</span>
+<span class="nc bnc" id="L398" title="All 2 branches missed.">				if (main.isRulesChanged()) {</span>
+<span class="nc" id="L399">					new AntiSpamFilterStyles().new AOptionPane();</span>
+<span class="nc" id="L400">					int result = AOptionPane.showConfirmDialog(null, </span>
+<span class="nc" id="L401">							&quot;Are you sure? This will overwrite the previous file&quot;,</span>
+<span class="nc" id="L402">							null, AOptionPane.YES_NO_OPTION);</span>
+
+<span class="nc bnc" id="L404" title="All 2 branches missed.">					if (result == AOptionPane.OK_OPTION) {</span>
+<span class="nc" id="L405">						main.saveRulesToFile();</span>
+<span class="nc" id="L406">						AOptionPane.showMessageDialog(</span>
+<span class="nc" id="L407">								null, &quot;Rules saved with success in the file: &quot; + RULES_FILENAME, </span>
+<span class="nc" id="L408">								&quot;Manual configuration&quot;, AOptionPane.INFORMATION_MESSAGE);</span>
+					}
+<span class="nc" id="L410">				}</span>
+				else {
+<span class="nc" id="L412">					textBox.setText(&quot;&quot;);</span>
+<span class="nc" id="L413">					textBox.append(&quot;The rules were not modified.&quot;);</span>
+				}
+<span class="nc" id="L415">			}</span>
 		});
 
-<span class="fc" id="L366">		buttonPanel.add(withoutSaveButton);</span>
-<span class="fc" id="L367">		buttonPanel.add(saveButton);</span>
-<span class="fc" id="L368">		conclusionPanel.add(buttonPanel);</span>
-<span class="fc" id="L369">	}</span>
+<span class="fc" id="L418">		buttonPanel.add(withoutSaveButton);</span>
+<span class="fc" id="L419">		buttonPanel.add(saveButton);</span>
+<span class="fc" id="L420">		conclusionPanel.add(buttonPanel);</span>
+<span class="fc" id="L421">	}</span>
 	
 	private APanel setButtonPanel(int n) {
-<span class="fc" id="L372">		APanel buttonPanel = new AntiSpamFilterStyles().new APanel();</span>
-<span class="fc" id="L373">		buttonPanel.setPreferredSize(new Dimension(COMPONENT_MAX_WIDTH,40));</span>
-<span class="fc" id="L374">		GridLayout grid = new GridLayout(1,n);</span>
-<span class="fc" id="L375">		grid.setHgap(COMPONENT_GAP);</span>
-<span class="fc" id="L376">		buttonPanel.setLayout(grid);</span>
-<span class="fc" id="L377">		return buttonPanel;</span>
+<span class="fc" id="L424">		APanel buttonPanel = new AntiSpamFilterStyles().new APanel();</span>
+<span class="fc" id="L425">		buttonPanel.setPreferredSize(new Dimension(COMPONENT_MAX_WIDTH,40));</span>
+<span class="fc" id="L426">		GridLayout grid = new GridLayout(1,n);</span>
+<span class="fc" id="L427">		grid.setHgap(COMPONENT_GAP);</span>
+<span class="fc" id="L428">		buttonPanel.setLayout(grid);</span>
+<span class="fc" id="L429">		return buttonPanel;</span>
 	}
 
 	public void setEnable(boolean b) {
-<span class="nc" id="L381">		antiSpamFilterFrame.setEnabled(b);</span>
-<span class="nc" id="L382">		antiSpamFilterFrame.setVisible(b);</span>
-<span class="nc" id="L383">	}</span>
+<span class="fc" id="L433">		antiSpamFilterFrame.setEnabled(b);</span>
+<span class="fc" id="L434">		antiSpamFilterFrame.setVisible(b);</span>
+<span class="fc" id="L435">	}</span>
 	
+	/** Confirms if the window wants to be closed */
 	private void confirmCloseWindow() {
-<span class="nc" id="L386">		new AntiSpamFilterStyles().new AOptionPane();</span>
-<span class="nc" id="L387">		int result = AOptionPane.showConfirmDialog(null, </span>
-<span class="nc" id="L388">				&quot;Are you sure? All the changes will be lost&quot;,</span>
-<span class="nc" id="L389">				null, AOptionPane.YES_NO_OPTION);</span>
+<span class="nc" id="L439">		new AntiSpamFilterStyles().new AOptionPane();</span>
+<span class="nc" id="L440">		int result = AOptionPane.showConfirmDialog(null, </span>
+<span class="nc" id="L441">				&quot;Are you sure? All the changes will be lost&quot;,</span>
+<span class="nc" id="L442">				null, AOptionPane.YES_NO_OPTION);</span>
 		
-<span class="nc bnc" id="L391" title="All 2 branches missed.">		if (result == AOptionPane.OK_OPTION)</span>
-<span class="nc" id="L392">			System.exit(0);</span>
-<span class="nc" id="L393">	}</span>
+<span class="nc bnc" id="L444" title="All 2 branches missed.">		if (result == AOptionPane.OK_OPTION)</span>
+<span class="nc" id="L445">			System.exit(0);</span>
+<span class="nc" id="L446">	}</span>
 	
+	/** Checks if the three files are loaded in the box */
 	protected boolean validFilesPath() {
-<span class="nc bnc" id="L396" title="All 6 branches missed.">		if (SPAM_FILE == null || HAM_FILE == null || RULES_FILE == null) {</span>
-<span class="nc" id="L397">			new AntiSpamFilterStyles().new AOptionPane();</span>
-<span class="nc" id="L398">			AOptionPane.showMessageDialog(</span>
-<span class="nc" id="L399">					null, &quot;Please select the files.&quot;, &quot;Error&quot;, AOptionPane.ERROR_MESSAGE);</span>
-<span class="nc" id="L400">			return false;</span>
+<span class="nc bnc" id="L450" title="All 6 branches missed.">		if (SPAM_FILE == null || HAM_FILE == null || RULES_FILE == null) {</span>
+<span class="nc" id="L451">			new AntiSpamFilterStyles().new AOptionPane();</span>
+<span class="nc" id="L452">			AOptionPane.showMessageDialog(</span>
+<span class="nc" id="L453">					null, &quot;Please select the files.&quot;, &quot;Error&quot;, AOptionPane.ERROR_MESSAGE);</span>
+<span class="nc" id="L454">			return false;</span>
 		}
-<span class="nc" id="L402">		return true;</span>
+<span class="nc" id="L456">		return true;</span>
 	}
 	
 	protected void showCorruptFileMessage() {
-<span class="nc" id="L406">		new AntiSpamFilterStyles().new AOptionPane();</span>
-<span class="nc" id="L407">		AOptionPane.showMessageDialog(</span>
-<span class="nc" id="L408">				null, &quot;The files are corrupted. Please confirm its content.&quot;, &quot;Error&quot;, AOptionPane.ERROR_MESSAGE);</span>
-<span class="nc" id="L409">	}</span>
+<span class="nc" id="L460">		new AntiSpamFilterStyles().new AOptionPane();</span>
+<span class="nc" id="L461">		AOptionPane.showMessageDialog(</span>
+<span class="nc" id="L462">				null, &quot;The files are corrupted. Please confirm its content.&quot;, &quot;Error&quot;, AOptionPane.ERROR_MESSAGE);</span>
+<span class="nc" id="L463">	}</span>
+	
+	/** Validates the spam file, the ham file and the rules list */
+	protected boolean validateFiles() {
+<span class="nc bnc" id="L467" title="All 2 branches missed.">		if (validFilesPath()) </span>
+<span class="nc bnc" id="L468" title="All 2 branches missed.">			if (main.validateFilesAndBuildRulesAndEmails(SPAM_FILE, HAM_FILE, RULES_FILE)) {</span>
+<span class="nc" id="L469">				textBox.setText(&quot;&quot;);</span>
+<span class="nc" id="L470">				textBox.append(&quot;The files were validated with success.\nYou can run the optimization.\n&quot;);</span>
+<span class="nc" id="L471">				isValidated = true;</span>
+<span class="nc" id="L472">				return true;</span>
+			}
+			else {
+<span class="nc" id="L475">				textBox.setText(&quot;&quot;);</span>
+<span class="nc" id="L476">				showCorruptFileMessage();</span>
+<span class="nc" id="L477">				isValidated = false;</span>
+<span class="nc" id="L478">				return false;</span>
+			}
+		
+<span class="nc" id="L481">		return false;</span>
+	}
+
+	
+	
+	
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span>antiSpamFilter.tests (9/dez/2017 15:25:38)</div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span>antiSpamFilter.tests (19/dez/2017 16:41:14)</div></body></html>
