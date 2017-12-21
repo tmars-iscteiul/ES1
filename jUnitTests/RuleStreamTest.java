@@ -16,6 +16,7 @@ public class RuleStreamTest {
 		RuleStream rs = new RuleStream(new File("Files/rules_test_valid.cf"));
 		assertEquals(rs.getRuleStream().get(0).getName(), "BAYES_00");
 		assertEquals(rs.getRuleStream().get(0).getWeight(), 0.0, 0.0);
+		assertEquals(rs.getRuleStream().get(1).getWeight(), 2, 0.0);
 		
 		RuleStream rs1 = new RuleStream(new File("Files/rules_invalid_double.cf"));
 		assertEquals(rs1.getRuleStream().size(), 0);

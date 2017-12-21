@@ -1,0 +1,30 @@
+Sprint Retrospective
+
+O que estamos a fazer bem
+Utilização eficiente das potencialidades das plataformas de apoio ao trabalho colaborativo que nos permite saber o avanço do trabalho da equipa e evitar duplicação de trabalho na correção de problemas introduzidos por conflitos de código.
+
+O que podemos fazer melhor
+Compreensão do problema, na parte da utilização do framework JMetal, podia ser superior. Este fator levou a que houvesse dificuldade na compreensão da abrangência do trabalho de cada membro da equipa.
+A familiarização com o código pré-existente pode ser maior. O que ajudaria na interligação das diversas componentes do projecto.
+
+O que devemos começar a fazer
+Análise e compreensão do código pré-existente antes da sua manipulação, utilização e integração com funcionalidades construídas pela equipa.
+
+O que devemos deixar de fazer
+Produzir código sem uma visão clara do que pretendemos obter e sem um planeamento estruturado e pensado que se adeque ao objetivo do nosso projeto.
+
+O que devemos continuar a fazer
+Utilizar as plataformas de forma a facilitar o trabalho colaborativo à distância, de forma eficiente.
+Seguir as metodologias dos métodos ágeis de gestão de projetos, sempre que a dimensão das equipas e projetos o permitam.
+
+Elementos da equipa presente:
+Catarina Carriço, 68958
+Ricardo Duarte, 69399
+Rodolfo Arnaldo, 69565
+Tiago Rodrigues, 65345
+
+Elementos do cliente presente:
+Prof. Vitor Basto Fernandes
+
+Data da reunião:
+15 de Dezembro de 2017

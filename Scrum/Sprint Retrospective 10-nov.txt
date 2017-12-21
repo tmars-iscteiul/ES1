@@ -1,0 +1,27 @@
+Sprint Retrospective
+
+O que estamos a fazer bem 
+O cumprimento de prazos foi exemplar, tendo toda a equipa produzido a respetiva parte do sprint backlog que lhe competia. Para isso contribuiu a comunicação constante durante os Daily SCRUM Meetings onde eram discutidas as dificuldades que cada elemento da equipa estava a sentir e pensadas formas de integrar o código que cada elemento estava a produzir.
+
+O que podemos fazer melhor 
+Houve alguma descoordenação de início, não sabendo ao certo o que cada um estava a produzir no eclipse. Isto culminou na necessidade de executar a mesma tarefa diversas vezes e na importação recorrente do repositório do GitHub, por causa de sucessivos conflitos nos “commits” e “pushs”.
+
+O que devemos começar a fazer
+No início de cada sessão de trabalho devemos fazer sempre um “pull” do repositório remoto. Ao longo da produção de código deverá ser feito commit e push recorrentemente, para todos os elementos terem a certeza de que estão a trabalhar sobre a versão mais recente do projecto.
+
+O que devemos deixar de fazer
+Commits e push apenas quando a parte de determinado elemento estiver completamente concluída não está a funcionar bem. Muitas vezes os restantes elementos têm necessidade de alterar código que tem implicação direta com alguma componente que está a ser desenvolvida por um terceiro e quando este faz commit e push do trabalho que julga concluído, surgem uma série de conflitos difíceis de resolver sem a eliminação de grandes porções de código.
+
+O que devemos continuar a fazer 
+Continuar a ter em atenção os prazos a que nos propomos em cada Sprint. As comunicações estabelecidas de forma regular com as Daily SCRUM Meetings serão de manter, uma vez que permitem a sintonia entre os elementos da equipa e uma melhor noção de como está o trabalho a decorrer em relação aos prazos.
+
+Elementos da equipa presente:
+Catarina Carriço, 68958
+Ricardo Duarte, 69399
+Rodolfo Arnaldo, 69565
+Tiago Rodrigues, 65345
+
+Elementos do cliente presente:
+Prof. Vitor Basto Fernandes
+Data da reunião:
+10 de Novembro de 2017

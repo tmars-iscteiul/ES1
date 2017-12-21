@@ -1,0 +1,28 @@
+Sprint Retrospective
+
+O que estamos a fazer bem
+Uso do eclipse como plataformas de trabalho colaborativo começa a tornar-se mais natural e a fluidez e compreensão do trabalho executado aumentou. Também surgiu menos código conflituante, uma vez que se adotaram melhores prática da utilização da ferramenta eclipse.
+
+O que podemos fazer melhor
+Apesar das reuniões diárias, por vezes torna-se difícil perceber em que ponto do desenvolvimento cada um se encontra e se estarão perto de concluir as respetivas porções do sprint que compete a cada um. Testes unitários e inspeção de código que são da responsabilidade de cada desenvolvedor, estão a ser relegados para segundo plano e a ficar para uma fase muito tardia do sprint, motivando que estes sejam feitos com menos atenção e tempo do que o desejado.
+
+O que devemos começar a fazer
+Para que todos os elementos do grupo possam saber em que ponto se encontra toda a equipa, deverá ser dada maior importância à atualização do progresso do trabalho na plataforma Trello, que tem vindo a ser utilizada de forma incipiente.
+
+O que devemos deixar de fazer
+Testes unitários e inspecção de código são uma parte importante do desenvolvimento de um produto de qualidade e por isso não se deverá deixar estas fases do desenvolvimento para tão perto da data de término de cada sprint.
+
+O que devemos continuar a fazer
+Devemos continuar a utilizar uma politica de commits e pulls como a adotada para este sprint, sendo mais recorrente a sua utilização ao longo da produção de código. Prazos de entrega deverão continuar a ser respeitados.
+
+Elementos da equipa presente:
+Catarina Carriço, 68958
+Ricardo Duarte, 69399
+Rodolfo Arnaldo, 69565
+Tiago Rodrigues, 65345
+
+Elementos do cliente presente:
+Prof. Vitor Basto Fernandes
+
+Data da reunião:
+24 de Novembro de 2017
