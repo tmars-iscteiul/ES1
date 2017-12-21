@@ -26,6 +26,7 @@ import java.util.Collections;
  */
 
 public class AntiSpamFilterAutomaticConfiguration {
+	
 	private boolean filesAreValidated = false, isRulesChanged = false;
 
 	AntiSpamFilterGUI mainGUI;
